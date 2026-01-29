@@ -1,6 +1,7 @@
 // Простая SPA без фреймворков.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 
+
 const listView = document.getElementById("listView");
 const cardView = document.getElementById("cardView");
 const backBtn = document.getElementById("backBtn");
@@ -290,16 +291,23 @@ document.addEventListener("click", (e) => {
 
 treeBtn.onclick = () => openDrawer(drawerTree);
 pathsBtn.onclick = () => openDrawer(drawerPaths);
-
 fetch("cards.json")
   .then(res => res.json())
   .then(data => {
     cards = data;
     renderMobileList();
 
-    if(isDesktop() && cards.length) openCard(cards[0].id);
-    else title.textContent = "Карты";
+    // Явно вызываем openCard только после полной загрузки
+    setTimeout(() => {
+      if (isDesktop() && cards.length) {
+        openCard(cards[0].id);
+      } else {
+        title.textContent = "Карты";
+      }
+    }, 100); // небольшая задержка, чтобы DOM успел отрисоваться
   })
+
+
   .catch(() => {
     title.textContent = "Ошибка";
     const msg = document.createElement("div");
