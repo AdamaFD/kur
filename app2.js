@@ -295,15 +295,14 @@ fetch("cards.json")
 
     // Явно вызываем openCard только после полной загрузки
     setTimeout(() => {
-     if (isDesktop()) {
-    openCard(data[0].id);
-}
-    }
-      ) else {
+      if (isDesktop()) {
+        openCard(cards[0].id);
+      } else {
         title.textContent = "Карты";
       }
     }, 100); // небольшая задержка, чтобы DOM успел отрисоваться
-  })
+  });
+
 
 
   .catch(() => {
