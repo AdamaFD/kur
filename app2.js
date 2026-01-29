@@ -298,8 +298,8 @@ fetch("cards.json")
      if (isDesktop()) {
     openCard(data[0].id);
 }
-
-      } else {
+    }
+      ) else {
         title.textContent = "Карты";
       }
     }, 100); // небольшая задержка, чтобы DOM успел отрисоваться
