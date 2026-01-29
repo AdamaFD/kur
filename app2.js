@@ -96,10 +96,6 @@ function renderTree(container, rootId){
   if(!root) return;
 
   const rootCard = byId(rootId);
-  if(getLinks(rootCard).length === 0){
-    container.innerHTML = `<div style="opacity:.75">Связи для этой карты ещё не описаны в <b>cards.json</b>.</div>`;
-    return;
-  }
 
   function renderNode(node){
     const li = document.createElement("li");
