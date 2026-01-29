@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Карты</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button id="backBtn" class="icon-btn hidden" aria-label="Назад">←</button>
+    <h1 id="title">Карты</h1>
+  </div>
+
+  <!-- Кнопки актуальны в просмотре карты (в основном для мобилки) -->
+  <div class="topbar-right">
+    <button id="treeBtn" class="icon-btn hidden" aria-label="Связи">⎇</button>
+    <button id="pathsBtn" class="icon-btn hidden" aria-label="Ходы">≡</button>
+  </div>
+</header>
+
+<!-- DESKTOP: двухколоночный layout (активируется через CSS на широких экранах) -->
+<div id="desktopShell" class="desktop-shell">
+  <aside class="sidebar">
+    <div class="sidebar-title">Список карт</div>
+    
+    <div class="panel">
+      <div class="panel-title">Связи выбранной карты</div>
+      <div id="desktopTree" class="tree"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Карта</div>
+      <div id="desktopCard" class="desktop-card"></div>
+    </div>
+  </section>
+</div>
+
+<!-- MOBILE: две "страницы" (список / карта) -->
+<main id="listView" class="view active">
+  <div id="cardList" class="card-list"></div>
+</main>
+
+<main id="cardView" class="view">
+  <div id="descTab"></div>
+</main>
+
+<!-- Drawer: дерево связей -->
+<div id="drawerTree" class="drawer" aria-hidden="true">
+  <div class="drawer-overlay" data-close="drawerTree"></div>
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div class="drawer-title">Связанные карты</div>
+      <button class="icon-btn" data-close="drawerTree" aria-label="Закрыть">✕</button>
+    </div>
+    <div id="mobileTree" class="tree"></div>
+  </div>
+</div>
+
+<!-- Drawer: таблица ходов -->
+<div id="drawerPaths" class="drawer" aria-hidden="true">
+  <div class="drawer-overlay" data-close="drawerPaths"></div>
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div class="drawer-title">Ходы к связанным картам</div>
+      <button class="icon-btn" data-close="drawerPaths" aria-label="Закрыть">✕</button>
+    </div>
+    <div id="pathsTable" class="paths"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

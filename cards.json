@@ -1,0 +1,17 @@
+[
+  { "id": 1, "title": "Assassinate", "pdf": "M4E_Scheme_Assassinate" },
+  { "id": 2, "title": "Breakthrough", "pdf": "M4E_Scheme_Breakthrough.pdf" },
+  { "id": 3, "title": "Detonate Charges", "pdf": "M4E_Scheme_Detonate_Charges.pdf" },
+  { "id": 4, "title": "Ensnare", "pdf": "M4E_Scheme_Ensnare.pdf" },
+  { "id": 5, "title": "Frame Job", "pdf": "M4E_Scheme_Frame_Job.pdf" },
+  { "id": 6, "title": "Grave Robbing", "pdf": "M4E_Scheme_Grave_Robbing.pdf" },
+  { "id": 7, "title": "Harness the Leyline", "pdf": "M4E_Scheme_Harness_the_Leyline.pdf" },
+  { "id": 8, "title": "Leave Your Mark", "pdf": "M4E_Scheme_Leave_Your_Mark.pdf" },
+  { "id": 9, "title": "Make It Look Like an Accident", "pdf": "M4E_Scheme_Make_It_Look_Like_an_Accident.pdf" },
+  { "id": 10, "title": "Public Demonstration", "pdf": "M4E_Scheme_Public_Demonstration.pdf" },
+  { "id": 11, "title": "Reshape the Land", "pdf": "M4E_Scheme_Reshape_the_Land.pdf" },
+  { "id": 12, "title": "Runic Binding", "pdf": "M4E_Scheme_Runic_Binding.pdf" },
+  { "id": 13, "title": "Scout the Rooftops", "pdf": "M4E_Scheme_Scout_the_Rooftops.pdf" },
+  { "id": 14, "title": "Search the Area", "pdf": "M4E_Scheme_Search_the_Area.pdf" },
+  { "id": 15, "title": "Take the Highground", "pdf": "M4E_Scheme_Take_the_Highground.pdf" }
+]
