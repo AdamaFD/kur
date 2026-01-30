@@ -225,6 +225,7 @@ function renderCardDesktop(card){
 }
 
 function openCard(cardId){
+  if (currentCardId === cardId) return;
   const card = byId(cardId);
   if(!card) return;
 
