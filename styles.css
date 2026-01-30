@@ -86,7 +86,7 @@ body { background: #f5f6f8; color: #222; }
 
   .desktop-main{
     display:grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto 1fr;
     gap: 14px;
     overflow:hidden;
   }
@@ -150,13 +150,21 @@ body { background: #f5f6f8; color: #222; }
 
 .open-pdf:hover{ filter: brightness(0.96); }
 
-/* ---------- Tree ---------- */
+/* ---------- Tree (всегда видно) ---------- */
 .tree{
   font-size: 14px;
+  padding-top: 10px;
 }
 
-.tree ul{ list-style:none; padding-left: 18px; margin: 6px 0; }
-.tree li{ margin: 6px 0; }
+.tree ul{ 
+  list-style:none; 
+  padding-left: 18px; 
+  margin: 6px 0; 
+}
+
+.tree li{ 
+  margin: 6px 0; 
+}
 
 .tree .node{
   display:inline-flex;
@@ -169,54 +177,22 @@ body { background: #f5f6f8; color: #222; }
 }
 
 .tree .node:hover{ background: rgba(0,0,0,0.08); }
-.tree .node.current{ background: rgba(79,108,255,0.20); }
+
+.tree .node.locked{
+  background: rgba(0,0,0,0.12);
+  cursor: default;
+  opacity: 0.7;
+}
 
 .tree .badge{
   font-size: 12px;
   opacity: 0.8;
 }
 
-/* ---------- Drawers (мобилка) ---------- */
-.drawer{
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 20;
+/* ---------- Удалено: drawer, paths, overlay ---------- */
+.drawer,
+.drawer-overlay,
+.drawer-panel,
+.paths {
+  display: none !important;
 }
-
-.drawer.open{ display:block; }
-
-.drawer-overlay{
-  position:absolute;
-  inset:0;
-  background: rgba(0,0,0,0.35);
-}
-
-.drawer-panel{
-  position:absolute;
-  right:0;
-  top:0;
-  height:100%;
-  width: min(420px, 92vw);
-  background:#fff;
-  box-shadow: -6px 0 18px rgba(0,0,0,0.18);
-  padding: 12px;
-  display:flex;
-  flex-direction:column;
-  gap: 10px;
-}
-
-.drawer-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-
-.drawer-title{ font-weight: 700; }
-
-.paths table{ width:100%; border-collapse: collapse; }
-.paths th, .paths td{ text-align:left; padding: 10px 8px; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 14px; }
-.paths tr:hover{ background: rgba(0,0,0,0.04); }
-.paths .link{ cursor:pointer; text-decoration: underline; }
