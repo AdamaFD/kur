@@ -1,55 +1,84 @@
 
 /* ================================
-   TREE → CENTERED SCHEME (DESKTOP)
+   TREE → SCHEME STYLE (DESKTOP)
    ================================ */
-/* ======================================
-   DESKTOP TREE — CENTERED BRANCHES ONLY
-   ====================================== */
 @media (min-width: 920px){
 
-  /* базовая структура остаётся списком */
-  .tree ul{
+  .tree ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
   }
 
-  .tree li{
-    margin: 14px 0;
-    display: flex;
-    justify-content: center;
+  .tree li {
     position: relative;
+    padding-left: 36px;
+    margin: 18px 0;
   }
 
-  /* контейнер для 3 ветвей */
-  .tree li.branches{
-    justify-content: space-between;
-    gap: 24px;
+  /* вертикальная линия пути */
+  .tree li::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: -18px;
+    width: 2px;
+    height: calc(100% + 18px);
+    background: linear-gradient(
+      to bottom,
+      rgba(110,120,255,0.45),
+      rgba(110,120,255,0.08)
+    );
   }
 
-  /* каждая ветвь */
-  .tree li.branch{
-    flex: 1;
-    display: flex;
-    justify-content: center;
+  .tree li:first-child::before {
+    top: 50%;
+    height: 50%;
   }
 
-  /* кнопки */
-  .tree .node{
+  /* горизонтальная линия к узлу */
+  .tree li::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 16px;
+    height: 2px;
+    background: rgba(110,120,255,0.45);
+  }
+
+  /* активные варианты (кнопки) */
+  .tree .node {
+    display: inline-flex;
+    align-items: center;
     padding: 8px 16px;
     border-radius: 999px;
     background: linear-gradient(135deg, #6f7cff, #4f6cff);
     color: #fff;
+    font-size: 14px;
     font-weight: 500;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(79,108,255,0.35);
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(79,108,255,0.35);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
 
-  .tree .node.locked{
-    background: #e3e5ee;
-    color: #444;
+  .tree .node:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(79,108,255,0.45);
+  }
+
+  /* выбранные / заблокированные */
+  .tree .node.locked {
+    background: linear-gradient(135deg, #e3e6f2, #d6daea);
+    color: #4a4f66;
+    cursor: default;
     box-shadow: none;
+    font-weight: 500;
   }
-}
 
-
+  /* акцент на последнем выбранном шаге */
+  .tree li:last-child .node.locked {
+    background: linear-gradient(135deg, #dfe3ff, #cfd6ff);
+    color: #2d3cff;
+  }
+} 
