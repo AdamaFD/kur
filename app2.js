@@ -293,18 +293,14 @@ fetch("cards.json")
     cards = data;
     renderMobileList();
 
-    // Явно вызываем openCard только после полной загрузки
     setTimeout(() => {
       if (isDesktop()) {
         openCard(cards[0].id);
       } else {
         title.textContent = "Карты";
       }
-    }, 100); // небольшая задержка, чтобы DOM успел отрисоваться
-  });
-
-
-
+    }, 100);
+  })
   .catch(() => {
     title.textContent = "Ошибка";
     const msg = document.createElement("div");
@@ -312,3 +308,4 @@ fetch("cards.json")
     msg.textContent = "Не удалось загрузить cards.json";
     document.body.appendChild(msg);
   });
+
