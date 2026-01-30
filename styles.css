@@ -1,1 +1,69 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; } body { background: #f5f6f8; color: #222; } .topbar { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 5; } .icon-btn { background: none; border: none; font-size: 22px; padding: 6px 10px; border-radius: 10px; cursor: pointer; } .hidden { display: none; } .view { display: none; padding: 12px; } .view.active { display: block; } /* ---------- Desktop layout ---------- */ .desktop-shell{ display:none; } @media (min-width: 920px){ body{ overflow:hidden; } .view{ display:none !important; } .desktop-shell{ display:grid; grid-template-columns: 320px 1fr; gap: 14px; padding: 14px; height: calc(100vh - 56px); } .sidebar{ background:#fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); padding: 12px; overflow:auto; } .sidebar-item{ padding:10px; border-radius: 12px; cursor:pointer; display:flex; justify-content:space-between; } .sidebar-item.active{ background: rgba(79,108,255,0.16); } .desktop-main{ display:grid; grid-template-rows: auto 1fr; gap: 14px; } .panel{ background:#fff; border-radius: 16px; padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow:auto; } } /* ---------- Tree ---------- */ .tree ul{ list-style:none; padding-left: 18px; } .tree li{ margin: 6px 0; } .tree .node{ display:inline-flex; padding: 6px 10px; border-radius: 12px; background: rgba(0,0,0,0.05); cursor: pointer; } .tree .node.locked{ background: rgba(0,0,0,0.15); cursor: default; opacity: 0.7; } /* ---------- Drawer (mobile) ---------- */ .drawer{ position: fixed; inset: 0; display: none; z-index: 20; } .drawer.open{ display:block; } .drawer-overlay{ position:absolute; inset:0; background: rgba(0,0,0,0.35); } .drawer-panel{ position:absolute; right:0; top:0; height:100%; width: min(420px, 92vw); background:#fff; padding: 12px; box-shadow: -6px 0 18px rgba(0,0,0,0.18); }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+body {
+  background: #f5f6f8;
+  color: #222;
+}
+
+/* ---------- Topbar ---------- */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ---------- Views ---------- */
+
+.view {
+  display: none;
+  padding: 12px;
+}
+
+.view.active {
+  display: block;
+}
+
+/* ---------- Desktop layout ---------- */
+
+.desktop-shell {
+  display: none;
+}
+
+@media (min-width: 920px) {
+
+  body {
+    overflow: hidden;
+  }
+
+  .view {
+    display: none !important;
+  }
+
+  .desktop-shell {
+    display: grid;
+    grid
