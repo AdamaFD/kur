@@ -92,29 +92,33 @@ function buildTree(rootId, maxDepth = 4){
 
 function renderTree(container, rootId){
   container.innerHTML = "";
-  const root = buildTree(rootId);
-  if(!root) return;
 
-  const rootCard = byId(rootId);
+  const root = byId(rootId);
+  if (!root) return;
 
-  function renderNode(node){
-    const li = document.createElement("li");
-    const btn = document.createElement("span");
-    btn.className = "node" + (String(node.id) === String(rootId) ? " current" : "");
-    btn.innerHTML = `<span>${node.title}</span><span class="badge">#${node.id}</span>`;
-    btn.onclick = () => openCard(node.id);
-    li.appendChild(btn);
-
-    if(node.children && node.children.length){
-      const ul = document.createElement("ul");
-      node.children.forEach(ch => ul.appendChild(renderNode(ch)));
-      li.appendChild(ul);
-    }
-    return li;
+  const links = getLinks(root);
+  if (!links.length) {
+    container.innerHTML = `<div style="opacity:.75">Нет связанных карт.</div>`;
+    return;
   }
 
   const ul = document.createElement("ul");
-  ul.appendChild(renderNode(root));
+
+  links.forEach(id => {
+    const card = byId(id);
+    if (!card) return;
+
+    const li = document.createElement("li");
+    const btn = document.createElement("span");
+
+    btn.className = "node";
+    btn.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
+    btn.onclick = () => openCard(card.id);
+
+    li.appendChild(btn);
+    ul.appendChild(li);
+  });
+
   container.appendChild(ul);
 }
 
