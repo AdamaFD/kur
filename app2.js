@@ -13,32 +13,16 @@ const desktopCardList = document.getElementById("desktopCardList");
 const desktopTree = document.getElementById("desktopTree");
 const desktopCard = document.getElementById("desktopCard");
 
+const treeBtn = document.getElementById("treeBtn");
+const drawerTree = document.getElementById("drawerTree");
 const mobileTree = document.getElementById("mobileTree");
 
 let cards = [];
 let currentCardId = null;
 
-// ----------------------------
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-// ----------------------------
-
-function byId(id){
-  return cards.find(c => String(c.id) === String(id));
-}
-
-function getLinks(card){
-  if(!card) return [];
-  if(Array.isArray(card.links)) return card.links;
-  return [];
-}
-
-function isDesktop(){
-  return window.matchMedia("(min-width: 920px)").matches;
-}
-
-// ----------------------------
-// РЕНДЕР СПИСКОВ
-// ----------------------------
+function byId(id){ return cards.find(c => String(c.id) === String(id)); }
+function getLinks(card){ return Array.isArray(card.links) ? card.links : []; }
+function isDesktop(){ return window.matchMedia("(min-width: 920px)").matches; }
 
 function renderMobileList(){
   cardList.innerHTML = "";
@@ -52,7 +36,6 @@ function renderMobileList(){
 }
 
 function renderDesktopList(){
-  if(!desktopCardList) return;
   desktopCardList.innerHTML = "";
   cards.forEach(card => {
     const row = document.createElement("div");
@@ -63,41 +46,23 @@ function renderDesktopList(){
   });
 }
 
-// ----------------------------
-// ЛОГИКА ВЫБОРА ВЕТОК
-// ----------------------------
-
 let chosenPath = [];
 
 function selectBranch(cardId){
   if (chosenPath.includes(cardId)) return;
-
   chosenPath.push(cardId);
 
-  if (chosenPath.length >= 4){
-    renderTree(desktopTree, cardId);
-    if (mobileTree) renderTree(mobileTree, cardId);
-    return;
-  }
-
   renderTree(desktopTree, cardId);
-  if (mobileTree) renderTree(mobileTree, cardId);
+  if (!isDesktop()) renderTree(mobileTree, cardId);
 }
-
-// ----------------------------
-// ДЕРЕВО (ВСЕГДА ВИДИМОЕ)
-// ----------------------------
 
 function renderTree(container, rootId){
   container.innerHTML = "";
-
   const root = byId(rootId);
   if (!root) return;
 
-  const links = getLinks(root);
   const ul = document.createElement("ul");
 
-  // путь сверху
   chosenPath.forEach(id => {
     const card = byId(id);
     const li = document.createElement("li");
@@ -105,8 +70,7 @@ function renderTree(container, rootId){
     ul.appendChild(li);
   });
 
-  // три дочерние карты
-  links.forEach(id => {
+  getLinks(root).forEach(id => {
     const card = byId(id);
     if (!card) return;
 
@@ -128,109 +92,72 @@ function renderTree(container, rootId){
   container.appendChild(ul);
 }
 
-// ----------------------------
-// РЕНДЕР КАРТЫ
-// ----------------------------
-
-function renderCardMobile(card){
-  descTab.innerHTML = `
-    <img src="images/${card.id}.jpg" class="card-image-large" alt="">
-    <button class="open-pdf">Открыть карту</button>
-  `;
-  descTab.querySelector(".open-pdf").onclick = () => {
-    window.open(`pdfs/${card.pdf}`, "_blank");
-  };
-}
-
 function renderCardDesktop(card){
   desktopCard.innerHTML = `
     <img src="images/${card.id}.jpg" alt="">
-    <button class="open-pdf" style="max-width:320px;">Открыть карту (PDF)</button>
+    <button class="open-pdf">Открыть карту (PDF)</button>
   `;
-  desktopCard.querySelector(".open-pdf").onclick = () => {
+  desktopCard.querySelector(".open-pdf").onclick = () =>
     window.open(`pdfs/${card.pdf}`, "_blank");
-  };
 }
 
-// ----------------------------
-// ОТКРЫТИЕ КАРТЫ
-// ----------------------------
+function renderCardMobile(card){
+  descTab.innerHTML = `
+    <img src="images/${card.id}.jpg" class="card-image-large">
+    <button class="open-pdf">Открыть карту</button>
+  `;
+  descTab.querySelector(".open-pdf").onclick = () =>
+    window.open(`pdfs/${card.pdf}`, "_blank");
+}
 
 function openCard(cardId){
-  if (currentCardId === cardId) return;
-
   const card = byId(cardId);
-  if(!card) return;
+  if (!card) return;
 
   currentCardId = card.id;
   title.textContent = card.title;
 
-  if(!isDesktop()){
+  if (isDesktop()){
+    backBtn.classList.add("hidden");
+    treeBtn.classList.add("hidden");
+    renderCardDesktop(card);
+  } else {
     listView.classList.remove("active");
     cardView.classList.add("active");
     backBtn.classList.remove("hidden");
+    treeBtn.classList.remove("hidden");
     renderCardMobile(card);
-  } else {
-    backBtn.classList.add("hidden");
-    renderCardDesktop(card);
   }
 
   renderDesktopList();
-
-  desktopTree.style.display = "block";
   renderTree(desktopTree, card.id);
-
-  if (mobileTree){
-    mobileTree.style.display = "block";
-    renderTree(mobileTree, card.id);
-  }
+  if (!isDesktop()) renderTree(mobileTree, card.id);
 }
-
-// ----------------------------
-// МОБИЛЬНАЯ КНОПКА НАЗАД
-// ----------------------------
 
 backBtn.onclick = () => {
   cardView.classList.remove("active");
   listView.classList.add("active");
   backBtn.classList.add("hidden");
-  title.textContent = "Карты";
-  currentCardId = null;
+  treeBtn.classList.add("hidden");
 };
 
-// ----------------------------
-// РЕСАЙЗ
-// ----------------------------
+treeBtn.onclick = () => {
+  drawerTree.classList.add("open");
+};
 
-window.addEventListener("resize", () => {
-  if(currentCardId !== null) openCard(currentCardId);
+document.addEventListener("click", e => {
+  const key = e.target?.getAttribute("data-close");
+  if (key) document.getElementById(key).classList.remove("open");
 });
 
-// ----------------------------
-// ЗАГРУЗКА JSON
-// ----------------------------
-
 fetch("cards.json")
-  .then(res => res.json())
+  .then(r => r.json())
   .then(data => {
     cards = data;
     renderMobileList();
-
-    setTimeout(() => {
-      if (isDesktop()) {
-        openCard(cards[0].id);
-      } else {
-        title.textContent = "Карты";
-      }
-    }, 50);
-  })
-  .catch(() => {
-    title.textContent = "Ошибка";
-    const msg = document.createElement("div");
-    msg.style.padding = "14px";
-    msg.textContent = "Не удалось загрузить cards.json";
-    document.body.appendChild(msg);
+    if (isDesktop()) openCard(cards[0].id);
   });
+
 
 
 
