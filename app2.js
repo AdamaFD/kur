@@ -299,7 +299,7 @@ fetch("cards.json")
       } else {
         title.textContent = "Карты";
       }
-    }, 100);
+    }, 50);
   })
   .catch(() => {
     title.textContent = "Ошибка";
@@ -308,4 +308,5 @@ fetch("cards.json")
     msg.textContent = "Не удалось загрузить cards.json";
     document.body.appendChild(msg);
   });
+
 
