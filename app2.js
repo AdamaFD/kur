@@ -15,12 +15,11 @@ const desktopTree = document.getElementById("desktopTree");
 const desktopCard = document.getElementById("desktopCard");
 
 const treeBtn = document.getElementById("treeBtn");
-const pathsBtn = document.getElementById("pathsBtn");
+
 
 const drawerTree = document.getElementById("drawerTree");
-const drawerPaths = document.getElementById("drawerPaths");
+
 const mobileTree = document.getElementById("mobileTree");
-const pathsTable = document.getElementById("pathsTable");
 
 let cards = [];
 let currentCardId = null;
@@ -65,31 +64,24 @@ function renderDesktopList(){
   });
 }
 
-function buildTree(rootId, maxDepth = 4){
-  const root = byId(rootId);
-  if(!root) return null;
-  const visited = new Set();
+// Храним путь выбранных карт
+let chosenPath = [];
 
-  function makeNode(id, depth){
-    const c = byId(id);
-    if(!c) return null;
+// Выбор ветки
+function selectBranch(cardId){
+  if (chosenPath.includes(cardId)) return;
 
-    const key = `${id}:${depth}`;
-    if(visited.has(key)) return { id, title: c.title, cycle: true, children: [] };
-    visited.add(key);
+  chosenPath.push(cardId);
 
-    if(depth >= maxDepth) return { id, title: c.title, children: [] };
-
-    const kids = getLinks(c)
-      .map(cid => makeNode(cid, depth + 1))
-      .filter(Boolean);
-
-    return { id, title: c.title, children: kids };
+  if (chosenPath.length >= 4){
+    renderTree(desktopTree, cardId);
+    return;
   }
 
-  return makeNode(rootId, 0);
+  renderTree(desktopTree, cardId);
 }
 
+// Упрощённое дерево: только 3 дочерние карты
 function renderTree(container, rootId){
   container.innerHTML = "";
 
@@ -97,13 +89,18 @@ function renderTree(container, rootId){
   if (!root) return;
 
   const links = getLinks(root);
-  if (!links.length) {
-    container.innerHTML = `<div style="opacity:.75">Нет связанных карт.</div>`;
-    return;
-  }
 
   const ul = document.createElement("ul");
 
+  // показываем путь сверху
+  chosenPath.forEach(id => {
+    const card = byId(id);
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="node locked">${card.title} #${card.id}</span>`;
+    ul.appendChild(li);
+  });
+
+  // текущий уровень — три дочерние карты
   links.forEach(id => {
     const card = byId(id);
     if (!card) return;
@@ -111,10 +108,14 @@ function renderTree(container, rootId){
     const li = document.createElement("li");
     const btn = document.createElement("span");
 
-    btn.className = "node";
-    btn.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
-    btn.onclick = () => openCard(card.id);
+    if (chosenPath.includes(id)){
+      btn.className = "node locked";
+    } else {
+      btn.className = "node";
+      btn.onclick = () => selectBranch(id);
+    }
 
+    btn.innerHTML = `${card.title} #${card.id}`;
     li.appendChild(btn);
     ul.appendChild(li);
   });
@@ -122,90 +123,6 @@ function renderTree(container, rootId){
   container.appendChild(ul);
 }
 
-function enumeratePaths(rootId, maxDepth = 5){
-  const paths = [];
-  const stack = [];
-
-  function dfs(id, depth, seen){
-    const c = byId(id);
-    if(!c) return;
-    stack.push(id);
-
-    const nextIds = getLinks(c);
-    const atLimit = depth >= maxDepth;
-    if(nextIds.length === 0 || atLimit){
-      paths.push([...stack]);
-      stack.pop();
-      return;
-    }
-
-    nextIds.forEach(nid => {
-      if(seen.has(nid)){
-        stack.push(nid);
-        paths.push([...stack]);
-        stack.pop();
-        return;
-      }
-      const nseen = new Set(seen);
-      nseen.add(nid);
-      dfs(nid, depth + 1, nseen);
-    });
-
-    stack.pop();
-  }
-
-  dfs(rootId, 0, new Set([rootId]));
-  return paths;
-}
-
-function renderPaths(container, rootId){
-  container.innerHTML = "";
-  const rootCard = byId(rootId);
-  if(!rootCard) return;
-
-  if(getLinks(rootCard).length === 0){
-    container.innerHTML = `<div style="opacity:.75">Пока нет описанных ходов (см. <b>links</b> в cards.json).</div>`;
-    return;
-  }
-
-  const paths = enumeratePaths(rootId);
-  const table = document.createElement("table");
-  table.innerHTML = `
-    <thead><tr><th>Ветка</th><th>Ход</th><th>Карта</th></tr></thead>
-    <tbody></tbody>
-  `;
-  const tbody = table.querySelector("tbody");
-
-  paths.forEach((path, idx) => {
-    path.forEach((id, step) => {
-      const c = byId(id);
-      const tr = document.createElement("tr");
-
-      const b = document.createElement("td");
-      b.textContent = step === 0 ? String(idx + 1) : "";
-      tr.appendChild(b);
-
-      const s = document.createElement("td");
-      s.textContent = String(step + 1);
-      tr.appendChild(s);
-
-      const t = document.createElement("td");
-      t.innerHTML = `<span class="link">${c ? c.title : ("#" + id)}</span>`;
-      t.querySelector(".link").onclick = () => {
-        closeDrawer(drawerPaths);
-        openCard(id);
-      };
-      tr.appendChild(t);
-
-      tbody.appendChild(tr);
-    });
-  });
-
-  const wrap = document.createElement("div");
-  wrap.className = "paths";
-  wrap.appendChild(table);
-  container.appendChild(wrap);
-}
 
 function renderCardMobile(card){
   descTab.innerHTML = `
@@ -241,29 +158,29 @@ function openCard(cardId){
     cardView.classList.add("active");
     backBtn.classList.remove("hidden");
     treeBtn.classList.remove("hidden");
-    pathsBtn.classList.remove("hidden");
+    
     renderCardMobile(card);
   } else {
     backBtn.classList.add("hidden");
     treeBtn.classList.add("hidden");
-    pathsBtn.classList.add("hidden");
+    
     renderCardDesktop(card);
   }
 
   renderDesktopList();
   if(desktopTree) renderTree(desktopTree, card.id);
   if(mobileTree) renderTree(mobileTree, card.id);
-  if(pathsTable) renderPaths(pathsTable, card.id);
+  
 }
 
 backBtn.onclick = () => {
   closeDrawer(drawerTree);
-  closeDrawer(drawerPaths);
+  
   cardView.classList.remove("active");
   listView.classList.add("active");
   backBtn.classList.add("hidden");
   treeBtn.classList.add("hidden");
-  pathsBtn.classList.add("hidden");
+ 
   title.textContent = "Карты";
   currentCardId = null;
 };
@@ -291,7 +208,7 @@ document.addEventListener("click", (e) => {
 });
 
 treeBtn.onclick = () => openDrawer(drawerTree);
-pathsBtn.onclick = () => openDrawer(drawerPaths);
+
 fetch("cards.json")
   .then(res => res.json())
   .then(data => {
