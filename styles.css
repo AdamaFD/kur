@@ -361,6 +361,10 @@ body {
   right: 50%;
   width: 49%; /* было 100% и right:49% — отсюда пиксель */
 }
+  #drawerTree .tree li {   //какая то хрень//
+  position: relative;
+}
+
 
 
 
