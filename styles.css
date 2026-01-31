@@ -344,20 +344,23 @@ body {
     background: rgba(79,108,255,0.60);
   }
 
-  #drawerTree .tree li.branch-0::after{
-    left: 50%;
-    width: 102%;
-  }
-
-  #drawerTree .tree li.branch-1::after{
-    left: -100%;
-    width: 200%;
-  }
-
-  #drawerTree .tree li.branch-2::after{
-    right: 47%;
-    width: 100%;
-  }
+  /* Левая ветка */
+#drawerTree .tree li.branch-0::after{
+  left: 50%;
+  width: 50%; /* было 100% — слишком длинно */
 }
+
+/* Центральная ветка */
+#drawerTree .tree li.branch-1::after{
+  left: 0;
+  width: 100%; /* ровно от края до края */
+}
+
+/* Правая ветка */
+#drawerTree .tree li.branch-2::after{
+  right: 50%;
+  width: 50%; /* было 100% и right:49% — отсюда пиксель */
+}
+
 
 
