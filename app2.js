@@ -88,13 +88,16 @@ function renderTree(container){
   if (chosenPath.length < 4){
     const activeCard = byId(chosenPath[chosenPath.length - 1]);
     if (activeCard){
-      getLinks(activeCard).forEach(id => {
+     getLinks(activeCard).forEach((id, index) => {   //изменение положения дерева 1стр//
+
         if (chosenPath.includes(id)) return;
 
         const card = byId(id);
         if (!card) return;
 
         const li = document.createElement("li");
+       li.classList.add("branch", `branch-${index}`); //изменение пол дерева 1 стр//
+
         const btn = document.createElement("span");
         btn.className = "node";
         btn.textContent = card.title;
