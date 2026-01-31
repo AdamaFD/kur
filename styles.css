@@ -355,7 +355,7 @@ body {
   }
 
   #drawerTree .tree li.branch-2::after{
-    right: 50%;
+    right: 60%;
     width: 100%;
   }
 }
