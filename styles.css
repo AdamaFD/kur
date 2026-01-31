@@ -216,5 +216,47 @@ body {
     overflow: hidden;
   }
 }
+/* ======================================
+   MOBILE — CARD VIEW (AFTER SELECTION)
+   ====================================== */
+@media (max-width: 919px){
+
+  #cardView{
+    padding: 12px;
+  }
+
+  #descTab{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* зона картинки */
+  .card-image-large{
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: #f1f2f6;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* кнопка открытия карты */
+  #descTab .open-pdf{
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: none;
+    background: #4f6cff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #descTab .open-pdf:active{
+    transform: scale(0.98);
+  }
+}
 
 
