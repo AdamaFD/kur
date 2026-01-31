@@ -339,7 +339,7 @@ body {
   #drawerTree .tree li.branch-2::after{
     content: "";
     position: absolute;
-    top: -12px;
+    top: -10px;
     height: 2px;
     background: rgba(79,108,255,0.45);
   }
