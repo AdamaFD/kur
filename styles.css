@@ -322,9 +322,9 @@ body {
     content: "";
     position: absolute;
     left: 50%;
-    bottom: -24px;
+    bottom: -20px;
     width: 2px;
-    height: 30px;
+    height: 24px;
     background: rgba(79,108,255,0.4);
     transform: translateX(-50%);
   }
