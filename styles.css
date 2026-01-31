@@ -351,11 +351,11 @@ body {
 
   #drawerTree .tree li.branch-1::after{
     left: -100%;
-    width: 200%;
+    width: 100%;
   }
 
   #drawerTree .tree li.branch-2::after{
-    right: 49%;
+    right: 51%;
     width: 100%;
   }
 }
