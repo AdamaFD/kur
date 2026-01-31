@@ -317,20 +317,16 @@ body {
   /* ---------- CONNECTIONS ---------- */
 
   /* вертикаль вниз от родителя */
-  #drawerTree .tree li::before{
+ /* вертикальная линия вниз от корня */
+  #drawerTree .tree ul > li:first-child::after{
     content: "";
     position: absolute;
-    top: -18px;
     left: 50%;
+    bottom: -24px;
     width: 2px;
-    height: 18px;
-    background: rgba(79,108,255,0.45);
+    height: 24px;
+    background: rgba(79,108,255,0.4);
     transform: translateX(-50%);
-  }
-
-  /* корню не нужна линия вверх */
-  #drawerTree .tree ul > li:first-child::before{
-    display: none;
   }
 
   /* горизонтальная шина */
