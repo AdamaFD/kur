@@ -324,7 +324,7 @@ body {
     left: 50%;
     bottom: -24px;
     width: 2px;
-    height: 24px;
+    height: 30px;
     background: rgba(79,108,255,0.4);
     transform: translateX(-50%);
   }
