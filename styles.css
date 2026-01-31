@@ -258,5 +258,76 @@ body {
     transform: scale(0.98);
   }
 }
+/* ======================================
+   MOBILE TREE — SCHEME (DRAWER ONLY) изменение положения дерева вниз
+   ====================================== */
+@media (max-width: 919px){
+
+  #drawerTree .tree ul{
+    list-style: none;
+    padding: 24px 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 48px;
+    justify-items: center;
+  }
+
+  /* корень */
+  #drawerTree .tree ul > li:first-child{
+    grid-column: 2;
+  }
+
+  /* ветви */
+  #drawerTree .tree li.branch-0{ grid-column: 1; }
+  #drawerTree .tree li.branch-1{ grid-column: 2; }
+  #drawerTree .tree li.branch-2{ grid-column: 3; }
+
+  #drawerTree .tree li{
+    position: relative;
+  }
+
+  /* вертикальная линия вниз от корня */
+  #drawerTree .tree ul > li:first-child::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -24px;
+    width: 2px;
+    height: 24px;
+    background: rgba(79,108,255,0.4);
+    transform: translateX(-50%);
+  }
+
+  /* линии к веткам */
+  #drawerTree .tree li.branch-0::before,
+  #drawerTree .tree li.branch-1::before,
+  #drawerTree .tree li.branch-2::before{
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    width: 2px;
+    height: 24px;
+    background: rgba(79,108,255,0.4);
+    transform: translateX(-50%);
+  }
+
+  /* кнопки */
+  #drawerTree .tree .node{
+    padding: 8px 14px;
+    border-radius: 14px;
+    background: #eef1ff;
+    border: 1px solid rgba(79,108,255,0.35);
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  #drawerTree .tree .node.locked{
+    background: #dfe3ff;
+    opacity: 0.7;
+  }
+}
 
 
