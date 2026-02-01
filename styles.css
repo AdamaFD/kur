@@ -368,7 +368,7 @@ body {
     left: 50%;
     bottom: -22px;
     width: 2px;
-    height: 32px;
+    height: 12px;
     background: rgba(79,108,255,.45);
     transform: translateX(-50%);
     pointer-events: none;
