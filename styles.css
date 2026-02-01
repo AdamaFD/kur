@@ -341,7 +341,7 @@ body {
     position: absolute;
     left: 16%;
     right: 16%;
-    top: calc(100% - 40px);
+    top: calc(100% - 100px);
     height: 2px;
     background: rgba(79,108,255,.55);
   }
