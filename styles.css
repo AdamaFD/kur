@@ -318,45 +318,49 @@ body {
 
   /* вертикаль вниз от родителя */
  /* вертикальная линия вниз от корня */
-  #drawerTree .tree ul > li:first-child::after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -20px;
-    width: 2px;
-    height: 24px;
-    background: rgba(79,108,255,0.4);
-    transform: translateX(-50%);
-  }
+  #drawerTree .tree li::before{
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  width: 2px;
+  height: 18px;
+  background: rgba(79,108,255,0.45);
+  transform: translateX(-50%);
+}
+
 
   /* горизонтальная шина */
   #drawerTree .tree li.branch-0::after,
-  #drawerTree .tree li.branch-1::after,
-  #drawerTree .tree li.branch-2::after{
-    content: "";
-    position: absolute;
-    top: -20px;
-    height: 2px;
-    background: rgba(79,108,255,0.60);
-  }
+#drawerTree .tree li.branch-1::after,
+#drawerTree .tree li.branch-2::after{
+  content: "";
+  position: absolute;
+  top: -18px; /* 🔑 совпадает с li::before */
+  height: 2px;
+  background: rgba(79,108,255,0.55);
+}
 
-  /* Левая ветка */
+
+  /* Левая */
 #drawerTree .tree li.branch-0::after{
   left: 50%;
-  width: 45%; /* было 100% — слишком длинно */
+  width: 50%;
 }
 
-/* Центральная ветка */
+/* Центр */
 #drawerTree .tree li.branch-1::after{
-  left: 0;
-  width: 100%; /* ровно от края до края */
+  left: -50%;
+  width: 100%;
 }
 
-/* Правая ветка */
+/* Правая */
 #drawerTree .tree li.branch-2::after{
   right: 50%;
-  width: 49%; /* было 100% и right:49% — отсюда пиксель */
+  width: 50%;
 }
+
+
  
 
 
