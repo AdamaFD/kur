@@ -115,116 +115,98 @@ body {
    DESKTOP TREE — независимая версия
    ================================ */
 
+/* ================================
+   DESKTOP TREE — структура по схеме
+   ================================ */
+
 #drawerTree .tree {
   overflow-x: hidden;
-  overflow-y: auto;     /* дерево не вылезает */
-  padding-top: 16px;
-  height: 100%;         /* панель 50%, дерево растягивается */
+  overflow-y: auto;
+  padding-top: 20px;
+  height: 100%;
 }
 
-/* GRID контейнер уровня */
+/* Уровень дерева — GRID 3 колонки */
 #drawerTree .tree ul {
   list-style: none;
   margin: 0;
-  padding: 0 0 24px;
+  padding: 0 0 40px;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  row-gap: 44px;
   justify-items: center;
+  row-gap: 60px;
 
   position: relative;
 }
 
-/* каждый узел */
+/* Каждый узел */
 #drawerTree .tree li {
   position: relative;
   text-align: center;
 }
 
-/* корень по центру */
+/* Корень всегда по центру */
 #drawerTree .tree ul > li:first-child {
   grid-column: 2;
 }
 
-/* позиции веток */
+/* Дочерние узлы */
 #drawerTree .tree li.branch-0 { grid-column: 1; }
 #drawerTree .tree li.branch-1 { grid-column: 2; }
 #drawerTree .tree li.branch-2 { grid-column: 3; }
 
-/* карточки */
+/* Внешний вид карточек */
 #drawerTree .tree .node {
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 12px;
   background: #eef1ff;
   border: 1px solid rgba(79,108,255,0.35);
-
-  font-size: 12px;
-  line-height: 1.2;
-  max-width: 110px;
-  white-space: normal;
-  text-align: center;
+  font-size: 13px;
+  max-width: 130px;
 }
 
-#drawerTree .tree .node.locked {
-  background: #dfe3ff;
-  opacity: .8;
-}
+/* ================================
+   ЛИНИИ — чистая геометрия
+   ================================ */
 
-/* ======================================
-   CONNECTIONS — геометрия линий
-   ====================================== */
-
-/* вертикаль вниз от выбранного узла */
-#drawerTree .tree li.locked::after {
+/* Вертикаль вниз от ROOT */
+#drawerTree .tree ul > li:first-child::after {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -22px;
+  top: 100%;
   width: 2px;
-  height: 22px;
+  height: 40px;
   background: rgba(79,108,255,.45);
   transform: translateX(-50%);
 }
 
-/* горизонтальная шина уровня */
+/* Горизонтальная шина */
 #drawerTree .tree ul::after {
   content: "";
   position: absolute;
-  left: 16%;
-  right: 16%;
-  top: calc(100% - 95px);
+  left: 12%;
+  right: 12%;
+  top: calc(100% - 70px);
   height: 2px;
   background: rgba(79,108,255,.55);
 }
 
-/* вертикали вверх к дочерним */
+/* Вертикали вверх к L, C, R */
 #drawerTree .tree li.branch-0::before,
 #drawerTree .tree li.branch-1::before,
 #drawerTree .tree li.branch-2::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: -22px;
+  top: -40px;
   width: 2px;
-  height: 22px;
+  height: 40px;
   background: rgba(79,108,255,.45);
   transform: translateX(-50%);
 }
 
-/* вертикаль от корня к шине */
-#drawerTree .tree ul > li:first-child::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  margin-top: 0.3px;
-  width: 2px;
-  height: 33px;
-  background: rgba(79,108,255,.45);
-  transform: translateX(-50%);
-  pointer-events: none;
-}
 
 
 
