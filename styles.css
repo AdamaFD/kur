@@ -125,53 +125,45 @@ body {
 /* ======================================
    DESKTOP TREE — SCHEME (CENTERED)
    ====================================== */
-@media (min-width: 920px) {
+@media (min-width: 920px){
 
-  #desktopTree {
+  #desktopTree{
     padding-top: 24px;
     overflow-x: auto;
   }
 
   /* GRID НА 3 КОЛОНКИ */
-  #desktopTree ul {
-    list-style: none;
-    margin: 0;
-    padding: 0 0 48px;
+  #desktopTree ul{
+  list-style: none;
+  margin: 0;
+  padding: 0 0 48px;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 20px;
-    justify-items: center;
-    row-gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: center;     /* 👈 центрируем всё дерево */
+  column-gap: 16px;            /* 👈 расстояние между дочерними */
+  row-gap: 40px;
 
-    position: relative;
-  }
+  position: relative;
+}
 
-  #desktopTree li {
+  #desktopTree li{
     position: relative;
     text-align: center;
   }
 
   /* КОРЕНЬ */
-  #desktopTree ul > li:first-child {
+  #desktopTree ul > li:first-child{
     grid-column: 2;
   }
 
   /* ВЕТКИ */
-  #desktopTree li.branch-0 {
-    grid-column: 1;
-  }
-
-  #desktopTree li.branch-1 {
-    grid-column: 2;
-  }
-
-  #desktopTree li.branch-2 {
-    grid-column: 3;
-  }
+  #desktopTree li.branch-0{ grid-column: 1; }
+  #desktopTree li.branch-1{ grid-column: 2; }
+  #desktopTree li.branch-2{ grid-column: 3; }
 
   /* УЗЛЫ */
-  #desktopTree .node {
+  #desktopTree .node{
     padding: 10px 16px;
     border-radius: 14px;
     background: #eef1ff;
@@ -181,14 +173,11 @@ body {
     line-height: 1.25;
     text-align: center;
     box-shadow: 0 6px 18px rgba(79,108,255,.18);
-  }
-
-  #desktopTree .node.locked {
+  } 
+  #desktopTree .node.locked{
     background: #dfe3ff;
     opacity: .85;
   }
-
-}
 
 
   /* ==============================
