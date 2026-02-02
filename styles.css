@@ -106,6 +106,12 @@ body {
     overflow: auto;
   }
 }
+@media (min-width: 920px){
+  #desktopCard{
+    display: none;
+  }
+}
+
 /* ======================================
    DESKTOP TREE — SCHEME (CENTERED)
    ====================================== */
