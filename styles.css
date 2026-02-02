@@ -125,7 +125,7 @@ body {
     display: grid;
     grid-template-columns: auto auto auto;
     column-gap: 20px;
-    row-gap: 40px;
+    
 }
 
     justify-items: center;
