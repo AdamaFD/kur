@@ -123,8 +123,10 @@ body {
     padding: 0 0 48px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto auto auto;
     column-gap: 20px;
+    row-gap: 40px;
+}
 
     justify-items: center;
     row-gap: 40px;
