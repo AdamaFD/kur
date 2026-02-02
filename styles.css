@@ -124,8 +124,10 @@ body {
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 50px;
+
     justify-items: center;
-    row-gap: 30px;
+    row-gap: 40px;
 
     position: relative;
   }
