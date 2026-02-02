@@ -118,17 +118,18 @@ body {
 
   /* GRID НА 3 КОЛОНКИ */
   #desktopTree ul{
-    list-style: none;
-    margin: 0;
-    padding: 0 0 48px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 48px;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
-    row-gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: center;     /* 👈 центрируем всё дерево */
+  column-gap: 16px;            /* 👈 расстояние между дочерними */
+  row-gap: 40px;
 
-    position: relative;
-  }
+  position: relative;
+}
 
   #desktopTree li{
     position: relative;
