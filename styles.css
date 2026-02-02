@@ -167,47 +167,7 @@ body {
      ЛИНИИ
      ============================== */
 
-  /* вертикаль от корня вниз */
-  #desktopTree ul > li:first-child::after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    margin-top: 6px;
-    width: 2px;
-    height: 48px;
-    background: rgba(79,108,255,.45);
-    transform: translateX(-50%);
-    pointer-events: none;
   }
-
-  /* горизонтальная шина */
-  #desktopTree ul::after{
-    content: "";
-    position: absolute;
-    left: 15%;
-    right: 15%;
-    top: calc(100% - 92px);
-    height: 2px;
-    background: rgba(79,108,255,.55);
-    pointer-events: none;
-  }
-
-  /* вертикали к дочерним */
-  #desktopTree li.branch-0::before,
-  #desktopTree li.branch-1::before,
-  #desktopTree li.branch-2::before{
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -48px;
-    width: 2px;
-    height: 48px;
-    background: rgba(79,108,255,.45);
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-}
 
 
 /* ---------- Tree ---------- */
