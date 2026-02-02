@@ -111,7 +111,17 @@ body {
     display: none;
   }
 }
+/* полностью убираем панель "Карта" из сетки */
+  .desktop-main > .panel:last-child{
+    display: none;
+  }
 
+  /* делаем дерево единственной строкой */
+  .desktop-main{
+    grid-template-rows: 1fr;
+  }
+
+}
 /* ======================================
    DESKTOP TREE — SCHEME (CENTERED)
    ====================================== */
