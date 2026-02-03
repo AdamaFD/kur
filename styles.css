@@ -1,4 +1,4 @@
-* {   ///курлык3///
+* {   ///курлык4///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -128,7 +128,7 @@ body {
 @media (min-width: 920px){
 
   #desktopTree {   /кря2/
-  padding-top: 50px;
+  padding-top: 80px;
   height: 100%;
   overflow: hidden;
 }
