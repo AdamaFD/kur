@@ -127,90 +127,57 @@ body {
    ====================================== */
 @media (min-width: 920px){
 
- /* ======================================
-   DESKTOP TREE — PURE TREE (NO LINES)
-   ====================================== */
-@media (min-width: 920px){
-
   #desktopTree{
-    padding: 24px;
+    padding-top: 24px;
     overflow-x: auto;
   }
 
+  /* GRID НА 3 КОЛОНКИ */
   #desktopTree ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 48px;
 
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    justify-content: center;
-    align-items: start;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: center;     /* 👈 центрируем всё дерево */
+  column-gap: 180px;            /* 👈 расстояние между дочерними */
+  row-gap: 40px;
 
-    column-gap: 24px;
-    row-gap: 48px;
-  }
+  position: relative;
+}
 
   #desktopTree li{
+    position: relative;
     text-align: center;
   }
 
-  /* корень по центру */
+  /* КОРЕНЬ */
   #desktopTree ul > li:first-child{
     grid-column: 2;
   }
 
-  /* ветки */
+  /* ВЕТКИ */
   #desktopTree li.branch-0{ grid-column: 1; }
   #desktopTree li.branch-1{ grid-column: 2; }
   #desktopTree li.branch-2{ grid-column: 3; }
 
+  /* УЗЛЫ */
   #desktopTree .node{
     padding: 10px 16px;
     border-radius: 14px;
     background: #eef1ff;
     border: 1px solid rgba(79,108,255,0.35);
-
     font-size: 14px;
-    line-height: 1.25;
     max-width: 180px;
-
+    line-height: 1.25;
+    text-align: center;
     box-shadow: 0 6px 18px rgba(79,108,255,.18);
-    cursor: pointer;
-  }
-
+  } 
   #desktopTree .node.locked{
     background: #dfe3ff;
     opacity: .85;
-    cursor: default;
   }
-}
-
-
-  }
-  #desktopTree ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-#desktopTree > .tree-scroll > ul {
-  display: grid;
-  justify-content: center;
-}
-
-#desktopTree li {
-  text-align: center;
-}
-
-#desktopTree li > ul {
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
-  justify-content: center;
-  gap: 18px 22px;
-  margin-top: 28px;
-}
-
 @media (min-width: 920px){
 
   #desktopTree ul{
@@ -455,62 +422,7 @@ body {
     opacity: .8;
   }
 
-  /* ======================================
-     CONNECTIONS — ЧИСТАЯ ГЕОМЕТРИЯ
-     ====================================== */
-
-  /* вертикаль вниз от КАЖДОГО выбранного узла */
-  #drawerTree .tree li.locked::after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -22px;
-    width: 2px;
-    height: 22px;
-    background: rgba(79,108,255,.45);
-    transform: translateX(-50%);
-  }
-
-  /* горизонтальная шина (ОДНА на уровень) */
-  #drawerTree .tree ul::after{
-    content: "";
-    position: absolute;
-    left: 16%;
-    right: 16%;
-    top: calc(100% - 95px);
-    height: 2px;
-    background: rgba(79,108,255,.55);
-  }
-
-  /* вертикали вверх к дочерним */
-  #drawerTree .tree li.branch-0::before,
-  #drawerTree .tree li.branch-1::before,
-  #drawerTree .tree li.branch-2::before{
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -22px;
-    width: 2px;
-    height: 22px;
-    background: rgba(79,108,255,.45);
-    transform: translateX(-50%);
-  }
-
-}
-/* ВЕРТИКАЛЬ ОТ КОРНЕВОЙ КАРТЫ К ШИНЕ */
- #drawerTree .tree ul > li:first-child::after{
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 100%;              /* ← старт СРАЗУ под картой */
-  margin-top: 0.3px;        /* небольшой зазор */
-  width: 2px;
-  height: 33px;           /* спокойно меняется */
-  background: rgba(79,108,255,.45);
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
+   
 
 
 
