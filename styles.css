@@ -178,6 +178,37 @@ body {
     background: #dfe3ff;
     opacity: .85;
   }
+@media (min-width: 920px){
+
+  #desktopTree ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  #desktopTree li{
+    text-align: center;
+  }
+
+  /* дочерние уровни */
+  #desktopTree li > ul{
+    display: none;
+    margin-top: 24px;
+
+    grid-template-columns: repeat(auto-fit, max-content);
+    gap: 16px;
+    justify-content: center;
+  }
+
+  /* раскрытие */
+  #desktopTree li.open > ul{
+    display: grid;
+  }
+
+}
 
 
   /* ==============================
