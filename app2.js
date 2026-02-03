@@ -56,57 +56,81 @@ function renderDesktopList(){
 }
 
 /* ---------- DESKTOP TREE ---------- */
-function renderDesktopTree(rootId){
-  if (!desktopTree) return;
+const lockedCards = new Set();
+const MAX_DEPTH = 4;
+lockedCards.clear(); ///////////////
 
-  desktopTree.innerHTML = "";
+function renderTree(rootId){
+  const tree = desktopTree;
+  if (!tree) return;
+
+  tree.innerHTML = "";
+
+  const scroll = document.createElement("div");
+  scroll.className = "tree-scroll";
 
   const ul = document.createElement("ul");
-  const rootNode = buildNode(rootId, new Set(), 0);
+  ul.appendChild(buildNode(rootId, 0, new Set()));
 
-  if (rootNode) ul.appendChild(rootNode);
-  desktopTree.appendChild(ul);
+  scroll.appendChild(ul);
+  tree.appendChild(scroll);
+
+  // скролл выключен при старте
+  scroll.style.overflowX = "hidden";
 }
-
-function buildNode(cardId, visited, level){
+function buildNode(cardId, level, visited){
+  if (level >= MAX_DEPTH) return null;
   if (visited.has(cardId)) return null;
+
   visited.add(cardId);
+  lockedCards.add(cardId);
 
   const card = byId(cardId);
   if (!card) return null;
 
   const li = document.createElement("li");
 
-  const node = document.createElement("span");
+  const node = document.createElement("div");
   node.className = "node";
   node.textContent = card.title;
-  node.dataset.id = cardId;
   node.dataset.level = level;
+
+  if (lockedCards.has(cardId)) {
+    node.classList.add("locked");
+  }
 
   li.appendChild(node);
 
-  if (Array.isArray(card.links) && card.links.length){
+  const links = getLinks(card);
+  if (links.length && level < MAX_DEPTH - 1){
     const ul = document.createElement("ul");
 
-    card.links.forEach(linkId => {
-      const child = buildNode(linkId, new Set(visited), level + 1);
+    links.slice(0, 3).forEach(id => {
+      if (lockedCards.has(id)) return;
+
+      const child = buildNode(id, level + 1, new Set(visited));
       if (child) ul.appendChild(child);
     });
 
-    if (ul.children.length) li.appendChild(ul);
+    if (ul.children.length){
+      li.appendChild(ul);
+    }
   }
 
   return li;
 }
-
-/* ---------- TREE TOGGLE ---------- */
 document.addEventListener("click", e => {
   const node = e.target.closest("#desktopTree .node");
   if (!node) return;
 
-  const li = node.parentElement;
-  li.classList.toggle("open");
+  const level = Number(node.dataset.level);
+  const scroll = desktopTree.querySelector(".tree-scroll");
+
+  if (scroll && level >= 1) {
+    scroll.style.overflowX = "auto";
+  }
 });
+
 
 /* ---------- CARD RENDER ---------- */
 function renderCardDesktop(card){
