@@ -1,7 +1,7 @@
 // Простая SPA без фреймворков.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 
-const listView = document.getElementById("listView");
+const listView = document.getElementById("listView"); //курлык//
 const cardView = document.getElementById("cardView");
 const backBtn = document.getElementById("backBtn");
 const title = document.getElementById("title");
