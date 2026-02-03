@@ -1,7 +1,7 @@
 // Простая SPA без фреймворков.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 
-const listView = document.getElementById("listView"); //курлык//
+const listView = document.getElementById("listView");
 const cardView = document.getElementById("cardView");
 const backBtn = document.getElementById("backBtn");
 const title = document.getElementById("title");
@@ -19,10 +19,14 @@ const mobileTree = document.getElementById("mobileTree");
 
 let cards = [];
 let currentCardId = null;
+let chosenPath = [];
 
-/* ---------- HELPERS ---------- */
 function byId(id){
   return cards.find(c => String(c.id) === String(id));
+}
+
+function getLinks(card){
+  return Array.isArray(card.links) ? card.links : [];
 }
 
 function isDesktop(){
@@ -46,8 +50,7 @@ function renderDesktopList(){
   desktopCardList.innerHTML = "";
   cards.forEach(card => {
     const row = document.createElement("div");
-    row.className =
-      "sidebar-item" +
+    row.className = "sidebar-item" +
       (String(card.id) === String(currentCardId) ? " active" : "");
     row.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
     row.onclick = () => openCard(card.id);
@@ -55,58 +58,59 @@ function renderDesktopList(){
   });
 }
 
-/* ---------- DESKTOP TREE ---------- */
-function renderDesktopTree(rootId){
-  if (!desktopTree) return;
+/* ---------- TREE LOGIC ---------- */
+function selectBranch(cardId){
+  if (chosenPath.includes(cardId)) return;
+  if (chosenPath.length >= 4) return;
 
-  desktopTree.innerHTML = "";
+  chosenPath.push(cardId);
+  renderTree(desktopTree);
+  if (!isDesktop()) renderTree(mobileTree);
+}
+
+function renderTree(container){
+  container.innerHTML = "";
+  if (!chosenPath.length) return;
 
   const ul = document.createElement("ul");
-  const rootNode = buildNode(rootId, new Set(), 0);
 
-  if (rootNode) ul.appendChild(rootNode);
-  desktopTree.appendChild(ul);
-}
+  // выбранный путь
+  chosenPath.forEach(id => {
+    const card = byId(id);
+    if (!card) return;
 
-function buildNode(cardId, visited, level){
-  if (visited.has(cardId)) return null;
-  visited.add(cardId);
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="node locked">${card.title}</span>`;
+    ul.appendChild(li);
+  });
 
-  const card = byId(cardId);
-  if (!card) return null;
+  // активный узел
+  if (chosenPath.length < 4){
+    const activeCard = byId(chosenPath[chosenPath.length - 1]);
+    if (activeCard){
+     getLinks(activeCard).forEach((id, index) => {   //изменение положения дерева 1стр//
 
-  const li = document.createElement("li");
+        if (chosenPath.includes(id)) return;
 
-  const node = document.createElement("span");
-  node.className = "node";
-  node.textContent = card.title;
-  node.dataset.id = cardId;
-  node.dataset.level = level;
+        const card = byId(id);
+        if (!card) return;
 
-  li.appendChild(node);
+        const li = document.createElement("li");
+       li.classList.add("branch", `branch-${index}`); //изменение пол дерева 1 стр//
 
-  if (Array.isArray(card.links) && card.links.length){
-    const ul = document.createElement("ul");
+        const btn = document.createElement("span");
+        btn.className = "node";
+        btn.textContent = card.title;
+        btn.onclick = () => selectBranch(id);
 
-    card.links.forEach(linkId => {
-      const child = buildNode(linkId, new Set(visited), level + 1);
-      if (child) ul.appendChild(child);
-    });
-
-    if (ul.children.length) li.appendChild(ul);
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+    }
   }
 
-  return li;
+  container.appendChild(ul);
 }
-
-/* ---------- TREE TOGGLE ---------- */
-document.addEventListener("click", e => {
-  const node = e.target.closest("#desktopTree .node");
-  if (!node) return;
-
-  const li = node.parentElement;
-  li.classList.toggle("open");
-});
 
 /* ---------- CARD RENDER ---------- */
 function renderCardDesktop(card){
@@ -133,13 +137,13 @@ function openCard(cardId){
   if (!card) return;
 
   currentCardId = card.id;
+  chosenPath = [card.id]; // ← корень дерева
   title.textContent = card.title;
 
   if (isDesktop()){
     backBtn.classList.add("hidden");
     treeBtn.classList.add("hidden");
     renderCardDesktop(card);
-    renderDesktopTree(card.id);
   } else {
     listView.classList.remove("active");
     cardView.classList.add("active");
@@ -149,6 +153,8 @@ function openCard(cardId){
   }
 
   renderDesktopList();
+  renderTree(desktopTree);
+  if (!isDesktop()) renderTree(mobileTree);
 }
 
 /* ---------- NAV ---------- */
@@ -172,11 +178,21 @@ fetch("cards.json")
   .then(data => {
     cards = data;
     renderMobileList();
-    if (isDesktop() && cards.length){
-      openCard(cards[0].id);
-    }
+    if (isDesktop()) openCard(cards[0].id);
   });
 
+
+function renderTree(rootId){
+  const tree = document.getElementById("desktopTree");
+  if (!tree) return;
+
+  tree.innerHTML = "";
+
+  const ul = document.createElement("ul");
+  ul.appendChild(buildNode(rootId, new Set()));
+
+  tree.appendChild(ul);
+}
 
 
 
