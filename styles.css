@@ -1,4 +1,4 @@
-* {   ///курлык1///
+* {   ///курлык2///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -208,6 +208,18 @@ body {
     display: grid;
   }
 
+}
+@media (min-width: 920px) {             /кря/
+
+  #desktopTree {
+    padding-top: 40px;
+    overflow: hidden;        /* по умолчанию — без скролла */
+  }
+
+  #desktopTree.scrolled {
+    overflow-y: auto;        /* вертикальный скролл */
+    overflow-x: auto;        /* горизонтальный тоже оставляем */
+  }
 }
 
 
