@@ -141,7 +141,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, max-content);
   justify-content: center;     /* 👈 центрируем всё дерево */
-  column-gap: 86px;            /* 👈 расстояние между дочерними */
+  column-gap: 110px;            /* 👈 расстояние между дочерними */
   row-gap: 40px;
 
   position: relative;
