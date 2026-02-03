@@ -1,4 +1,4 @@
-* {   ///курлык2///
+* {   ///курлык3///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -127,10 +127,17 @@ body {
    ====================================== */
 @media (min-width: 920px){
 
-  #desktopTree{
-    padding-top: 34px;
-    overflow-x: auto;
-  }
+  #desktopTree {   /кря2/
+  padding-top: 40px;
+  height: 100%;
+  overflow: hidden;
+}
+
+#desktopTree.scrolled {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
 
   /* GRID НА 3 КОЛОНКИ */
   #desktopTree ul{
