@@ -127,10 +127,16 @@ body {
    ====================================== */
 @media (min-width: 920px){
 
-  #desktopTree{
-    padding-top: 24px;
-    overflow-x: auto;
-  }
+  #desktopTree {
+  padding-top: 32px;
+  overflow: hidden; /* ❗️важно */
+}
+
+#desktopTree .tree-scroll {
+  overflow-x: hidden; /* по умолчанию */
+  padding-bottom: 24px; /* чтобы корень не резался */
+}
+
 
   /* GRID НА 3 КОЛОНКИ */
   #desktopTree ul{
@@ -174,10 +180,36 @@ body {
     text-align: center;
     box-shadow: 0 6px 18px rgba(79,108,255,.18);
   } 
-  #desktopTree .node.locked{
-    background: #dfe3ff;
-    opacity: .85;
+ #desktopTree .node.locked {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: default;
+}
+
   }
+  #desktopTree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#desktopTree > .tree-scroll > ul {
+  display: grid;
+  justify-content: center;
+}
+
+#desktopTree li {
+  text-align: center;
+}
+
+#desktopTree li > ul {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: center;
+  gap: 18px 22px;
+  margin-top: 28px;
+}
+
 @media (min-width: 920px){
 
   #desktopTree ul{
