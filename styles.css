@@ -163,7 +163,7 @@ body {
     gap: 14px;
   }
 /* ❌ полностью убираем панель "Карта" на ПК */
-.desktop-main > .panel{
+.desktop-main > .panel:last-child{
   display: none;
 }
 
