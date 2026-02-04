@@ -1,4 +1,4 @@
-* {   ///курлык8///
+* {   ///курлык9///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -163,7 +163,7 @@ body {
     gap: 14px;
   }
 /* ❌ полностью убираем панель "Карта" на ПК */
-.desktop-main > .panel:last-child{
+.desktop-main > .panel{
   display: none;
 }
 
