@@ -1,4 +1,4 @@
-* {   ///курлык8///
+* {   ///курлык9///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -232,6 +232,9 @@ body {
 #desktopTree {
     position: relative;
     z-index: 2;
+}
+#desktopTree {
+    margin-top: 16px;
 }
 
 
