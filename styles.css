@@ -1,4 +1,4 @@
-* {   ///курлык7///
+* {   ///курлык8///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -162,6 +162,10 @@ body {
     grid-template-rows: 1fr; /* ТОЛЬКО ДЕРЕВО */
     gap: 14px;
   }
+/* ❌ полностью убираем панель "Карта" на ПК */
+.desktop-main > .panel:last-child{
+  display: none;
+}
 
   /* ---------- PANEL ---------- */
 
