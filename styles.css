@@ -1,4 +1,4 @@
-* {   ///курлык9///
+* {   ///курлык10///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -236,7 +236,7 @@ body {
 #desktopTree {
     margin-top: 16px;
 }
-
+.panel-title { margin-bottom: 20px; }
 
 
 
