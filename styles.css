@@ -1,4 +1,4 @@
-* {   ///курлык10///
+* {   ///курлык11///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -237,6 +237,9 @@ body {
     margin-top: 16px;
 }
 .panel-title { margin-bottom: 20px; }
+.panel-title {
+    margin-bottom: 32px;
+}
 
 
 
