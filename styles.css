@@ -1,4 +1,4 @@
-* {   ///курлык5///
+* {   ///курлык6///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -220,7 +220,7 @@ body {
 @media (min-width: 920px) {             /кря/
 
   #desktopTree {
-    padding-top: 40px;
+    padding-top: 60px;
     overflow: hidden;        /* по умолчанию — без скролла */
   }
 
