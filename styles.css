@@ -1,4 +1,4 @@
-* {   ///курлык5///
+* {   ///курлык6///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -126,51 +126,48 @@ body {
 /* ======================================
    DESKTOP TREE — SCHEME (CENTERED)
    ====================================== */
+/* ===============================
+   DESKTOP TREE — FIX ROOT CROP
+   =============================== */
 @media (min-width: 920px){
 
-  #desktopTree {   /кря2/
-  padding-top: 60px;
-  height: 100%;
-  overflow: hidden;
-}
-
-#desktopTree.scrolled {
-  overflow-y: auto;
-  overflow-x: auto;
-}
-
-
-  /* GRID НА 3 КОЛОНКИ */
-  #desktopTree ul{
-  list-style: none;
-  margin: 0;
-  padding: 0 0 48px;
-
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
-  justify-content: center;     /* 👈 центрируем всё дерево */
-  column-gap: 180px;            /* 👈 расстояние между дочерними */
-  row-gap: 40px;
-
-  position: relative;
-}
-
-  #desktopTree li{
-    position: relative;
-    text-align: center;
+  /* ❗ панель с деревом НЕ должна резать контент */
+  .panel:has(#desktopTree){
+    overflow: visible;
   }
 
-  /* КОРЕНЬ */
-  #desktopTree ul > li:first-child{
+  /* сам контейнер дерева */
+  #desktopTree{
+    height: 100%;
+    padding-top: 48px;        /* запас сверху для корня */
+    padding-bottom: 64px;     /* запас снизу */
+    overflow: hidden;         /* по умолчанию без скролла */
+  }
+
+  /* включаем скролл ТОЛЬКО когда нужно */
+  #desktopTree.scrolled{
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+
+  /* базовая сетка дерева */
+  #desktopTree > ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    justify-content: center;
+    column-gap: 180px;
+    row-gap: 40px;
+  }
+
+  /* корень строго по центру */
+  #desktopTree > ul > li:first-child{
     grid-column: 2;
   }
 
-  /* ВЕТКИ */
-  #desktopTree li.branch-0{ grid-column: 1; }
-  #desktopTree li.branch-1{ grid-column: 2; }
-  #desktopTree li.branch-2{ grid-column: 3; }
-
-  /* УЗЛЫ */
+  /* узлы */
   #desktopTree .node{
     padding: 10px 16px;
     border-radius: 14px;
@@ -178,57 +175,19 @@ body {
     border: 1px solid rgba(79,108,255,0.35);
     font-size: 14px;
     max-width: 180px;
-    line-height: 1.25;
     text-align: center;
     box-shadow: 0 6px 18px rgba(79,108,255,.18);
-  } 
+    cursor: pointer;
+  }
+
+  /* уже выбранные — не кликабельны */
   #desktopTree .node.locked{
     background: #dfe3ff;
     opacity: .85;
-  }
-@media (min-width: 920px){
-
-  #desktopTree ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    justify-content: center;
-    gap: 32px;
-  }
-
-  #desktopTree li{
-    text-align: center;
-  }
-
-  /* дочерние уровни */
-  #desktopTree li > ul{
-    display: none;
-    margin-top: 24px;
-
-    grid-template-columns: repeat(auto-fit, max-content);
-    gap: 16px;
-    justify-content: center;
-  }
-
-  /* раскрытие */
-  #desktopTree li.open > ul{
-    display: grid;
-  }
-
-}
-@media (min-width: 920px) {             /кря/
-
-  #desktopTree {
-    padding-top: 40px;
-    overflow: hidden;        /* по умолчанию — без скролла */
-  }
-
-  #desktopTree.scrolled {
-    overflow-y: auto;        /* вертикальный скролл */
-    overflow-x: auto;        /* горизонтальный тоже оставляем */
+    pointer-events: none;
   }
 }
+
 
 
   /* ==============================
