@@ -1,4 +1,4 @@
-* {   ///курлык6///
+* {   ///курлык7///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -228,6 +228,10 @@ body {
     overflow-y: auto;        /* вертикальный скролл */
     overflow-x: auto;        /* горизонтальный тоже оставляем */
   }
+}
+#desktopTree {
+    position: relative;
+    z-index: 2;
 }
 
 
