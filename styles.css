@@ -1,4 +1,4 @@
-* {   ///курлык10///
+* {   ///курлык6///
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -103,7 +103,7 @@ body {
     border-radius: 16px;
     padding: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    
+    overflow: auto;
   }
 }
 @media (min-width: 920px){
@@ -126,98 +126,51 @@ body {
 /* ======================================
    DESKTOP TREE — SCHEME (CENTERED)
    ====================================== */
-/* ======================================
-   DESKTOP ONLY — TREE (CLEAN VERSION)
-   ====================================== */
 @media (min-width: 920px){
 
-  /* ---------- BASE DESKTOP LAYOUT ---------- */
-
-  body{
-    overflow: hidden;
-  }
-
-  .view{
-    display: none !important;
-  }
-
-  .desktop-shell{
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 14px;
-    padding: 14px;
-    height: calc(100vh - 56px);
-  }
-
-  .sidebar{
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    padding: 12px;
-    overflow: auto;
-  }
-
-  .desktop-main{
-    display: grid;
-    grid-template-rows: 1fr; /* ТОЛЬКО ДЕРЕВО */
-    gap: 14px;
-  }
-/* ❌ полностью убираем панель "Карта" на ПК */
-.desktop-main > .panel:last-child{
-  display: none;
+  #desktopTree {   /кря2/
+  padding-top: 60px;
+  height: 100%;
+  overflow: hidden;
 }
 
-  /* ---------- PANEL ---------- */
+#desktopTree.scrolled {
+  overflow-y: auto;
+  overflow-x: auto;
+}
 
-  .panel{
-    background: #fff;
-    border-radius: 16px;
-    padding: 0;              /* ❗ важно */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    overflow: visible;       /* ❗ НЕ РЕЖЕМ КОРЕНЬ */
-  }
 
-  /* ---------- DESKTOP TREE CONTAINER ---------- */
+  /* GRID НА 3 КОЛОНКИ */
+  #desktopTree ul{
+  list-style: none;
+  margin: 0;
+  padding: 0 0 48px;
 
-  #desktopTree{
-    height: 100%;
-    padding-top: 64px;       /* запас под корень */
-    padding-bottom: 120px;
-    overflow: hidden;        /* скролл выключен по умолчанию */
-  }
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: center;     /* 👈 центрируем всё дерево */
+  column-gap: 180px;            /* 👈 расстояние между дочерними */
+  row-gap: 40px;
 
-  #desktopTree.scrolled{
-    overflow-y: auto;
-    overflow-x: auto;
-  }
-
-  /* ---------- TREE GRID ---------- */
-
-  #desktopTree > ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    justify-content: center;
-    column-gap: 180px;
-    row-gap: 40px;
-  }
-
-  /* ---------- ROOT ---------- */
-
-  #desktopTree > ul > li:first-child{
-    grid-column: 2;
-  }
+  position: relative;
+}
 
   #desktopTree li{
     position: relative;
     text-align: center;
   }
 
-  /* ---------- NODES ---------- */
+  /* КОРЕНЬ */
+  #desktopTree ul > li:first-child{
+    grid-column: 2;
+  }
 
+  /* ВЕТКИ */
+  #desktopTree li.branch-0{ grid-column: 1; }
+  #desktopTree li.branch-1{ grid-column: 2; }
+  #desktopTree li.branch-2{ grid-column: 3; }
+
+  /* УЗЛЫ */
   #desktopTree .node{
     padding: 10px 16px;
     border-radius: 14px;
@@ -228,19 +181,54 @@ body {
     line-height: 1.25;
     text-align: center;
     box-shadow: 0 6px 18px rgba(79,108,255,.18);
-    cursor: pointer;
-  }
-
-  /* выбранные карты — заблокированы */
+  } 
   #desktopTree .node.locked{
     background: #dfe3ff;
     opacity: .85;
-    pointer-events: none;
+  }
+@media (min-width: 920px){
+
+  #desktopTree ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  #desktopTree li{
+    text-align: center;
+  }
+
+  /* дочерние уровни */
+  #desktopTree li > ul{
+    display: none;
+    margin-top: 24px;
+
+    grid-template-columns: repeat(auto-fit, max-content);
+    gap: 16px;
+    justify-content: center;
+  }
+
+  /* раскрытие */
+  #desktopTree li.open > ul{
+    display: grid;
   }
 
 }
+@media (min-width: 920px) {             /кря/
 
+  #desktopTree {
+    padding-top: 40px;
+    overflow: hidden;        /* по умолчанию — без скролла */
+  }
 
+  #desktopTree.scrolled {
+    overflow-y: auto;        /* вертикальный скролл */
+    overflow-x: auto;        /* горизонтальный тоже оставляем */
+  }
+}
 
 
   /* ==============================
@@ -453,7 +441,6 @@ body {
     background: #dfe3ff;
     opacity: .8;
   }
-
    
 
 
