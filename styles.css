@@ -110,9 +110,7 @@ body {
   #desktopCard{
     display: none;
   }
-} #desktopTree ul > li:first-child {            /курлык/
-  margin-top: 20px; /* или 24px, или 32px — подберёшь по вкусу */
-}
+} /шнупагырущшоа/
 
 /* полностью убираем панель "Карта" из сетки */
   .desktop-main > .panel:last-child{
