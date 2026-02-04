@@ -1,234 +1,186 @@
-* {   ///курлык8///
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+/* ======================================
+   BASE
+====================================== */
+
+* {  
+  box-sizing: border-box;      /* Все размеры считаются с учётом padding/border — удобнее верстать */
+  margin: 0;                   /* Убираем стандартные внешние отступы браузера */
+  padding: 0;                  /* Убираем стандартные внутренние отступы */
+  font-family: sans-serif;     /* Единый шрифт для всего интерфейса */
 }
 
 body {
-  background: #f5f6f8;
-  color: #222;
+  background: #f5f6f8;         /* Светлый фон приложения */
+  color: #222;                 /* Основной цвет текста */
 }
 
-/* ---------- Topbar ---------- */
+/* ======================================
+   TOPBAR
+====================================== */
 
 .topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  position: sticky;
-  top: 0;
-  z-index: 5;
+  display: flex;               /* Горизонтальное расположение элементов */
+  justify-content: space-between; /* Раздвигаем элементы по краям */
+  align-items: center;         /* Выравниваем по вертикали */
+  padding: 12px;               /* Внутренние отступы */
+  background: white;           /* Белый фон панели */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Лёгкая тень */
+  position: sticky;            /* Панель остаётся сверху при прокрутке */
+  top: 0;                      /* Прилеплена к верхнему краю */
+  z-index: 5;                  /* Поверх всего остального */
 }
 
 .icon-btn {
-  background: none;
-  border: none;
-  font-size: 22px;
-  padding: 6px 10px;
-  border-radius: 10px;
-  cursor: pointer;
+  background: none;            /* Без фона */
+  border: none;                /* Без рамки */
+  font-size: 22px;             /* Размер иконки */
+  padding: 6px 10px;           /* Удобная зона клика */
+  border-radius: 10px;         /* Скругление */
+  cursor: pointer;             /* Курсор "кликабельно" */
 }
 
 .hidden {
-  display: none;
+  display: none;               /* Универсальный класс скрытия */
 }
 
-/* ---------- Views ---------- */
+/* ======================================
+   MOBILE VIEWS
+====================================== */
 
 .view {
-  display: none;
-  padding: 12px;
+  display: none;               /* По умолчанию скрыто */
+  padding: 12px;               /* Отступы внутри */
 }
 
 .view.active {
-  display: block;
+  display: block;              /* Активная вкладка показывается */
 }
 
-/* ---------- Desktop layout ---------- */
+/* ======================================
+   DESKTOP LAYOUT
+====================================== */
 
 .desktop-shell {
-  display: none;
+  display: none;               /* На мобильном скрыто */
 }
 
-@media (min-width: 920px) {
+@media (min-width: 920px) {    /* Всё ниже — только для ПК */
 
   body {
-    overflow: hidden;
+    overflow: hidden;          /* Убираем прокрутку страницы — всё внутри сетки */
   }
 
   .view {
-    display: none !important;
+    display: none !important;  /* Мобильные экраны полностью отключены */
   }
 
   .desktop-shell {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 14px;
-    padding: 14px;
-    height: calc(100vh - 56px);
+    display: grid;             /* Включаем сетку */
+    grid-template-columns: 320px 1fr; /* Левая колонка — сайдбар, правая — дерево */
+    gap: 14px;                 /* Расстояние между колонками */
+    padding: 14px;             /* Отступы вокруг */
+    height: calc(100vh - 56px);/* Высота = экран минус топбар */
   }
 
+  /* SIDEBAR */
   .sidebar {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    padding: 12px;
-    overflow: auto;
+    background: #fff;          /* Белая панель */
+    border-radius: 16px;       /* Скругление */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06); /* Тень */
+    padding: 12px;             /* Внутренние отступы */
+    overflow: auto;            /* Скролл, если список длинный */
   }
 
   .sidebar-item {
-    padding: 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+    padding: 10px;             /* Зона клика */
+    border-radius: 12px;       /* Скругление */
+    cursor: pointer;           /* Курсор */
+    display: flex;             /* Текст + номер */
+    justify-content: space-between; /* Раздвигаем */
   }
 
   .sidebar-item.active {
-    background: rgba(79,108,255,0.16);
+    background: rgba(79,108,255,0.16); /* Подсветка выбранной карты */
   }
 
+  /* MAIN AREA — ONLY TREE */
   .desktop-main {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    gap: 14px;
+    display: grid;             /* Сетка */
+    grid-template-rows: 1fr;   /* Только одно содержимое — дерево */
+    gap: 14px;                 /* Отступы */
   }
 
-  .panel {
-    background: #fff;
-    border-radius: 16px;
-    padding: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    overflow: auto;
-  }
-}
-@media (min-width: 920px){
-  #desktopCard{
-    display: none;
-  }
-} /шнупагырущшоа/
-
-/* полностью убираем панель "Карта" из сетки */
-  .desktop-main > .panel:last-child{
-    display: none;
+  .desktop-main > .panel {
+    display: none;             /* Полностью убираем панель карты */
   }
 
-  /* делаем дерево единственной строкой */
-  .desktop-main{
-    grid-template-rows: 1fr;
-  }
-
-
-/* ======================================
-   DESKTOP TREE — SCHEME (CENTERED)
-   ====================================== */
-@media (min-width: 920px){
-
-  #desktopTree {   /кря2/
-  padding-top: 60px;
-  height: 150%;
-  overflow: hidden;
-}
-
-#desktopTree.scrolled {
-  overflow-y: auto;
-  overflow-x: auto;
-}
-
-
-  /* GRID НА 3 КОЛОНКИ */
-  #desktopTree ul{
-  list-style: none;
-  margin: 0;
-  padding: 0 0 48px;
-
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
-  justify-content: center;     /* 👈 центрируем всё дерево */
-  column-gap: 180px;            /* 👈 расстояние между дочерними */
-  row-gap: 40px;
-
-  position: relative;
-}
-
-  #desktopTree li{
-    position: relative;
-    text-align: center;
-  }
-
-  /* КОРЕНЬ */
-  #desktopTree ul > li:first-child{
-    grid-column: 2;
-  }
-
-  /* ВЕТКИ */
-  #desktopTree li.branch-0{ grid-column: 1; }
-  #desktopTree li.branch-1{ grid-column: 2; }
-  #desktopTree li.branch-2{ grid-column: 3; }
-
-  /* УЗЛЫ */
-  #desktopTree .node{
-    padding: 10px 16px;
-    border-radius: 14px;
-    background: #eef1ff;
-    border: 1px solid rgba(79,108,255,0.35);
-    font-size: 14px;
-    max-width: 180px;
-    line-height: 1.25;
-    text-align: center;
-    box-shadow: 0 6px 18px rgba(79,108,255,.18);
-  } 
-  #desktopTree .node.locked{
-    background: #dfe3ff;
-    opacity: .85;
-  }
-@media (min-width: 920px){
-
-  #desktopTree ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    justify-content: center;
-    gap: 32px;
-  }
-
-  #desktopTree li{
-    text-align: center;
-  }
-
-  /* дочерние уровни */
-  #desktopTree li > ul{
-    display: none;
-    margin-top: 24px;
-
-    grid-template-columns: repeat(auto-fit, max-content);
-    gap: 16px;
-    justify-content: center;
-  }
-
-  /* раскрытие */
-  #desktopTree li.open > ul{
-    display: grid;
-  }
-
-}
-@media (min-width: 920px) {             /кря/
+  /* ======================================
+     DESKTOP TREE CONTAINER
+  ====================================== */
 
   #desktopTree {
-    padding-top: 40px;
-    overflow: hidden;        /* по умолчанию — без скролла */
+    padding-top: 60px;         /* Опускаем корень вниз */
+    height: 100%;              /* Дерево занимает всю высоту панели */
+    overflow: hidden;          /* Скролл выключен до выбора 2 уровня */
   }
 
   #desktopTree.scrolled {
-    overflow-y: auto;        /* вертикальный скролл */
-    overflow-x: auto;        /* горизонтальный тоже оставляем */
+    overflow-y: auto;          /* Вертикальный скролл включается динамически */
+    overflow-x: auto;          /* Горизонтальный тоже */
+  }
+
+  /* ======================================
+     TREE GRID (3 COLUMNS)
+  ====================================== */
+
+  #desktopTree ul {
+    list-style: none;          /* Убираем маркеры списка */
+    margin: 0;                 /* Убираем внешние отступы */
+    padding: 0 0 48px;         /* Отступ снизу, чтобы дерево не упиралось */
+    display: grid;             /* Сетка */
+    grid-template-columns: repeat(3, max-content); /* 3 колонки под ветки */
+    justify-content: center;   /* Центрируем дерево */
+    column-gap: 180px;         /* Расстояние между ветками */
+    row-gap: 40px;             /* Расстояние между уровнями */
+  }
+
+  #desktopTree li {
+    position: relative;        /* Для будущих линий (если добавишь) */
+    text-align: center;        /* Центрируем текст */
+  }
+
+  /* ROOT */
+  #desktopTree ul > li:first-child {
+    grid-column: 2;            /* Корень всегда в центре */
+  }
+
+  /* BRANCHES */
+  #desktopTree li.branch-0 { grid-column: 1; } /* Левая ветка */
+  #desktopTree li.branch-1 { grid-column: 2; } /* Центральная ветка */
+  #desktopTree li.branch-2 { grid-column: 3; } /* Правая ветка */
+
+  /* NODES */
+  #desktopTree .node {
+    padding: 10px 16px;        /* Размер кнопки */
+    border-radius: 14px;       /* Скругление */
+    background: #eef1ff;       /* Цвет фона */
+    border: 1px solid rgba(79,108,255,0.35); /* Лёгкая рамка */
+    font-size: 14px;           /* Размер текста */
+    max-width: 180px;          /* Ограничение ширины */
+    line-height: 1.25;         /* Межстрочный интервал */
+    text-align: center;        /* Центрирование */
+    box-shadow: 0 6px 18px rgba(79,108,255,.18); /* Тень */
+    cursor: pointer;           /* Курсор */
+  }
+
+  /* LOCKED NODES */
+  #desktopTree .node.locked {
+    background: #dfe3ff;       /* Серый фон */
+    opacity: .85;              /* Лёгкое затемнение */
+    pointer-events: none;      /* Нельзя нажать */
   }
 }
+
 
 
   /* ==============================
