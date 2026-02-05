@@ -19,6 +19,7 @@ let chosenPath = [];
 // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ СЕТКИ ---
 const GRID_COLS = 9;
 const GRID_ROWS = 16;
+const CHILD_HEIGHT = 3;
 // Объект для хранения координат каждого узла: { cardId: { col: N, row: M } }
 let nodePositions = {};
 function byId(id){
