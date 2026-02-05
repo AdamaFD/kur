@@ -17,8 +17,8 @@ let cards = [];
 let currentCardId = null;
 let chosenPath = [];
 // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ СЕТКИ ---
-const GRID_COLS = 7;
-const GRID_ROWS = 5;
+const GRID_COLS = 9;
+const GRID_ROWS = 16;
 // Объект для хранения координат каждого узла: { cardId: { col: N, row: M } }
 let nodePositions = {};
 function byId(id){
