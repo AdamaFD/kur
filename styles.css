@@ -1,17 +1,14 @@
-* {   ///курлык14///
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
-
 body {
   background: #f5f6f8;
   color: #222;
 }
-
 /* ---------- Topbar ---------- */
-
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -23,7 +20,6 @@ body {
   top: 0;
   z-index: 5;
 }
-
 .icon-btn {
   background: none;
   border: none;
@@ -32,46 +28,35 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
-
 .hidden {
   display: none;
 }
-
 /* ---------- Views ---------- */
-
 .view {
   display: none;
   padding: 12px;
 }
-
 .view.active {
   display: block;
 }
-
 /* ---------- Desktop layout ---------- */
-
 .desktop-shell {
   display: none;
 }
-
 @media (min-width: 920px) {
-
   body {
     overflow: hidden;
   }
-
   .view {
     display: none !important;
   }
-
   .desktop-shell {
-    display: grid;
-    grid-template-columns: 320px 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 14px;
     padding: 14px;
     height: calc(100vh - 56px);
   }
-
   .sidebar {
     background: #fff;
     border-radius: 16px;
@@ -79,7 +64,6 @@ body {
     padding: 12px;
     overflow: auto;
   }
-
   .sidebar-item {
     padding: 10px;
     border-radius: 12px;
@@ -87,17 +71,15 @@ body {
     display: flex;
     justify-content: space-between;
   }
-
   .sidebar-item.active {
     background: rgba(79,108,255,0.16);
   }
-
   .desktop-main {
-    display: grid;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 14px;
+    flex-grow: 1;
   }
-
   .panel {
     background: #fff;
     border-radius: 16px;
@@ -110,66 +92,81 @@ body {
   #desktopCard{
     display: none;
   }
-} /шнупагырущшоа/
-
+}
 /* полностью убираем панель "Карта" из сетки */
   .desktop-main > .panel:last-child{
     display: none;
   }
-
   /* делаем дерево единственной строкой */
   .desktop-main{
-    grid-template-rows: 1fr;
+    flex-direction: column;
   }
-
-
 /* ======================================
    DESKTOP TREE — SCHEME (CENTERED)
    ====================================== */
 @media (min-width: 920px){
-
-  #desktopTree {   /кря2/
+  #desktopTree {
   padding-top: 60px;
   height: 100%;
   overflow: hidden;
 }
-
 #desktopTree.scrolled {
   overflow-y: auto;
   overflow-x: auto;
 }
-
-
-  /* GRID НА 3 КОЛОНКИ */
+  /* FLEX НА 3 КОЛОНКИ */
   #desktopTree ul{
   list-style: none;
   margin: 0;
   padding: 0 0 48px;
-
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
+  display: flex; /* Already using flex */
   justify-content: center;     /* 👈 центрируем всё дерево */
-  column-gap: 180px;            /* 👈 расстояние между дочерними */
-  row-gap: 40px;
-
+  gap: 180px;            /* 👈 расстояние между дочерними */
+  flex-wrap: wrap;
   position: relative;
 }
-
   #desktopTree li{
     position: relative;
     text-align: center;
+      flex-basis: 100%;
+  max-width: 100%;
   }
+#desktopTree li:nth-last-child(-n+3) {
+  /*
+    Каждый из последних трех элементов занимает примерно 1/3 доступной ширины.
+    Вычитаем часть gap, чтобы учесть промежутки между элементами.
+    (2 * 180px / 3) - это приблизительная корректировка для 3 элементов с gap 180px.
+    Можно настроить calc() точнее, если внешний контейнер имеет padding или другой отступ.
+  */
+  flex-basis: calc(33.333% - 120px); /* (180px * 2 / 3) = 120px */
+  max-width: calc(33.333% - 120px);
+}
+/* Убедимся, что корневой элемент не затрагивается, если он всегда один */
+#desktopTree ul > li:first-child {
+  flex-basis: auto; /* Или 100% */
+  max-width: auto; /* Или 100% */
+}
+/* Дополнительные стили, если 'branch-0', 'branch-1', 'branch-2'
+   относятся к последним трем элементам или требуют специфического размещения.
+   Если эти классы используются для последних трех, то flex-basis
+   для них может быть уточнен здесь.
+*/
+#desktopTree li.branch-0,
+#desktopTree li.branch-1,
+#desktopTree li.branch-2 {
+  /* Если эти классы всегда обозначают последние 3 элемента */
+  /* flex-basis: calc(33.333% - 120px); */
+  /* max-width: calc(33.333% - 120px); */
+}  
 
   /* КОРЕНЬ */
   #desktopTree ul > li:first-child{
-    grid-column: 2;
+    /* For flexbox, positioning needs to be handled differently, e.g., with specific styling or by adjusting order/layout of other items */
   }
-
   /* ВЕТКИ */
-  #desktopTree li.branch-0{ grid-column: 1; }
-  #desktopTree li.branch-1{ grid-column: 2; }
-  #desktopTree li.branch-2{ grid-column: 3; }
-
+  #desktopTree li.branch-0{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #desktopTree li.branch-1{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #desktopTree li.branch-2{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
   /* УЗЛЫ */
   #desktopTree .node{
     padding: 10px 16px;
@@ -181,49 +178,39 @@ body {
     line-height: 1.25;
     text-align: center;
     box-shadow: 0 6px 18px rgba(79,108,255,.18);
-  } 
+  }
   #desktopTree .node.locked{
     background: #dfe3ff;
     opacity: .85;
   }
 @media (min-width: 920px){
-
   #desktopTree ul{
     list-style: none;
     margin: 15px 0 0 0;
     padding: 0;
-    display: grid;
+    display: flex; /* Already using flex */
     justify-content: center;
     gap: 32px;
   }
-
-  #desktopTree li{
-    text-align: center;
-  }
-
   /* дочерние уровни */
   #desktopTree li > ul{
     display: none;
     margin-top: 24px;
-
-    grid-template-columns: repeat(auto-fit, max-content);
+    display: flex; /* Already using flex */
     gap: 16px;
     justify-content: center;
+    flex-wrap: wrap;
   }
-
   /* раскрытие */
   #desktopTree li.open > ul{
-    display: grid;
+    display: flex;
   }
-
 }
-@media (min-width: 920px) {             /кря/
-
+@media (min-width: 920px) {
   #desktopTree {
     padding-top: 60px;
     overflow: hidden;        /* по умолчанию — без скролла */
   }
-
   #desktopTree.scrolled {
     overflow-y: auto;        /* вертикальный скролл */
     overflow-x: auto;        /* горизонтальный тоже оставляем */
@@ -240,52 +227,33 @@ body {
 .panel-title {
     margin-bottom: 2px;
 }
-
-
-
   /* ==============================
      ЛИНИИ
      ============================== */
-
   }
-
-
 /* ---------- Tree ---------- */
-
 /* ---------- DESKTOP TREE LAYOUT ---------- */
-
 /* ================================
    DESKTOP TREE — независимая версия
    ================================ */
-
 /* ================================
    DESKTOP TREE — структура по схеме
    ================================ */
-
-
-
-
-
-
 /* ---------- Drawer (mobile) ---------- */
-
 .drawer {
   position: fixed;
   inset: 0;
   display: none;
   z-index: 20;
 }
-
 .drawer.open {
   display: block;
 }
-
 .drawer-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.35);
 }
-
 .drawer-panel {
   position: absolute;
   right: 0;
@@ -300,49 +268,40 @@ body {
    MOBILE — MAIN CARD LIST (FULL SCREEN)
    ====================================== */
 @media (max-width: 919px){
-
   /* контейнер списка */
   #listView {
     padding: 12px;
     height: calc(100vh - 56px); /* минус topbar */
   }
-
   .card-list{
-    display: grid;
-    grid-template-columns: 1fr; /* ОДИН СТОЛБЕЦ */
-    grid-auto-rows: 1fr;
+    display: flex; /* Already using flex */
+    flex-direction: column; /* ОДИН СТОЛБЕЦ */
     gap: 12px;
     height: 100%;
   }
-
   /* карточка-кнопка */
   .card-item{
-    display: flex;
+    display: flex; /* Already using flex */
     align-items: center;
     justify-content: center;
-
     padding: 12px;
     border-radius: 16px;
     background: #ffffff;
     border: 2px solid rgba(79,108,255,0.35);
-
     text-align: center;
     font-size: 15px;
     font-weight: 500;
     line-height: 1.2;
-
     cursor: pointer;
     user-select: none;
-
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     transition: transform .12s ease, box-shadow .12s ease;
+    flex-grow: 1;
   }
-
   .card-item:active{
     transform: scale(0.97);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   }
-
   .card-item h4{
     margin: 0;
     display: -webkit-box;
@@ -355,17 +314,14 @@ body {
    MOBILE — CARD VIEW (AFTER SELECTION)
    ====================================== */
 @media (max-width: 919px){
-
   #cardView{
     padding: 12px;
   }
-
   #descTab{
-    display: flex;
+    display: flex; /* Already using flex */
     flex-direction: column;
     gap: 16px;
   }
-
   /* зона картинки */
   .card-image-large{
     width: 100%;
@@ -375,7 +331,6 @@ body {
     border-radius: 16px;
     border: 1px solid rgba(0,0,0,0.08);
   }
-
   /* кнопка открытия карты */
   #descTab .open-pdf{
     width: 100%;
@@ -388,7 +343,6 @@ body {
     font-weight: 600;
     cursor: pointer;
   }
-
   #descTab .open-pdf:active{
     transform: scale(0.98);
   }
@@ -400,59 +354,103 @@ body {
    MOBILE TREE — SCHEME (DRAWER, FIXED)
    ====================================== */
 @media (max-width: 919px){
-
   #drawerTree .tree{
     overflow-x: hidden;
     padding-top: 16px;
   }
-
-  /* GRID КОНТЕЙНЕР */
+  /* FLEX КОНТЕЙНЕР */
   #drawerTree .tree ul{
     list-style: none;
     margin: 0;
     padding: 0 0 24px;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex; /* Already using flex */
+    flex-wrap: wrap;
     row-gap: 44px;
-    justify-items: center;
-
+    justify-content: center;
     position: relative;
   }
-
   #drawerTree .tree li{
     position: relative;
     text-align: center;
+    flex: 0 0 calc(33.333% - (2* var(--column-gap, 0))/3); /* Simulating 3 columns with flex-basis */
   }
-
   /* ---------- ROOT ---------- */
   #drawerTree .tree ul > li:first-child{
-    grid-column: 2;
+    flex-basis: 100%; /* Root takes full width for centering */
+    order: -1; /* Place root first */
   }
-
   /* ---------- BRANCH POSITIONS ---------- */
-  #drawerTree .tree li.branch-0{ grid-column: 1; }
-  #drawerTree .tree li.branch-1{ grid-column: 2; }
-  #drawerTree .tree li.branch-2{ grid-column: 3; }
-
+  #drawerTree .tree li.branch-0{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #drawerTree .tree li.branch-1{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #drawerTree .tree li.branch-2{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
   /* ---------- NODES ---------- */
   #drawerTree .tree .node{
     padding: 6px 10px;
     border-radius: 12px;
     background: #eef1ff;
     border: 1px solid rgba(79,108,255,0.35);
-
     font-size: 12px;
     line-height: 1.2;
     max-width: 110px;
     white-space: normal;
     text-align: center;
   }
-
   #drawerTree .tree .node.locked{
     background: #dfe3ff;
     opacity: .8;
   }
+}
+/* Стили для контейнера дерева */
+#desktopTree, #mobileTree {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 колонок */
+  grid-template-rows: repeat(5, 1fr);    /* 5 рядов */
+  gap: 5px; /* Небольшой отступ между ячейками */
+  width: 100%; /* Занимаем всю доступную ширину */
+  height: 500px; /* Фиксированная высота для 5 рядов, можно настроить */
+  border: 1px solid #eee; /* Для наглядности */
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+/* Стили для каждого узла в сетке */
+.grid-node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden; /* Если текст длинный */
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.grid-node.locked {
+  font-weight: bold;
+  background-color: #d4edda; /* Цвет для заблокированных/выбранных узлов */
+  border-color: #28a745;
+  cursor: default;
+}
+
+.grid-node.active-choice {
+  background-color: #e0f7fa; /* Цвет для активных вариантов выбора */
+  border-color: #00bcd4;
+}
+
+.grid-node.inactive {
+  background-color: #f1f1f1;
+  border-color: #e0e0e0;
+  color: #999;
+  cursor: default;
+}
+
+.grid-node:hover:not(.locked):not(.inactive) {
+  background-color: #e9ecef;
+}
    
 
 
