@@ -682,7 +682,162 @@ body {
     height: 520px;
   }
 }
-
+/* -------------------------------------------------------------------------- */
+/*                                 Base Styles                                */
+/* -------------------------------------------------------------------------- */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden; /* Prevent body scrolling */
+    background-color: #333;
+    color: #eee;
+}
+#app-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensures the pan/zoom content stays within bounds */
+    position: relative;
+}
+/* -------------------------------------------------------------------------- */
+/*                              Scheme Grid Layout                            */
+/* -------------------------------------------------------------------------- */
+#scheme-container {
+    display: grid;
+    /* Define 9 columns and 6 rows for our fixed grid */
+    grid-template-columns: repeat(9, 150px); /* 9 columns, each 150px wide */
+    grid-template-rows: repeat(6, 120px);   /* 6 rows, each 120px high */
+    gap: 20px; /* Spacing between grid items */
+    transform-origin: 0 0; /* Ensures consistent transform origin for pan/zoom */
+    cursor: grab; /* Indicates pannable area */
+    position: absolute; /* Allows pan/zoom to move it freely */
+    /* Center the grid within its own space for better initial view */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Initial centering */
+    /* Add transition for smoother zoom/pan reset */
+    transition: transform 0.1s ease-out;
+}
+#scheme-container:active {
+    cursor: grabbing;
+}
+.scheme-card {
+    background-color: #555;
+    border: 2px solid #777;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    user-select: none; /* Prevent text selection during pan */
+    width: 130px; /* Adjust based on grid-template-columns */
+    height: 100px; /* Adjust based on grid-template-rows */
+    box-sizing: border-box; /* Include padding and border in width/height */
+}
+.scheme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+.scheme-card h3 {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit title to 3 lines */
+    -webkit-box-orient: vertical;
+    white-space: normal; /* Allow text wrapping */
+}
+/* -------------------------------------------------------------------------- */
+/*                                 Card View Overlay                          */
+/* -------------------------------------------------------------------------- */
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+#overlay.visible {
+    display: flex;
+}
+#card-view {
+    background-color: #444;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 800px;
+    height: 90%;
+    max-height: 90vh;
+    position: relative;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+#card-view.visible {
+    transform: scale(1);
+    opacity: 1;
+}
+#card-view h2 {
+    margin-top: 0;
+    color: #eee;
+}
+#pdf-viewer {
+    flex-grow: 1;
+    border: 1px solid #666;
+    margin-bottom: 15px;
+    min-height: 0; /* Allows iframe to shrink */
+}
+#back-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+    font-size: 1em;
+}
+#back-button:hover {
+    background-color: #0056b3;
+}
+/* -------------------------------------------------------------------------- */
+/*                               Media Queries                                */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    #scheme-container {
+        grid-template-columns: repeat(9, 100px); /* Smaller cards on mobile */
+        grid-template-rows: repeat(6, 80px);
+        gap: 15px;
+    }
+    .scheme-card {
+        width: 90px;
+        height: 70px;
+        padding: 5px;
+    }
+    .scheme-card h3 {
+        font-size: 0.8em;
+        -webkit-line-clamp: 2;
+    }
+    #card-view {
+        width: 95%;
+        height: 95%;
+    }
+}
 
  
 
