@@ -552,6 +552,14 @@ body {
     height: 520px;
   }
 }  
+.grid-node .node-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* Ограничение до двух строк */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;  /* Можно подкорректировать размер шрифта для лучшего отображения */
+}
  
 
 
