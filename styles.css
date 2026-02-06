@@ -552,49 +552,6 @@ body {
     height: 520px;
   }
 }  
-/* Контейнер для дерева (как для desktop, так и для mobile) */
-#desktopTree, #mobileTree {
-  display: grid !important;
-  grid-template-columns: repeat(9, minmax(0, 1fr)) !important; /* 9 колонок */
-  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;    /* 6 рядов */
-  gap: 10px !important;
-  width: 100% !important;
-  height: 100% !important;
-  padding: 10px !important;
-  box-sizing: border-box !important;
-  overflow: visible !important; /* Разрешаем выход текста */
-  border: 1px solid #eee;
-  background: #fff;
-  border-radius: 12px;
-}
-
-/* Стилизация каждого узла сетки (карты) */
-.grid-node {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  padding: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 10px;
-  background: #f9f9f9;
-  text-align: center;
-  box-sizing: border-box;
-  white-space: normal !important;  /* Разрешаем переносы текста */
-  overflow: hidden;
-}
-
-/* Заголовок внутри каждого узла */
-.grid-node .node-title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;  /* Ограничиваем до 2 строк */
-  overflow: hidden;
-  line-height: 1.15;
-  word-break: break-word;
-  font-size: clamp(10px, 1.4vw, 14px);  /* Адаптивный размер шрифта */
-}
 
 
 
