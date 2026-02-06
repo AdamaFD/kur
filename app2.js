@@ -299,6 +299,168 @@ fetch("cards.json")
   });
 
 /* (опционально) при ресайзе перерисовать дерево/карточку под режим */
+/* =========================
+   PAN/ZOOM for mobile drawer tree
+========================= */
+function enablePanZoomForMobileTree() {
+  // только для мобилки
+  if (isDesktop()) return;
+  if (!mobileTree) return;
+
+  // если уже обёрнуто — не делаем второй раз
+  if (mobileTree.closest(".panzoom-viewport")) return;
+
+  // ожидаем, что mobileTree находится в drawerPanel в блоке .tree
+  const host = mobileTree.parentElement;
+  if (!host) return;
+
+  // создаём viewport + canvas
+  const viewport = document.createElement("div");
+  viewport.className = "panzoom-viewport";
+
+  const canvas = document.createElement("div");
+  canvas.className = "panzoom-canvas";
+
+  // вставляем viewport на место mobileTree, а mobileTree переносим внутрь canvas
+  host.replaceChild(viewport, mobileTree);
+  viewport.appendChild(canvas);
+  canvas.appendChild(mobileTree);
+
+  let scale = 1;
+  let tx = 0;
+  let ty = 0;
+
+  const MIN_SCALE = 0.6;
+  const MAX_SCALE = 2.8;
+
+  const pointers = new Map(); // pointerId -> {x,y}
+  let startTx = 0, startTy = 0, startScale = 1;
+  let startDist = 0, startMid = null;
+
+  function apply() {
+    canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  }
+
+  function dist(a, b) {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return Math.hypot(dx, dy);
+  }
+
+  function midpoint(a, b) {
+    return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+  }
+
+  function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
+  }
+
+  // wheel zoom (если браузер на мобилке/тачпаде отдаёт wheel)
+  viewport.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const rect = viewport.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+
+    const delta = -e.deltaY;
+    const zoomFactor = delta > 0 ? 1.08 : 0.92;
+
+    const newScale = clamp(scale * zoomFactor, MIN_SCALE, MAX_SCALE);
+
+    // зум относительно курсора
+    tx = cx - ((cx - tx) * (newScale / scale));
+    ty = cy - ((cy - ty) * (newScale / scale));
+    scale = newScale;
+
+    apply();
+  }, { passive: false });
+
+  viewport.addEventListener("pointerdown", (e) => {
+    viewport.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    startTx = tx;
+    startTy = ty;
+    startScale = scale;
+
+    if (pointers.size === 2) {
+      const [p1, p2] = Array.from(pointers.values());
+      startDist = dist(p1, p2);
+      startMid = midpoint(p1, p2);
+    }
+  });
+
+  viewport.addEventListener("pointermove", (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pointers.size === 1) {
+      // drag (панорамирование)
+      const p = Array.from(pointers.values())[0];
+      const first = { x: p.x, y: p.y };
+
+      // найдём исходную точку pointerdown сложно без хранения; проще:
+      // используем movementX/Y
+      tx += e.movementX;
+      ty += e.movementY;
+      apply();
+      return;
+    }
+
+    if (pointers.size === 2) {
+      // pinch zoom + pan
+      const [p1, p2] = Array.from(pointers.values());
+      const newDist = dist(p1, p2);
+      const newMid = midpoint(p1, p2);
+
+      const factor = newDist / (startDist || newDist);
+      const newScale = clamp(startScale * factor, MIN_SCALE, MAX_SCALE);
+
+      // смещение по midpoint
+      tx = startTx + (newMid.x - startMid.x);
+      ty = startTy + (newMid.y - startMid.y);
+      scale = newScale;
+
+      apply();
+    }
+  });
+
+  function endPointer(e) {
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) {
+      startDist = 0;
+      startMid = null;
+      startScale = scale;
+      startTx = tx;
+      startTy = ty;
+    }
+  }
+
+  viewport.addEventListener("pointerup", endPointer);
+  viewport.addEventListener("pointercancel", endPointer);
+
+  // double tap to reset (опционально)
+  let lastTap = 0;
+  viewport.addEventListener("pointerup", (e) => {
+    const now = Date.now();
+    if (now - lastTap < 280) {
+      scale = 1;
+      tx = 0;
+      ty = 0;
+      apply();
+    }
+    lastTap = now;
+  });
+
+  apply();
+}
+
+/* включаем pan/zoom при открытии шторки */
+treeBtn.onclick = () => {
+  drawerTree.classList.add("open");
+  enablePanZoomForMobileTree();
+};
+
 window.addEventListener("resize", () => {
   if (!currentCardId) return;
   openCard(currentCardId);
