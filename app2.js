@@ -110,7 +110,7 @@ styleSheet.type = "text/css";
 styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
-// Build Tree Layout (9x6 Grid)
+// Build Tree Layout (9x6 Grid, with root at the top)
 function buildFixedTreeLayout(rootId) {
   const positions = {};
   const nodesToRender = [];
@@ -131,13 +131,13 @@ function buildFixedTreeLayout(rootId) {
 
   const root = byId(rootId);
   if (!root) return { positions, nodesToRender };
-  place(root.id, 5, 6);
+  place(root.id, 5, 1); // Root at (5,1) — в верхней части
 
-  // Level 2
+  // Level 2 (Now placed below the root)
   const L2_POS = [
-    { col: 2, row: 5 },
-    { col: 5, row: 5 },
-    { col: 8, row: 5 },
+    { col: 2, row: 2 },
+    { col: 5, row: 2 },
+    { col: 8, row: 2 },
   ];
   const l2Ids = firstNLinks(root.id, 3);
   const l2Placed = [];
@@ -146,24 +146,25 @@ function buildFixedTreeLayout(rootId) {
     if (ok) l2Placed[i] = String(id);
   });
 
-  // Level 3
+  // Level 3 (Now placed below Level 2)
   const L3_POS_BY_BRANCH = [
     [
-      { col: 1, row: 4 },
-      { col: 2, row: 4 },
-      { col: 3, row: 4 },
+      { col: 2, row: 3 },
+      { col: 3, row: 3 },
+      { col: 4, row: 3 },
     ],
     [
-      { col: 4, row: 4 },
-      { col: 5, row: 4 },
-      { col: 6, row: 4 },
+      { col: 5, row: 3 },
+      { col: 6, row: 3 },
+      { col: 7, row: 3 },
     ],
     [
-      { col: 7, row: 4 },
-      { col: 8, row: 4 },
-      { col: 9, row: 4 },
+      { col: 8, row: 3 },
+      { col: 9, row: 3 },
+      { col: 10, row: 3 }, // Переходим на более правую часть, если нужно
     ],
   ];
+
   const l3ByCol = new Map();
   for (let branchIndex = 0; branchIndex < 3; branchIndex++) {
     const parentL2 = l2Placed[branchIndex];
@@ -176,8 +177,8 @@ function buildFixedTreeLayout(rootId) {
     });
   }
 
-  // Level 4
-  const L4_ROWS = [3, 2, 1];
+  // Level 4 (Now placed below Level 3)
+  const L4_ROWS = [4, 5, 6]; // Дочерние карты на 4, 5, 6 рядах
   for (let col = 1; col <= 9; col++) {
     const l3Id = l3ByCol.get(col);
     if (!l3Id) continue;
@@ -190,7 +191,7 @@ function buildFixedTreeLayout(rootId) {
   return { positions, nodesToRender };
 }
 
-// Render Full Tree
+// Render Full Tree (Root on top)
 function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
@@ -236,114 +237,7 @@ function openCard(cardId) {
   }
 
   renderDesktopList();
-  renderTree(desktopTree);
-  if (!isDesktop()) renderTree(mobileTree);
-}
-
-// Navigation
-backBtn.onclick = () => {
-  cardView.classList.remove("active");
-  listView.classList.add("active");
-  backBtn.classList.add("hidden");
-  treeBtn.classList.add("hidden");
-};
-
-treeBtn.onclick = () => drawerTree.classList.add("open");
-
-document.addEventListener("click", (e) => {
-  const key = e.target?.getAttribute("data-close");
-  if (key) document.getElementById(key).classList.remove("open");
-});
-
-// Init
-fetch("cards.json")
-  .then((r) => r.json())
-  .then((data) => {
-    cards = data;
-
-    renderMobileList();
-    renderDesktopList();
-
-    if (cards.length > 0) openCard(cards[0].id);
-  });
-
-// Resize Handling (for Desktop/Mobile)
-window.addEventListener("resize", () => {
-  if (!currentCardId) return;
-  openCard(currentCardId);
-});
-
-// Pan/Zoom for Mobile Tree
-function enablePanZoomForMobileTree() {
-  if (isDesktop()) return;
-  if (!mobileTree) return;
-
-  if (mobileTree.closest(".panzoom-viewport")) return;
-
-  const host = mobileTree.parentElement;
-  if (!host) return;
-
-  const viewport = document.createElement("div");
-  viewport.className = "panzoom-viewport";
-  const canvas = document.createElement("div");
-  canvas.className = "panzoom-canvas";
-
-  host.replaceChild(viewport, mobileTree);
-  viewport.appendChild(canvas);
-  canvas.appendChild(mobileTree);
-
-  let scale = 1;
-  let tx = 0;
-  let ty = 0;
-  const MIN_SCALE = 0.6;
-  const MAX_SCALE = 2.8;
-
-  function apply() {
-    canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-  }
-
-  viewport.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const rect = viewport.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
-
-    const delta = -e.deltaY;
-    const zoomFactor = delta > 0 ? 1.08 : 0.92;
-
-    const newScale = Math.min(Math.max(scale * zoomFactor, MIN_SCALE), MAX_SCALE);
-
-    tx = cx - ((cx - tx) * (newScale / scale));
-    ty = cy - ((cy - ty) * (newScale / scale));
-    scale = newScale;
-
-    apply();
-  }, { passive: false });
-
-  viewport.addEventListener("pointerdown", (e) => {
-    viewport.setPointerCapture(e.pointerId);
-  });
-
-  viewport.addEventListener("pointermove", (e) => {
-    tx += e.movementX;
-    ty += e.movementY;
-    apply();
-  });
-
-  function endPointer(e) {
-    viewport.releasePointerCapture(e.pointerId);
-  }
-
-  viewport.addEventListener("pointerup", endPointer);
-  viewport.addEventListener("pointercancel", endPointer);
-
-  apply();
-}
-
-treeBtn.onclick = () => {
-  drawerTree.classList.add("open");
-  enablePanZoomForMobileTree();
-};
+  renderTree
 
 
 
