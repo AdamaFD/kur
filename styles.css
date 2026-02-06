@@ -451,7 +451,107 @@ body {
 .grid-node:hover:not(.locked):not(.inactive) {
   background-color: #e9ecef;
 }
-   
+ /* =========================
+   TREE GRID 9x6 (OVERRIDE)
+   ставь в самый конец CSS
+========================= */
+
+/* контейнеры дерева — и desktop, и mobile */
+#desktopTree,
+#mobileTree {
+  display: grid !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+
+  /* важно: не скрывать, если будешь включать pan/zoom */
+  overflow: visible !important;
+  border: 1px solid #eee;
+  background: #fff;
+  border-radius: 12px;
+}
+
+/* одинаковый размер узлов, текст центр */
+.grid-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  background: #f9f9f9;
+
+  text-align: center;
+  box-sizing: border-box;
+
+  /* ВАЖНО: убираем nowrap, иначе не будет 2 строк */
+  white-space: normal !important;
+  overflow: hidden;
+}
+
+/* span внутри узла (у тебя в JS: <span class="node-title">...) */
+.grid-node .node-title{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;   /* максимум 2 строки */
+  overflow: hidden;
+
+  line-height: 1.15;
+  word-break: break-word;
+
+  /* "ужатие" текста, чтобы влезал */
+  font-size: clamp(10px, 1.4vw, 14px);
+}
+
+/* =========================
+   MOBILE DRAWER: PAN/ZOOM LAYER
+========================= */
+@media (max-width: 919px){
+  /* область внутри шторки под дерево */
+  #drawerTree .drawer-panel{
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* контейнер, где будет viewport (мы его создадим JS-ом) */
+  #drawerTree .tree{
+    flex: 1;
+    min-height: 320px;
+  }
+
+  .panzoom-viewport{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    touch-action: none; /* критично для pinch/drag */
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+  }
+
+  .panzoom-canvas{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+
+  /* сам grid внутри canvas должен иметь фиксируемый "размер вьюхи" */
+  .panzoom-canvas > #mobileTree{
+    width: 720px;   /* базовый размер "карты", чтобы было что зумить */
+    height: 520px;
+  }
+}  
 
 
 
