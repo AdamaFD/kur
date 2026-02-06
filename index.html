@@ -1,20 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> //кря//
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complex Fixed Tree Layout with Pan/Zoom</title>
-    <!-- Подключение внешнего файла CSS -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Боль моя дырка задница</title>
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
-    <div id="app-container">
-        <div id="grid-container">
-            <!-- Карты будут динамически вставляться сюда с помощью JavaScript -->
-        </div>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button id="backBtn" class="icon-btn hidden" aria-label="Назад">←</button>
+    <h2 id="title">Карты</h2>
+  </div>
+
+  <div class="topbar-right">
+    <button id="treeBtn" class="icon-btn hidden" aria-label="Связи">⎇</button>
+  </div>
+</header>
+
+<!-- DESKTOP -->
+<div id="desktopShell" class="desktop-shell">
+  <aside class="sidebar">
+    <div class="sidebar-title">Список карт</div>
+    <div id="desktopCardList" class="sidebar-list"></div>
+  </aside>
+
+  <section class="desktop-main">
+
+    <!-- ДЕРЕВО ВСЕГДА ВИДИМО НА ПК -->
+    <div class="panel">
+      <div class="panel-title">Связи выбранной карты</div>
+      <div id="desktopTree" class="tree"></div>
     </div>
 
-    <!-- Подключение внешнего файла JavaScript -->
-    <script src="script.js"></script>
+    <!-- КАРТА -->
+  
+<div class="panel">
+  <div class="panel-title">Карта</div>
+  <div id="desktopCard" class="desktop-card"></div>
+</div>
+
+    
+
+  </section>
+</div>
+
+<!-- MOBILE -->
+<main id="listView" class="view active">
+  <div id="cardList" class="card-list"></div>
+</main>
+
+<main id="cardView" class="view">
+  <div id="descTab"></div>
+</main>
+
+<!-- Drawer: дерево для мобильной версии -->
+<div id="drawerTree" class="drawer" aria-hidden="true">
+  <div class="drawer-overlay" data-close="drawerTree"></div>
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div class="drawer-title">Связанные карты</div>
+      <button class="icon-btn" data-close="drawerTree" aria-label="Закрыть">✕</button>
+    </div>
+    <div id="mobileTree" class="tree"></div>
+  </div>
+</div>
+
+<script src="app2.js?v=9999999999"></script>
 </body>
 </html>
