@@ -42,6 +42,10 @@ const GRID_ROWS = 6;
 /* =========================
    HELPERS
 ========================= */
+function flipRow(row) {
+  return GRID_ROWS - row + 1;
+}
+
 function byId(id) {
   return cards.find((c) => String(c.id) === String(id));
 }
@@ -119,15 +123,16 @@ function buildFixedTreeLayout(rootId) {
   const nodes = [];
 
   function place(cardId, col, row) {
-    const card = byId(cardId);
-    if (!card) return;
+  const card = byId(cardId);
+  if (!card) return;
 
-    nodes.push({
-      card,
-      col,
-      row,
-    });
-  }
+  nodes.push({
+    card,
+    col,
+    row: flipRow(row),
+  });
+}
+
 
   // --- Level 1 ---
   place(rootId, 5, 6);
