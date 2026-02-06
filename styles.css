@@ -552,7 +552,136 @@ body {
     height: 520px;
   }
 }  
+/* =========================
+   TREE GRID 9x6 (OVERRIDE)
+   Вставлять в самый конец CSS-файла
+========================= */
 
+/* Общие стили для контейнеров дерева (desktop и mobile) */
+#desktopTree,
+#mobileTree {
+  display: grid !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important; /* 9 колонок */
+  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;    /* 6 рядов */
+  gap: 10px !important; /* Отступы между ячейками */
+  width: 100% !important;
+  height: 100% !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+
+  /* Важно для pan/zoom: не скрывать overflow, если элемент должен быть масштабирован/перемещен */
+  overflow: visible !important;
+  border: 1px solid #eee;
+  background: #fff; /* Фон для дерева */
+  border-radius: 12px;
+}
+
+/* Стили для каждого узла в сетке */
+.grid-node {
+  display: flex;
+  align-items: center;      /* Выравнивание текста по центру вертикали */
+  justify-content: center;  /* Выравнивание текста по центру горизонтали */
+
+  height: 100%;             /* Узел занимает всю высоту ячейки */
+  width: 100%;              /* Узел занимает всю ширину ячейки */
+  padding: 8px;             /* Внутренние отступы узла */
+
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  background: #f9f9f9;
+
+  text-align: center;       /* Центрирование текста внутри узла */
+  box-sizing: border-box;
+
+  /* CRITICAL: убираем nowrap, чтобы текст переносился */
+  white-space: normal !important;
+  overflow: hidden;         /* Скрытие текста, если он не умещается в 2 строки */
+}
+
+/* Стили для span внутри узла, который содержит название карты */
+.grid-node .node-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;   /* Максимум 2 строки */
+  overflow: hidden;        /* Скрытие текста, выходящего за 2 строки */
+
+  line-height: 1.15;       /* Межстрочный интервал для лучшей читаемости */
+  word-break: break-word;  /* Разрыв длинных слов */
+
+  /* "Ужатие" текста, чтобы влезал в заданную высоту узла */
+  font-size: clamp(10px, 1.4vw, 14px); /* Адаптивный размер шрифта */
+}
+
+/* Стили для заблокированных/активных узлов */
+.grid-node.locked {
+  font-weight: bold;
+  background-color: #d4edda;
+  border-color: #28a745;
+  cursor: default;
+}
+.grid-node.active-choice {
+  background-color: #e0f7fa;
+  border-color: #00bcd4;
+}
+.grid-node.inactive {
+  background-color: #f1f1f1;
+  border-color: #e0e0e0;
+  color: #999;
+  cursor: default;
+}
+.grid-node:hover:not(.locked):not(.inactive) {
+  background-color: #e9ecef;
+}
+
+
+/* =========================
+   MOBILE DRAWER: PAN/ZOOM LAYER
+   Стили для функционала перетаскивания и масштабирования в мобильной шторке
+========================= */
+@media (max-width: 919px){
+  /* Область внутри шторки под дерево */
+  #drawerTree .drawer-panel{
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Контейнер, где будет viewport (создаётся JS-ом) */
+  #drawerTree .tree{
+    flex: 1; /* Занимает всё доступное пространство */
+    min-height: 320px; /* Минимальная высота для видимости */
+    display: flex; /* Важно, чтобы дочерние элементы растягивались */
+    justify-content: center; /* Центрирование содержимого */
+    align-items: center; /* Центрирование содержимого */
+  }
+
+  /* Viewport для pan/zoom */
+  .panzoom-viewport{
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Скрываем всё, что выходит за границы viewport */
+    position: relative;
+    touch-action: none; /* Критично для корректной работы pinch-zoom и drag */
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+  }
+
+  /* Canvas, который будет трансформироваться (масштабироваться и перемещаться) */
+  .panzoom-canvas{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0; /* Точка трансформации */
+    will-change: transform; /* Подсказка браузеру для оптимизации */
+  }
+
+  /* Сам grid внутри canvas должен иметь фиксируемый "размер вьюхи" */
+  /* Это определяет "оригинальный" размер дерева, который будет зумиться */
+  .panzoom-canvas > #mobileTree{
+    width: 720px;   /* Базовый размер "карты" для мобильного дерева */
+    height: 520px;
+  }
+}
 
 
  
