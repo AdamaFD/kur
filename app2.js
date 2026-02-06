@@ -2,8 +2,16 @@
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
-   (замена всего старого JSы)
+   (замена всего старого JSыс)
 ========================= */
+// Простая SPA без фреймворков.
+// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
+/* =========================
+   APP STATE + DOM REFS
+   (замена всего старого JS)
+========================= */
+// Простая SPA без фреймворков.
+// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 "use strict";
 
 const listView = document.getElementById("listView");
@@ -30,8 +38,6 @@ let currentCardId = null;
 ========================= */
 const GRID_COLS = 9;
 const GRID_ROWS = 6;
-
-let nodePositions = {}; // { cardId: { col, row } }
 
 /* =========================
    HELPERS
@@ -108,41 +114,42 @@ function renderCardMobile(card) {
 
 /* =========================
    FIXED TREE LAYOUT BUILDER (9x6)
-   Схема строго по твоим координатам:
-   L1: root (5,6)
-   L2: (2,5) (5,5) (8,5)
-   L3: левая (1,4)(2,4)(3,4), средняя (4,4)(5,4)(6,4), правая (7,4)(8,4)(9,4)
-   L4: для каждого узла в row=4 (X,4) дети: (X,3)(X,2)(X,1)
 ========================= */
 function buildFixedTreeLayout(rootId) {
   const nodes = [];
 
-  function addNode(cardId, col, row) {
+  function place(cardId, col, row) {
     const card = byId(cardId);
     if (!card) return;
-    nodes.push({ card, col, row });
+
+    nodes.push({
+      card,
+      col,
+      row,
+    });
   }
 
-  // ===== УРОВЕНЬ 1 =====
-  addNode(rootId, 5, 6);
+  // --- Level 1 ---
+  place(rootId, 5, 6);
 
-  // ===== УРОВЕНЬ 2 =====
-  const l2 = firstNLinks(rootId, 3);
+  // --- Level 2 ---
   const L2_POS = [
     { col: 2, row: 5 },
     { col: 5, row: 5 },
     { col: 8, row: 5 },
   ];
 
+  const l2 = firstNLinks(rootId, 3);
+
   l2.forEach((id, i) => {
-    addNode(id, L2_POS[i].col, L2_POS[i].row);
+    place(id, L2_POS[i].col, L2_POS[i].row);
   });
 
-  // ===== УРОВЕНЬ 3 =====
+  // --- Level 3 ---
   const L3_POS = [
-    [ { col:1,row:4 }, { col:2,row:4 }, { col:3,row:4 } ],
-    [ { col:4,row:4 }, { col:5,row:4 }, { col:6,row:4 } ],
-    [ { col:7,row:4 }, { col:8,row:4 }, { col:9,row:4 } ],
+    [{ col: 1, row: 4 }, { col: 2, row: 4 }, { col: 3, row: 4 }],
+    [{ col: 4, row: 4 }, { col: 5, row: 4 }, { col: 6, row: 4 }],
+    [{ col: 7, row: 4 }, { col: 8, row: 4 }, { col: 9, row: 4 }],
   ];
 
   const l3 = [];
@@ -151,54 +158,40 @@ function buildFixedTreeLayout(rootId) {
     const kids = firstNLinks(parentId, 3);
     kids.forEach((id, i) => {
       const pos = L3_POS[branch][i];
-      addNode(id, pos.col, pos.row);
+      place(id, pos.col, pos.row);
       l3.push({ id, col: pos.col });
     });
   });
 
-  // ===== УРОВЕНЬ 4 =====
+  // --- Level 4 ---
   const L4_ROWS = [3, 2, 1];
 
   l3.forEach(({ id, col }) => {
     const kids = firstNLinks(id, 3);
     kids.forEach((kidId, i) => {
-      addNode(kidId, col, L4_ROWS[i]);
+      place(kidId, col, L4_ROWS[i]);
     });
   });
 
   return nodes;
 }
 
-
-
 /* =========================
-   TREE RENDER (целое дерево)
-   - показывает дерево целиком по фиксированной схеме
-   - клик по узлу делает его новым root (можно отключить)
+   TREE RENDER
 ========================= */
 function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
 
-  const { positions, nodesToRender } = buildFixedTreeLayout(currentCardId);
-  nodePositions = positions;
+  const nodes = buildFixedTreeLayout(currentCardId);
 
-  nodesToRender.forEach((id) => {
-    const card = byId(id);
-    const pos = positions[id];
-    if (!card || !pos) return;
-
+  nodes.forEach(({ card, col, row }) => {
     const div = document.createElement("div");
     div.className = "grid-node";
-    div.style.gridColumnStart = pos.col;
-    div.style.gridRowStart = pos.row;
-
-    // title внутри span — чтобы у тебя CSS мог ограничить в 2 строки (line-clamp)
+    div.style.gridColumnStart = col;
+    div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
-
-    // Клик по любому узлу: сделать его корнем дерева
     div.onclick = () => openCard(card.id);
-
     container.appendChild(div);
   });
 }
@@ -254,178 +247,12 @@ fetch("cards.json")
   .then((r) => r.json())
   .then((data) => {
     cards = data;
-
     renderMobileList();
     renderDesktopList();
-
     if (cards.length > 0) openCard(cards[0].id);
   });
-
-/* (опционально) при ресайзе перерисовать дерево/карточку под режим */
-/* =========================
-   PAN/ZOOM for mobile drawer tree
-========================= */
-function enablePanZoomForMobileTree() {
-  // только для мобилки
-  if (isDesktop()) return;
-  if (!mobileTree) return;
-
-  // если уже обёрнуто — не делаем второй раз
-  if (mobileTree.closest(".panzoom-viewport")) return;
-
-  // ожидаем, что mobileTree находится в drawerPanel в блоке .tree
-  const host = mobileTree.parentElement;
-  if (!host) return;
-
-  // создаём viewport + canvas
-  const viewport = document.createElement("div");
-  viewport.className = "panzoom-viewport";
-
-  const canvas = document.createElement("div");
-  canvas.className = "panzoom-canvas";
-
-  // вставляем viewport на место mobileTree, а mobileTree переносим внутрь canvas
-  host.replaceChild(viewport, mobileTree);
-  viewport.appendChild(canvas);
-  canvas.appendChild(mobileTree);
-
-  let scale = 1;
-  let tx = 0;
-  let ty = 0;
-
-  const MIN_SCALE = 0.6;
-  const MAX_SCALE = 2.8;
-
-  const pointers = new Map(); // pointerId -> {x,y}
-  let startTx = 0, startTy = 0, startScale = 1;
-  let startDist = 0, startMid = null;
-
-  function apply() {
-    canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-  }
-
-  function dist(a, b) {
-    const dx = a.x - b.x;
-    const dy = a.y - b.y;
-    return Math.hypot(dx, dy);
-  }
-
-  function midpoint(a, b) {
-    return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-  }
-
-  function clamp(v, min, max) {
-    return Math.max(min, Math.min(max, v));
-  }
-
-  // wheel zoom (если браузер на мобилке/тачпаде отдаёт wheel)
-  viewport.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const rect = viewport.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
-
-    const delta = -e.deltaY;
-    const zoomFactor = delta > 0 ? 1.08 : 0.92;
-
-    const newScale = clamp(scale * zoomFactor, MIN_SCALE, MAX_SCALE);
-
-    // зум относительно курсора
-    tx = cx - ((cx - tx) * (newScale / scale));
-    ty = cy - ((cy - ty) * (newScale / scale));
-    scale = newScale;
-
-    apply();
-  }, { passive: false });
-
-  viewport.addEventListener("pointerdown", (e) => {
-    viewport.setPointerCapture(e.pointerId);
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-    startTx = tx;
-    startTy = ty;
-    startScale = scale;
-
-    if (pointers.size === 2) {
-      const [p1, p2] = Array.from(pointers.values());
-      startDist = dist(p1, p2);
-      startMid = midpoint(p1, p2);
-    }
-  });
-
-  viewport.addEventListener("pointermove", (e) => {
-    if (!pointers.has(e.pointerId)) return;
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-    if (pointers.size === 1) {
-      // drag (панорамирование)
-      const p = Array.from(pointers.values())[0];
-      const first = { x: p.x, y: p.y };
-
-      // найдём исходную точку pointerdown сложно без хранения; проще:
-      // используем movementX/Y
-      tx += e.movementX;
-      ty += e.movementY;
-      apply();
-      return;
-    }
-
-    if (pointers.size === 2) {
-      // pinch zoom + pan
-      const [p1, p2] = Array.from(pointers.values());
-      const newDist = dist(p1, p2);
-      const newMid = midpoint(p1, p2);
-
-      const factor = newDist / (startDist || newDist);
-      const newScale = clamp(startScale * factor, MIN_SCALE, MAX_SCALE);
-
-      // смещение по midpoint
-      tx = startTx + (newMid.x - startMid.x);
-      ty = startTy + (newMid.y - startMid.y);
-      scale = newScale;
-
-      apply();
-    }
-  });
-
-  function endPointer(e) {
-    pointers.delete(e.pointerId);
-    if (pointers.size < 2) {
-      startDist = 0;
-      startMid = null;
-      startScale = scale;
-      startTx = tx;
-      startTy = ty;
-    }
-  }
-
-  viewport.addEventListener("pointerup", endPointer);
-  viewport.addEventListener("pointercancel", endPointer);
-
-  // double tap to reset (опционально)
-  let lastTap = 0;
-  viewport.addEventListener("pointerup", (e) => {
-    const now = Date.now();
-    if (now - lastTap < 280) {
-      scale = 1;
-      tx = 0;
-      ty = 0;
-      apply();
-    }
-    lastTap = now;
-  });
-
-  apply();
-}
-
-/* включаем pan/zoom при открытии шторки */
-treeBtn.onclick = () => {
-  drawerTree.classList.add("open");
-  enablePanZoomForMobileTree();
-};
 
 window.addEventListener("resize", () => {
   if (!currentCardId) return;
   openCard(currentCardId);
 });
-
