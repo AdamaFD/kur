@@ -1,4 +1,4 @@
-* {                           /*курлыки*/
+* {                           /*курлыкиb*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -608,6 +608,56 @@ body {
     height: 520px;
   }
 }  
+/* =========================
+   TREE NODES — BRANCH COLORS (refined)
+   ========================= */
+
+/* ROOT — нейтральный, слегка холодный */
+.grid-node.root {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f2f5ff 100%
+  );
+  border: 1px solid rgba(79,108,255,0.35);
+  box-shadow: 0 6px 18px rgba(79,108,255,0.22);
+}
+
+/* ---------- BRANCH 0: cyan → deep blue ---------- */
+.grid-node.branch-0 {
+  background: linear-gradient(
+    to bottom,
+    #e8faff 0%,
+    #c9ecff 40%,
+    #9acbff 75%,
+    #6aa4ff 100%
+  );
+  border-color: rgba(0,140,255,0.35);
+}
+
+/* ---------- BRANCH 1: lavender → indigo ---------- */
+.grid-node.branch-1 {
+  background: linear-gradient(
+    to bottom,
+    #f5efff 0%,
+    #e3d7ff 40%,
+    #c0b0ff 75%,
+    #9a8aff 100%
+  );
+  border-color: rgba(120,90,255,0.35);
+}
+
+/* ---------- BRANCH 2: peach → deep rose ---------- */
+.grid-node.branch-2 {
+  background: linear-gradient(
+    to bottom,
+    #fff1eb 0%,
+    #ffd4c9 40%,
+    #ffb0b3 75%,
+    #ff8a9a 100%
+  );
+  border-color: rgba(255,120,120,0.35);
+}
 
 
 
