@@ -1,4 +1,4 @@
-* {                           /*курлыкиттттb*/
+* {                           /*курлыкитттткккb*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -705,6 +705,29 @@ li.branch-1 .grid-node {
 li.branch-2 .grid-node {
   background: linear-gradient(to bottom, #fff1eb, #ff8a9a);
   border-color: rgba(255,120,120,0.35);
+}
+/* LEFT BRANCH (cyan → blue) */
+#desktopTree .grid-node[style*="grid-column-start: 1"],
+#desktopTree .grid-node[style*="grid-column-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 3"] {
+  background: linear-gradient(to bottom, #e8faff, #6aa4ff) !important;
+  border-color: rgba(0,140,255,0.35) !important;
+}
+
+/* CENTER BRANCH (violet → indigo) */
+#desktopTree .grid-node[style*="grid-column-start: 4"],
+#desktopTree .grid-node[style*="grid-column-start: 5"],
+#desktopTree .grid-node[style*="grid-column-start: 6"] {
+  background: linear-gradient(to bottom, #f5efff, #9a8aff) !important;
+  border-color: rgba(120,90,255,0.35) !important;
+}
+
+/* RIGHT BRANCH (peach → rose) */
+#desktopTree .grid-node[style*="grid-column-start: 7"],
+#desktopTree .grid-node[style*="grid-column-start: 8"],
+#desktopTree .grid-node[style*="grid-column-start: 9"] {
+  background: linear-gradient(to bottom, #fff1eb, #ff8a9a) !important;
+  border-color: rgba(255,120,120,0.35) !important;
 }
 
 
