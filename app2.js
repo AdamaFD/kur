@@ -2,7 +2,7 @@
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
-   (замена всего старого JSыс)
+   (замена всего старого JSысf)
 ========================= */
 // Простая SPA без фреймворков.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
@@ -38,7 +38,11 @@ let currentCardId = null;
 ========================= */
 const GRID_COLS = 9;
 const GRID_ROWS = 6;
-
+const BRANCH_COLORS = [
+  { light: "#d6f0ff", mid: "#6bbcff", dark: "#1e6fd9" }, // cyan → blue
+  { light: "#daf5e6", mid: "#5ecf9a", dark: "#1f8f5f" }, // green
+  { light: "#eadcff", mid: "#b18cff", dark: "#6b3fd6" }, // violet
+];
 /* =========================
    HELPERS
 ========================= */
