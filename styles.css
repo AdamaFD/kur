@@ -1,4 +1,4 @@
-* {                           /*курлыкитb*/
+* {                           /*курлыкиттттb*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -689,6 +689,21 @@ li.branch-2 > .grid-node {
     #ffb0b3 75%,
     #ff8a9a 100%
   );
+  border-color: rgba(255,120,120,0.35);
+}
+/* Принудительно красим grid-node внутри li.branch-X */
+li.branch-0 .grid-node {
+  background: linear-gradient(to bottom, #e8faff, #6aa4ff);
+  border-color: rgba(0,140,255,0.35);
+}
+
+li.branch-1 .grid-node {
+  background: linear-gradient(to bottom, #f5efff, #9a8aff);
+  border-color: rgba(120,90,255,0.35);
+}
+
+li.branch-2 .grid-node {
+  background: linear-gradient(to bottom, #fff1eb, #ff8a9a);
   border-color: rgba(255,120,120,0.35);
 }
 
