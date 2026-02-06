@@ -121,75 +121,77 @@ function renderCardMobile(card) {
    L3: левая (1,4)(2,4)(3,4), средняя (4,4)(5,4)(6,4), правая (7,4)(8,4)(9,4)
    L4: для каждого узла в row=4 (X,4) дети: (X,3)(X,2)(X,1)
 ========================= */
+/* =========================
+   FIXED TREE LAYOUT BUILDER (9x6) - ПЕРЕВЕРНУТОЕ ДЕРЕВО
+   Корень снизу, листья сверху.
+========================= */
 function buildFixedTreeLayout(rootId) {
   const positions = {};
   const nodesToRender = [];
+  const visited = new Set(); // Для предотвращения циклов и дублирования
+  const GRID_HEIGHT = 6; // Количество рядов в сетке
 
-  const used = new Set(); // чтобы не было дублей/наложений при повторяющихся id
+  // Вспомогательная функция для инвертирования ряда
+  const invertRow = (row) => (GRID_HEIGHT + 1) - row;
 
   function place(cardId, col, row) {
-    const card = byId(cardId);
-    if (!card) return false;
+    // Если карта уже была добавлена, или карта не существует, или координаты вне сетки
+    if (visited.has(String(cardId)) || !byId(cardId) || col < 1 || col > GRID_COLS || row < 1 || row > GRID_HEIGHT) {
+      return false;
+    }
 
-    // границы сетки
-    if (col < 1 || col > GRID_COLS || row < 1 || row > GRID_ROWS) return false;
-
-    // если этот id уже размещен — пропускаем (иначе один и тот же узел окажется в разных местах)
-    if (used.has(String(card.id))) return false;
-
-    used.add(String(card.id));
-    positions[card.id] = { col, row };
-    nodesToRender.push(card.id);
+    visited.add(String(cardId));
+    positions[cardId] = { col, row: invertRow(row) }; // Инвертируем ряд
+    nodesToRender.push(cardId);
     return true;
   }
 
-  // --- Level 1 ---
+  // --- Level 1 (Root) ---
   const root = byId(rootId);
   if (!root) return { positions, nodesToRender };
 
-  place(root.id, 5, 6);
+  place(root.id, 5, 1); // Корень теперь внизу: (5,1)
 
-  // --- Level 2 ---
+  // --- Level 2 (3 children of root) ---
   const L2_POS = [
-    { col: 2, row: 5 },
-    { col: 5, row: 5 },
-    { col: 8, row: 5 },
+    { col: 2, row: 2 },
+    { col: 5, row: 2 },
+    { col: 8, row: 2 },
   ];
 
   const l2Ids = firstNLinks(root.id, 3);
-  const l2Placed = []; // [id,id,id] (только реально размещенные)
+  const l2Placed = []; // [id, id, id] - только реально размещенные карты L2
 
   l2Ids.forEach((id, i) => {
     const ok = place(id, L2_POS[i].col, L2_POS[i].row);
     if (ok) l2Placed[i] = String(id);
   });
 
-  // --- Level 3 ---
+  // --- Level 3 (each L2 node -> up to 3 children) ---
   const L3_POS_BY_BRANCH = [
     [
-      { col: 1, row: 4 },
-      { col: 2, row: 4 },
-      { col: 3, row: 4 },
+      { col: 1, row: 3 },
+      { col: 2, row: 3 },
+      { col: 3, row: 3 },
     ],
     [
-      { col: 4, row: 4 },
-      { col: 5, row: 4 },
-      { col: 6, row: 4 },
+      { col: 4, row: 3 },
+      { col: 5, row: 3 },
+      { col: 6, row: 3 },
     ],
     [
-      { col: 7, row: 4 },
-      { col: 8, row: 4 },
-      { col: 9, row: 4 },
+      { col: 7, row: 3 },
+      { col: 8, row: 3 },
+      { col: 9, row: 3 },
     ],
   ];
 
-  // сохраним л3 узлы по колонкам, чтобы потом построить l4 в столбик
-  // key: col -> cardId
+  // l3ByCol: { col: cardId } для L3, чтобы потом правильно построить L4
   const l3ByCol = new Map();
 
   for (let branchIndex = 0; branchIndex < 3; branchIndex++) {
     const parentL2 = l2Placed[branchIndex];
-    if (!parentL2) continue;
+    if (!parentL2) continue; // Если карты L2 не существует, пропускаем ветку
 
     const kids = firstNLinks(parentL2, 3);
     kids.forEach((kidId, j) => {
@@ -199,12 +201,13 @@ function buildFixedTreeLayout(rootId) {
     });
   }
 
-  // --- Level 4 (вертикально 3 вниз для каждой колонки X, где есть узел на (X,4)) ---
-  const L4_ROWS = [3, 2, 1];
+  // --- Level 4 (each L3 node -> up to 3 children vertically in its column) ---
+  // Листья теперь в верхних рядах: 4, 5, 6
+  const L4_ROWS = [4, 5, 6];
 
   for (let col = 1; col <= 9; col++) {
     const l3Id = l3ByCol.get(col);
-    if (!l3Id) continue;
+    if (!l3Id) continue; // Если нет карты L3 в этой колонке, пропускаем
 
     const kids = firstNLinks(l3Id, 3);
     kids.forEach((kidId, k) => {
@@ -212,7 +215,7 @@ function buildFixedTreeLayout(rootId) {
     });
   }
 
-  return { positions, nodesToRender };
+  return { positions, nodesToRender: Array.from(visited) }; // Возвращаем все уникальные id, которые были размещены
 }
 
 /* =========================
