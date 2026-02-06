@@ -1,143 +1,613 @@
-/* =========================
-   RESET
-========================= */
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:sans-serif;
+* {                           /*курлык*/
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+body {
+  background: #f5f6f8;
+  color: #222;
+}
+/* ---------- Topbar ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+/* ---------- Views ---------- */
+.view {
+  display: none;
+  padding: 12px;
+}
+.view.active {
+  display: block;
+}
+/* ---------- Desktop layout ---------- */
+.desktop-shell {
+  display: none;
+}
+@media (min-width: 920px) {
+  body {
+    overflow: hidden;
+  }
+  .view {
+    display: none !important;
+  }
+  .desktop-shell {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    padding: 14px;
+    height: calc(100vh - 56px);
+  }
+  .sidebar {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    padding: 12px;
+    overflow: auto;
+  }
+  .sidebar-item {
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sidebar-item.active {
+    background: rgba(79,108,255,0.16);
+  }
+  .desktop-main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+  }
+  .panel {
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    overflow: auto;
+  }
+}
+@media (min-width: 920px){
+  #desktopCard{
+    display: none;
+  }
+}
+/* полностью убираем панель "Карта" из сетки */
+  .desktop-main > .panel:last-child{
+    display: none;
+  }
+  /* делаем дерево единственной строкой */
+  .desktop-main{
+    flex-direction: column;
+  }
+/* ======================================
+   DESKTOP TREE — SCHEME (CENTERED)
+   ====================================== */
+@media (min-width: 920px){
+  #desktopTree {
+  padding-top: 60px;
+  height: 100%;
+  overflow: hidden;
+}
+#desktopTree.scrolled {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+  /* FLEX НА 3 КОЛОНКИ */
+  #desktopTree ul{
+  list-style: none;
+  margin: 0;
+  padding: 0 0 48px;
+  display: flex; /* Already using flex */
+  justify-content: center;     /* 👈 центрируем всё дерево */
+  gap: 180px;            /* 👈 расстояние между дочерними */
+  flex-wrap: wrap;
+  position: relative;
+}
+  #desktopTree li{
+    position: relative;
+    text-align: center;
+      flex-basis: 100%;
+  max-width: 100%;
+  }
+#desktopTree li:nth-last-child(-n+3) {
+  /*
+    Каждый из последних трех элементов занимает примерно 1/3 доступной ширины.
+    Вычитаем часть gap, чтобы учесть промежутки между элементами.
+    (2 * 180px / 3) - это приблизительная корректировка для 3 элементов с gap 180px.
+    Можно настроить calc() точнее, если внешний контейнер имеет padding или другой отступ.
+  */
+  flex-basis: calc(33.333% - 120px); /* (180px * 2 / 3) = 120px */
+  max-width: calc(33.333% - 120px);
+}
+/* Убедимся, что корневой элемент не затрагивается, если он всегда один */
+#desktopTree ul > li:first-child {
+  flex-basis: auto; /* Или 100% */
+  max-width: auto; /* Или 100% */
+}
+/* Дополнительные стили, если 'branch-0', 'branch-1', 'branch-2'
+   относятся к последним трем элементам или требуют специфического размещения.
+   Если эти классы используются для последних трех, то flex-basis
+   для них может быть уточнен здесь.
+*/
+#desktopTree li.branch-0,
+#desktopTree li.branch-1,
+#desktopTree li.branch-2 {
+  /* Если эти классы всегда обозначают последние 3 элемента */
+  /* flex-basis: calc(33.333% - 120px); */
+  /* max-width: calc(33.333% - 120px); */
+}  
+
+  /* КОРЕНЬ */
+  #desktopTree ul > li:first-child{
+    /* For flexbox, positioning needs to be handled differently, e.g., with specific styling or by adjusting order/layout of other items */
+  }
+  /* ВЕТКИ */
+  #desktopTree li.branch-0{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #desktopTree li.branch-1{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #desktopTree li.branch-2{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  /* УЗЛЫ */
+  #desktopTree .node{
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: #eef1ff;
+    border: 1px solid rgba(79,108,255,0.35);
+    font-size: 14px;
+    max-width: 180px;
+    line-height: 1.25;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(79,108,255,.18);
+  }
+  #desktopTree .node.locked{
+    background: #dfe3ff;
+    opacity: .85;
+  }
+@media (min-width: 920px){
+  #desktopTree ul{
+    list-style: none;
+    margin: 15px 0 0 0;
+    padding: 0;
+    display: flex; /* Already using flex */
+    justify-content: center;
+    gap: 32px;
+  }
+  /* дочерние уровни */
+  #desktopTree li > ul{
+    display: none;
+    margin-top: 24px;
+    display: flex; /* Already using flex */
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  /* раскрытие */
+  #desktopTree li.open > ul{
+    display: flex;
+  }
+}
+@media (min-width: 920px) {
+  #desktopTree {
+    padding-top: 60px;
+    overflow: hidden;        /* по умолчанию — без скролла */
+  }
+  #desktopTree.scrolled {
+    overflow-y: auto;        /* вертикальный скролл */
+    overflow-x: auto;        /* горизонтальный тоже оставляем */
+  }
+}
+#desktopTree {
+    position: relative;
+    z-index: 2;
+}
+#desktopTree {
+    margin-top: 16px;
+}
+.panel-title { margin-bottom: 20px; }
+.panel-title {
+    margin-bottom: 2px;
+}
+  /* ==============================
+     ЛИНИИ
+     ============================== */
+  }
+/* ---------- Tree ---------- */
+/* ---------- DESKTOP TREE LAYOUT ---------- */
+/* ================================
+   DESKTOP TREE — независимая версия
+   ================================ */
+/* ================================
+   DESKTOP TREE — структура по схеме
+   ================================ */
+/* ---------- Drawer (mobile) ---------- */
+.drawer {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 20;
+}
+.drawer.open {
+  display: block;
+}
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+.drawer-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: min(420px, 92vw);
+  background: #fff;
+  padding: 12px;
+  box-shadow: -6px 0 18px rgba(0,0,0,0.18);
+}
+/* ======================================
+   MOBILE — MAIN CARD LIST (FULL SCREEN)
+   ====================================== */
+@media (max-width: 919px){
+  /* контейнер списка */
+  #listView {
+    padding: 12px;
+    height: calc(100vh - 56px); /* минус topbar */
+  }
+  .card-list{
+    display: flex; /* Already using flex */
+    flex-direction: column; /* ОДИН СТОЛБЕЦ */
+    gap: 12px;
+    height: 100%;
+  }
+  /* карточка-кнопка */
+  .card-item{
+    display: flex; /* Already using flex */
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 2px solid rgba(79,108,255,0.35);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform .12s ease, box-shadow .12s ease;
+    flex-grow: 1;
+  }
+  .card-item:active{
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .card-item h4{
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+/* ======================================
+   MOBILE — CARD VIEW (AFTER SELECTION)
+   ====================================== */
+@media (max-width: 919px){
+  #cardView{
+    padding: 12px;
+  }
+  #descTab{
+    display: flex; /* Already using flex */
+    flex-direction: column;
+    gap: 16px;
+  }
+  /* зона картинки */
+  .card-image-large{
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: #f1f2f6;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  /* кнопка открытия карты */
+  #descTab .open-pdf{
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: none;
+    background: #4f6cff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #descTab .open-pdf:active{
+    transform: scale(0.98);
+  }
+}
+/* ======================================
+   MOBILE TREE — SCHEME (DRAWER ONLY) изменение положения дерева вниз
+   ====================================== */
+/* ======================================
+   MOBILE TREE — SCHEME (DRAWER, FIXED)
+   ====================================== */
+@media (max-width: 919px){
+  #drawerTree .tree{
+    overflow-x: hidden;
+    padding-top: 16px;
+  }
+  /* FLEX КОНТЕЙНЕР */
+  #drawerTree .tree ul{
+    list-style: none;
+    margin: 0;
+    padding: 0 0 24px;
+    display: flex; /* Already using flex */
+    flex-wrap: wrap;
+    row-gap: 44px;
+    justify-content: center;
+    position: relative;
+  }
+  #drawerTree .tree li{
+    position: relative;
+    text-align: center;
+    flex: 0 0 calc(33.333% - (2* var(--column-gap, 0))/3); /* Simulating 3 columns with flex-basis */
+  }
+  /* ---------- ROOT ---------- */
+  #drawerTree .tree ul > li:first-child{
+    flex-basis: 100%; /* Root takes full width for centering */
+    order: -1; /* Place root first */
+  }
+  /* ---------- BRANCH POSITIONS ---------- */
+  #drawerTree .tree li.branch-0{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #drawerTree .tree li.branch-1{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  #drawerTree .tree li.branch-2{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
+  /* ---------- NODES ---------- */
+  #drawerTree .tree .node{
+    padding: 6px 10px;
+    border-radius: 12px;
+    background: #eef1ff;
+    border: 1px solid rgba(79,108,255,0.35);
+    font-size: 12px;
+    line-height: 1.2;
+    max-width: 110px;
+    white-space: normal;
+    text-align: center;
+  }
+  #drawerTree .tree .node.locked{
+    background: #dfe3ff;
+    opacity: .8;
+  }
+}
+/* Стили для контейнера дерева */
+#desktopTree, #mobileTree {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 колонок */
+  grid-template-rows: repeat(5, 1fr);    /* 5 рядов */
+  gap: 5px; /* Небольшой отступ между ячейками */
+  width: 100%; /* Занимаем всю доступную ширину */
+  height: 500px; /* Фиксированная высота для 5 рядов, можно настроить */
+  border: 1px solid #eee; /* Для наглядности */
+  padding: 5px;
+  box-sizing: border-box;
 }
 
-body{
-  background:#f5f6f8;
-  color:#222;
+/* Стили для каждого узла в сетке */
+.grid-node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden; /* Если текст длинный */
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
-/* =========================
-   TREE GRID 9x6
+.grid-node.locked {
+  font-weight: bold;
+  background-color: #d4edda; /* Цвет для заблокированных/выбранных узлов */
+  border-color: #28a745;
+  cursor: default;
+}
+
+.grid-node.active-choice {
+  background-color: #e0f7fa; /* Цвет для активных вариантов выбора */
+  border-color: #00bcd4;
+}
+
+.grid-node.inactive {
+  background-color: #f1f1f1;
+  border-color: #e0e0e0;
+  color: #999;
+  cursor: default;
+}
+
+.grid-node:hover:not(.locked):not(.inactive) {
+  background-color: #e9ecef;
+}
+ /* =========================
+   TREE GRID 9x6 (OVERRIDE)
+   ставь в самый конец CSS
 ========================= */
+
+/* контейнеры дерева — и desktop, и mobile */
 #desktopTree,
-#mobileTree{
-  display:grid !important;
-  grid-template-columns:repeat(9,1fr) !important;
-  grid-template-rows:repeat(6,1fr) !important;
-  gap:12px !important;
-  width:100%;
-  height:100%;
-  padding:12px;
-  background:#fff;
-  border-radius:14px;
-  border:1px solid #e6e8ee;
+#mobileTree {
+  display: grid !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+
+  /* важно: не скрывать, если будешь включать pan/zoom */
+  overflow: visible !important;
+  border: 1px solid #eee;
+  background: #fff;
+  border-radius: 12px;
 }
 
+/* одинаковый размер узлов, текст центр */
 /* =========================
-   BASE NODE
-========================= */
-.grid-node{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px;
-  border-radius:12px;
-  text-align:center;
-  background:#f3f4f8;
-  border:1px solid rgba(0,0,0,.08);
-  transition:background .25s ease, box-shadow .25s ease;
+   TREE NODES — BRANCH COLORS
+   ========================= */
+
+.grid-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+
+  border-radius: 12px;
+  box-sizing: border-box;
+  text-align: center;
+
+  white-space: normal !important;
+  overflow: hidden;
+
+  border: 1px solid rgba(0,0,0,0.08);
+  background: linear-gradient(
+    to bottom,
+    #f3f4f8 0%,
+    #e9ebf2 100%
+  );
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.08);
 }
 
+/* ---------- ROOT ---------- */
+.grid-node.root {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f0f3ff 100%
+  );
+  border: 1px solid rgba(79,108,255,0.35);
+  box-shadow:
+    0 6px 18px rgba(79,108,255,0.25);
+}
+
+/* ---------- LEFT BRANCH (cyan → blue) ---------- */
+.grid-node.branch-0 {
+  background: linear-gradient(
+    to bottom,
+    #dff7ff 0%,
+    #b8e3ff 55%,
+    #7fb8ff 100%
+  );
+  border-color: rgba(0,140,255,0.35);
+}
+
+/* ---------- CENTER BRANCH (violet → indigo) ---------- */
+.grid-node.branch-1 {
+  background: linear-gradient(
+    to bottom,
+    #f1e9ff 0%,
+    #d6c7ff 55%,
+    #a79bff 100%
+  );
+  border-color: rgba(120,90,255,0.35);
+}
+
+/* ---------- RIGHT BRANCH (peach → rose) ---------- */
+.grid-node.branch-2 {
+  background: linear-gradient(
+    to bottom,
+    #ffe8df 0%,
+    #ffc3b3 55%,
+    #ff9fa3 100%
+  );
+  border-color: rgba(255,120,120,0.35);
+}
+
+
+/* span внутри узла (у тебя в JS: <span class="node-title">...) */
 .grid-node .node-title{
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  font-size:clamp(11px,1.2vw,14px);
-  line-height:1.15;
-  word-break:break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;   /* максимум 2 строки */
+  overflow: hidden;
+
+  line-height: 1.15;
+  word-break: break-word;
+
+  /* "ужатие" текста, чтобы влезал */
+  font-size: clamp(10px, 1.4vw, 14px);
 }
 
 /* =========================
-   ROOT NODE
+   MOBILE DRAWER: PAN/ZOOM LAYER
 ========================= */
-.grid-node[data-level="1"]{
-  background:linear-gradient(180deg,#ffffff,#eef1ff);
-  border:1px solid rgba(79,108,255,.35);
-  box-shadow:0 10px 26px rgba(79,108,255,.25);
-  font-weight:600;
-}
+@media (max-width: 919px){
+  /* область внутри шторки под дерево */
+  #drawerTree .drawer-panel{
+    display: flex;
+    flex-direction: column;
+  }
 
-/* =====================================================
-   BRANCH COLORS — VARIABLES
-===================================================== */
-.branch-0{ --c1:#bfe9ff; --c2:#5aa9ff; }
-.branch-1{ --c1:#e1c7ff; --c2:#8a5bff; }
-.branch-2{ --c1:#c8f5df; --c2:#2fbf9f; }
+  /* контейнер, где будет viewport (мы его создадим JS-ом) */
+  #drawerTree .tree{
+    flex: 1;
+    min-height: 320px;
+  }
 
-/* =========================
-   LEVEL GRADIENTS
-========================= */
+  .panzoom-viewport{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    touch-action: none; /* критично для pinch/drag */
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+  }
 
-/* level 2 */
-.grid-node[data-level="2"].branch-0{
-  background:linear-gradient(180deg,#eaf7ff,var(--c1));
-}
-.grid-node[data-level="2"].branch-1{
-  background:linear-gradient(180deg,#f3ecff,var(--c1));
-}
-.grid-node[data-level="2"].branch-2{
-  background:linear-gradient(180deg,#eafff5,var(--c1));
-}
+  .panzoom-canvas{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
 
-/* level 3 */
-.grid-node[data-level="3"].branch-0{
-  background:linear-gradient(180deg,var(--c1),var(--c2));
-}
-.grid-node[data-level="3"].branch-1{
-  background:linear-gradient(180deg,var(--c1),var(--c2));
-}
-.grid-node[data-level="3"].branch-2{
-  background:linear-gradient(180deg,var(--c1),var(--c2));
-}
-
-/* level 4 — самый насыщенный */
-.grid-node[data-level="4"].branch-0{
-  background:linear-gradient(180deg,var(--c2),#2d6cdf);
-  color:#fff;
-}
-.grid-node[data-level="4"].branch-1{
-  background:linear-gradient(180deg,var(--c2),#4b2bd6);
-  color:#fff;
-}
-.grid-node[data-level="4"].branch-2{
-  background:linear-gradient(180deg,var(--c2),#1b8c73);
-  color:#fff;
-}
-
-/* =========================
-   DEPTH SHADOW
-========================= */
-.grid-node[data-level="2"]{
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-}
-.grid-node[data-level="3"]{
-  box-shadow:0 10px 22px rgba(0,0,0,.12);
-}
-.grid-node[data-level="4"]{
-  box-shadow:0 14px 30px rgba(0,0,0,.22);
-}
-
-/* =========================
-   LOCKED / INACTIVE
-========================= */
-.grid-node.locked{
-  opacity:.75;
-  filter:saturate(.85);
-}
-.grid-node.inactive{
-  background:#f1f2f6;
-  color:#999;
-  border-style:dashed;
-}
-
+  /* сам grid внутри canvas должен иметь фиксируемый "размер вьюхи" */
+  .panzoom-canvas > #mobileTree{
+    width: 720px;   /* базовый размер "карты", чтобы было что зумить */
+    height: 520px;
+  }
+}  
 
 
 
