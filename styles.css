@@ -658,6 +658,39 @@ body {
   );
   border-color: rgba(255,120,120,0.35);
 }
+/* применяем цвет ветки к grid-node внутри li.branch-X */
+li.branch-0 > .grid-node {
+  background: linear-gradient(
+    to bottom,
+    #e8faff 0%,
+    #c9ecff 40%,
+    #9acbff 75%,
+    #6aa4ff 100%
+  );
+  border-color: rgba(0,140,255,0.35);
+}
+
+li.branch-1 > .grid-node {
+  background: linear-gradient(
+    to bottom,
+    #f5efff 0%,
+    #e3d7ff 40%,
+    #c0b0ff 75%,
+    #9a8aff 100%
+  );
+  border-color: rgba(120,90,255,0.35);
+}
+
+li.branch-2 > .grid-node {
+  background: linear-gradient(
+    to bottom,
+    #fff1eb 0%,
+    #ffd4c9 40%,
+    #ffb0b3 75%,
+    #ff8a9a 100%
+  );
+  border-color: rgba(255,120,120,0.35);
+}
 
 
 
