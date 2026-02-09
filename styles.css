@@ -1,4 +1,4 @@
-* {                           /*курлыкитттткккb*/
+* {                           /*курлыкитттткккbпгл*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -616,12 +616,20 @@ body {
 .grid-node.root {
   background: linear-gradient(
     to bottom,
-    #ffffff 0%,
-    #f2f5ff 100%
+    #fff7d6 0%,
+    #f5d889 55%,
+    #e6b84f 100%
   );
-  border: 1px solid rgba(79,108,255,0.35);
-  box-shadow: 0 6px 18px rgba(79,108,255,0.22);
+
+  border: 1px solid rgba(180,140,40,0.6);
+
+  box-shadow:
+    0 0 0 2px rgba(255,215,100,0.45),
+    0 10px 26px rgba(180,140,40,0.45);
+
+  font-weight: 600;
 }
+
 
 /* ---------- BRANCH 0: cyan → deep blue ---------- */
 .grid-node.branch-0 {
