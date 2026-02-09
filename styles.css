@@ -1,4 +1,4 @@
-* {                           /*курлыки*/
+* {                           /*курлыкит*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -986,6 +986,26 @@ li.branch-2 .grid-node {
   0%   { text-shadow: 0 0 4px rgba(255,220,120,0.85); }
   50%  { text-shadow: 0 0 10px rgba(255,200,80,0.95); }
   100% { text-shadow: 0 0 4px rgba(255,220,120,0.85); }
+}
+
+/* === SELECTED CHILD NODE — GOLD TITLE GLOW (BRIGHTER) === */
+.grid-node.selected .node-title {
+  color: #4a3600;
+  font-weight: 700;
+
+  text-shadow:
+    0 0 6px rgba(255, 230, 140, 0.95),
+    0 0 12px rgba(255, 210, 100, 0.85),
+    0 0 20px rgba(255, 190, 80, 0.75),
+    0 0 28px rgba(255, 170, 60, 0.55);
+
+  animation: titlePulse 2.8s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+  0%   { text-shadow: 0 0 6px rgba(255,230,140,0.95); }
+  50%  { text-shadow: 0 0 16px rgba(255,210,100,1); }
+  100% { text-shadow: 0 0 6px rgba(255,230,140,0.95); }
 }
 
 
