@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейм.
+// Простаяя SPA без фреймп.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -189,6 +189,15 @@ function buildFixedTreeLayout(rootId) {
    TREE RENDER
 ========================= */
 let selectedNodes = new Set();
+
+
+// levelBranchCounts[row][branch] = 0/1
+let levelBranchCounts = {
+  3: {0:0, 1:0, 2:0},
+  4: {0:0, 1:0, 2:0},
+  5: {0:0, 1:0, 2:0},
+  6: {0:0, 1:0, 2:0}
+};
 
 let levelCounts = { 3:0, 4:0, 5:0, 6:0 };
 
