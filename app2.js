@@ -1,4 +1,4 @@
-// Простая SPA без фреймворк.
+// Простая SPA без фрейм.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -190,7 +190,7 @@ function buildFixedTreeLayout(rootId) {
 ========================= */
 let selectedNodes = new Set();
 
-let levelCounts = { 2:0, 3:0, 4:0, 5:0, 6:0 };
+let levelCounts = { 3:0, 4:0, 5:0, 6:0 };
 
 function renderTree(container) {
   container.innerHTML = "";
@@ -214,14 +214,17 @@ function renderTree(container) {
   const isRoot = col === 5 && row === 1;
   if (isRoot) return;
 
-  // определяем уровень (2–6)
-  const level = row; // row already flipped, so 2..6
+  // Level 2 (row=2) — тоже не выбираем
+  if (row === 2) return;
 
   // если уже выбрана — снимаем
   if (div.classList.contains("selected")) {
     div.classList.remove("selected");
     selectedNodes.delete(card.id);
-    levelCounts[level]--;
+
+    if (row >= 3 && row <= 6) {
+      levelCounts[row]--;
+    }
     return;
   }
 
@@ -229,14 +232,18 @@ function renderTree(container) {
   // 1) всего не более 12
   if (selectedNodes.size >= 12) return;
 
-  // 2) на уровне не более 3
-  if (levelCounts[level] >= 3) return;
+  // 2) на уровне 3–6 не более 3
+  if (row >= 3 && row <= 6 && levelCounts[row] >= 3) return;
 
   // выбираем
   div.classList.add("selected");
   selectedNodes.add(card.id);
-  levelCounts[level]++;
+
+  if (row >= 3 && row <= 6) {
+    levelCounts[row]++;
+  }
 };
+
 
 
     container.appendChild(div);
