@@ -1,4 +1,4 @@
-// Простая SPA без фреймворков.
+// Простая SPA без фреймворкв.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -188,6 +188,7 @@ function buildFixedTreeLayout(rootId) {
 /* =========================
    TREE RENDER
 ========================= */
+let selectedNodes = new Set();
 function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
@@ -200,7 +201,25 @@ function renderTree(container) {
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
-    div.onclick = () => openCard(card.id);
+    div.onclick = (e) => {
+  e.stopPropagation();
+
+  // корень не выбираем
+  const isRoot = div.style.gridColumnStart === "5" && div.style.gridRowStart === "1";
+  if (isRoot) return;
+
+  // переключение выбора
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
+  } else {
+    if (selectedNodes.size < 12) {
+      div.classList.add("selected");
+      selectedNodes.add(card.id);
+    }
+  }
+};
+
     container.appendChild(div);
   });
 }
