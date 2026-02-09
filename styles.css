@@ -855,6 +855,127 @@ li.branch-2 .grid-node {
     #ff4d60 100%   /* темно-розовый */
   ) !important;
 }
+/* УЗЛЫ */
+
+.grid-node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  text-align: center;
+  white-space: normal !important;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: linear-gradient(to bottom, #f3f4f8 0%, #e9ebf2 100%); /* стандартный цвет для всех узлов */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* ---------- ROOT (Главная карта) ---------- */
+.grid-node.root {
+  background: linear-gradient(
+    to bottom,
+    #fff6cc 0%,
+    #f2d26b 45%,
+    #e0b94b 100%
+  ) !important;
+  border: 1px solid rgba(180,140,40,0.75) !important;
+  box-shadow: 0 0 0 2px rgba(255,215,120,0.55), 0 12px 28px rgba(180,140,40,0.45) !important;
+  font-weight: 700;
+}
+
+/* ---------- LEFT BRANCH (cyan → blue) ---------- */
+.grid-node.branch-0 {
+  background: linear-gradient(
+    to bottom,
+    #dff7ff 0%,
+    #b8e3ff 55%,
+    #7fb8ff 100%
+  );
+  border-color: rgba(0,140,255,0.35);
+}
+
+/* ---------- CENTER BRANCH (violet → indigo) ---------- */
+.grid-node.branch-1 {
+  background: linear-gradient(
+    to bottom,
+    #f1e9ff 0%,
+    #d6c7ff 55%,
+    #a79bff 100%
+  );
+  border-color: rgba(120,90,255,0.35);
+}
+
+/* ---------- RIGHT BRANCH (peach → rose) ---------- */
+.grid-node.branch-2 {
+  background: linear-gradient(
+    to bottom,
+    #ffe8df 0%,
+    #ffc3b3 55%,
+    #ff9fa3 100%
+  );
+  border-color: rgba(255,120,120,0.35);
+}
+
+/* -------------- Дочерние карты (по уровням) -------------- */
+
+/* Первый уровень (светлый) */
+.grid-node.level-1 {
+  background: linear-gradient(
+    to bottom,
+    #f8f9fc 0%,
+    #f1f5fb 100%
+  );
+  border-color: rgba(170, 170, 255, 0.35);
+}
+
+/* Второй уровень (средняя яркость) */
+.grid-node.level-2 {
+  background: linear-gradient(
+    to bottom,
+    #d6e4ff 0%,
+    #b8c9ff 100%
+  );
+  border-color: rgba(130, 130, 255, 0.35);
+}
+
+/* Третий уровень (темный) */
+.grid-node.level-3 {
+  background: linear-gradient(
+    to bottom,
+    #a0b3ff 0%,
+    #6a86ff 100%
+  );
+  border-color: rgba(100, 100, 255, 0.35);
+}
+
+/* Четвертый уровень (очень темный) */
+.grid-node.level-4 {
+  background: linear-gradient(
+    to bottom,
+    #7a7eff 0%,
+    #4c4cff 100%
+  );
+  border-color: rgba(70, 70, 255, 0.35);
+}
+
+/* Принудительное применение к каждому уровню */
+li.branch-0 > .grid-node.level-1 {
+  background: linear-gradient(to bottom, #f8f9fc, #f1f5fb);
+}
+
+li.branch-1 > .grid-node.level-2 {
+  background: linear-gradient(to bottom, #d6e4ff, #b8c9ff);
+}
+
+li.branch-2 > .grid-node.level-3 {
+  background: linear-gradient(to bottom, #a0b3ff, #6a86ff);
+}
+
+li.branch-3 > .grid-node.level-4 {
+  background: linear-gradient(to bottom, #7a7eff, #4c4cff);
+}
 
 
 
