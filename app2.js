@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймпы.
+// Простаяя SPA без фреймпык.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -209,6 +209,10 @@ function renderTree(container) {
 
   nodes.forEach(({ card, col, row }) => {
     const div = document.createElement("div");
+     if (selectedNodes.has(card.id)) {
+  div.classList.add("selected");
+}
+
     div.className = "grid-node";
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
@@ -222,7 +226,7 @@ function renderTree(container) {
   // корень не выбираем
   if (col === 5 && row === 1) return;
 
-  // Level 2 тоже не выбираем
+  // Level 2 не выбираем
   if (row === 2) return;
 
   // определяем ветку
@@ -234,10 +238,7 @@ function renderTree(container) {
   if (div.classList.contains("selected")) {
     div.classList.remove("selected");
     selectedNodes.delete(card.id);
-
-    if (row >= 3 && row <= 6) {
-      levelBranchCounts[row][branch] = 0;
-    }
+    levelBranchCounts[row][branch] = 0;
     return;
   }
 
@@ -246,16 +247,14 @@ function renderTree(container) {
   if (selectedNodes.size >= 12) return;
 
   // 2) на уровне в этой ветке не более 1
-  if (row >= 3 && row <= 6 && levelBranchCounts[row][branch] >= 1) return;
+  if (levelBranchCounts[row][branch] >= 1) return;
 
   // выбираем
   div.classList.add("selected");
   selectedNodes.add(card.id);
-
-  if (row >= 3 && row <= 6) {
-    levelBranchCounts[row][branch] = 1;
-  }
+  levelBranchCounts[row][branch] = 1;
 };
+
 
 
 
