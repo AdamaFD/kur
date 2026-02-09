@@ -1,4 +1,4 @@
-* {                           /*курлыкккки*/
+* {                           /*курлыккккитикитик*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -826,6 +826,74 @@ li.branch-2 .grid-node {
 #desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 6"],
 #desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 6"] {
   background: linear-gradient(to bottom, #3c6fd1, #1e3f8f) !important;
+}
+/* LEVEL 2 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 2"] {
+  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
+}
+
+/* LEVEL 3 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 3"] {
+  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
+}
+
+/* LEVEL 4 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 4"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 4"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 4"] {
+  background: linear-gradient(to bottom, #c0b0ff, #9a8aff) !important;
+}
+
+/* LEVEL 5 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 5"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 5"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 5"] {
+  background: linear-gradient(to bottom, #9a8aff, #6a5ac7) !important;
+}
+
+/* LEVEL 6 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 6"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 6"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 6"] {
+  background: linear-gradient(to bottom, #6a5ac7, #3d2f8f) !important;
+}
+/* LEVEL 2 */
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 2"] {
+  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important;
+}
+
+/* LEVEL 3 */
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 3"] {
+  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
+}
+
+/* LEVEL 4 */
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 4"],
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 4"],
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 4"] {
+  background: linear-gradient(to bottom, #ffb0b3, #ff8a9a) !important;
+}
+
+/* LEVEL 5 */
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 5"],
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 5"],
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 5"] {
+  background: linear-gradient(to bottom, #ff8a9a, #e05a6f) !important;
+}
+
+/* LEVEL 6 */
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 6"],
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 6"],
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 6"] {
+  background: linear-gradient(to bottom, #e05a6f, #b03048) !important;
 }
 
 
