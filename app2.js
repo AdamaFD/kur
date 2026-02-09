@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймпык.
+// Простаяя SPA без фреймпыки.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -134,6 +134,7 @@ function buildFixedTreeLayout(rootId) {
     card,
     col,
     row: flipRow(row),
+    branch
   });
 }
 
@@ -214,6 +215,10 @@ function renderTree(container) {
 }
 
     div.className = "grid-node";
+if (branch !== null && branch !== undefined) {
+  div.dataset.branch = branch;
+}
+
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
@@ -230,9 +235,8 @@ function renderTree(container) {
   if (row === 2) return;
 
   // определяем ветку
-  let branch = 0;
-  if (col >= 4 && col <= 6) branch = 1;
-  if (col >= 7 && col <= 9) branch = 2;
+  let branch = Number(div.dataset.branch);
+
 
   // если уже выбрана — снимаем
   if (div.classList.contains("selected")) {
