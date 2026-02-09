@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймпыкии.
+// Простаяя SPA без фреймпыкиии.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -127,66 +127,76 @@ function buildFixedTreeLayout(rootId) {
   const nodes = [];
 
   function place(cardId, col, row, branch = null) {
-  const card = byId(cardId);
-  if (!card) return;
+    const card = byId(cardId);
+    if (!card) return;
 
-  nodes.push({
-    card,
-    col,
-    row: flipRow(row),
-    branch
+    nodes.push({
+      card,
+      col,
+      row: flipRow(row),
+      branch
+    });
+  }
+
+  // --- Level 1 (root) ---
+  place(rootId, 5, 6, null);
+
+  // --- Level 2 ---
+  const L2_POS = [
+    { col: 2, row: 5 },
+    { col: 5, row: 5 },
+    { col: 8, row: 5 },
+  ];
+
+  const l2 = firstNLinks(rootId, 3);
+
+  l2.forEach((id, i) => {
+    place(id, L2_POS[i].col, L2_POS[i].row, i); // branch = 0/1/2
   });
-}
 
+  // --- Level 3 ---
+  const L3_POS = [
+    [{ col: 1, row: 4 }, { col: 2, row: 4 }, { col: 3, row: 4 }],
+    [{ col: 4, row: 4 }, { col: 5, row: 4 }, { col: 6, row: 4 }],
+    [{ col: 7, row: 4 }, { col: 8, row: 4 }, { col: 9, row: 4 }],
+  ];
 
-  // --- Level 1 ---
-  // root — без ветки
-place(rootId, 5, 6, null);
+  const l3 = [];
 
-// L2 — каждая из трёх — своя ветка
-l2.forEach((id, i) => {
-  place(id, L2_POS[i].col, L2_POS[i].row, i); // i = 0,1,2
-});
-
-// L3
-l2.forEach((parentId, branch) => {
-  const kids = firstNLinks(parentId, 3);
-  kids.forEach((id, i) => {
-    const pos = L3_POS[branch][i];
-    place(id, pos.col, pos.row, branch);
-    l3.push({ id, col: pos.col, branch });
+  l2.forEach((parentId, branch) => {
+    const kids = firstNLinks(parentId, 3);
+    kids.forEach((id, i) => {
+      const pos = L3_POS[branch][i];
+      place(id, pos.col, pos.row, branch);
+      l3.push({ id, col: pos.col, branch });
+    });
   });
-});
 
-// L4 — нужно сохранить branch в l3 и передавать дальше
-const L4_ROWS = [3, 2, 1];
+  // --- Level 4 ---
+  const L4_ROWS = [3, 2, 1];
 
-l3.forEach(({ id, col, branch }) => {
-  const kids = firstNLinks(id, 3);
-  kids.forEach((kidId, i) => {
-    place(kidId, col, L4_ROWS[i], branch);
+  l3.forEach(({ id, col, branch }) => {
+    const kids = firstNLinks(id, 3);
+    kids.forEach((kidId, i) => {
+      place(kidId, col, L4_ROWS[i], branch);
+    });
   });
-});
-
 
   return nodes;
 }
+
 
 /* =========================
    TREE RENDER
 ========================= */
 let selectedNodes = new Set();
 
-
-// levelBranchCounts[row][branch] = 0/1
 let levelBranchCounts = {
   3: {0:0, 1:0, 2:0},
   4: {0:0, 1:0, 2:0},
   5: {0:0, 1:0, 2:0},
   6: {0:0, 1:0, 2:0}
 };
-
-let levelCounts = { 3:0, 4:0, 5:0, 6:0 };
 
 function renderTree(container) {
   container.innerHTML = "";
@@ -196,60 +206,53 @@ function renderTree(container) {
 
   nodes.forEach(({ card, col, row, branch }) => {
     const div = document.createElement("div");
-     div.className = "grid-node";
-     if (selectedNodes.has(card.id)) {
-  div.classList.add("selected");
-}
+    div.className = "grid-node";
 
-    
-if (branch !== null && branch !== undefined) {
-  div.dataset.branch = branch;
-}
+    // восстановление выбранных
+    if (selectedNodes.has(card.id)) {
+      div.classList.add("selected");
+    }
+
+    // записываем ветку
+    if (branch !== null) {
+      div.dataset.branch = branch;
+    }
 
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
-   div.onclick = (e) => {
-  e.stopPropagation();
 
-  const col = Number(div.style.gridColumnStart);
-  const row = Number(div.style.gridRowStart);
+    div.onclick = (e) => {
+      e.stopPropagation();
 
-  // корень не выбираем
-  if (col === 5 && row === 1) return;
+      const row = Number(div.style.gridRowStart);
+      const branch = Number(div.dataset.branch);
 
-  // Level 2 не выбираем
-  if (row === 2) return;
+      // корень не выбираем
+      if (col === 5 && row === 1) return;
 
-  // определяем ветку
-  let branch = Number(div.dataset.branch);
+      // Level 2 не выбираем
+      if (row === 2) return;
 
+      // если уже выбрана — снять
+      if (div.classList.contains("selected")) {
+        div.classList.remove("selected");
+        selectedNodes.delete(card.id);
+        levelBranchCounts[row][branch] = 0;
+        return;
+      }
 
-  // если уже выбрана — снимаем
-  if (div.classList.contains("selected")) {
-    div.classList.remove("selected");
-    selectedNodes.delete(card.id);
-    levelBranchCounts[row][branch] = 0;
-    return;
-  }
+      // ограничение: всего 12
+      if (selectedNodes.size >= 12) return;
 
-  // ограничения:
-  // 1) всего не более 12
-  if (selectedNodes.size >= 12) return;
+      // ограничение: 1 карта на ветку на уровне
+      if (levelBranchCounts[row][branch] >= 1) return;
 
-  // 2) на уровне в этой ветке не более 1
-  if (levelBranchCounts[row][branch] >= 1) return;
-
-  // выбираем
-  div.classList.add("selected");
-  selectedNodes.add(card.id);
-  levelBranchCounts[row][branch] = 1;
-};
-
-
-
-
-
+      // выбираем
+      div.classList.add("selected");
+      selectedNodes.add(card.id);
+      levelBranchCounts[row][branch] = 1;
+    };
 
     container.appendChild(div);
   });
