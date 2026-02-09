@@ -1,4 +1,4 @@
-// Простая SPA без фреймворкв.
+// Простая SPA без фреймворв.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -189,6 +189,9 @@ function buildFixedTreeLayout(rootId) {
    TREE RENDER
 ========================= */
 let selectedNodes = new Set();
+let selectedNodes = new Set();
+let levelCounts = { 2:0, 3:0, 4:0, 5:0, 6:0 };
+
 function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
@@ -201,24 +204,40 @@ function renderTree(container) {
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
-    div.onclick = (e) => {
+   div.onclick = (e) => {
   e.stopPropagation();
 
+  const col = Number(div.style.gridColumnStart);
+  const row = Number(div.style.gridRowStart);
+
   // корень не выбираем
-  const isRoot = div.style.gridColumnStart === "5" && div.style.gridRowStart === "1";
+  const isRoot = col === 5 && row === 1;
   if (isRoot) return;
 
-  // переключение выбора
+  // определяем уровень (2–6)
+  const level = row; // row already flipped, so 2..6
+
+  // если уже выбрана — снимаем
   if (div.classList.contains("selected")) {
     div.classList.remove("selected");
     selectedNodes.delete(card.id);
-  } else {
-    if (selectedNodes.size < 12) {
-      div.classList.add("selected");
-      selectedNodes.add(card.id);
-    }
+    levelCounts[level]--;
+    return;
   }
+
+  // ограничения:
+  // 1) всего не более 12
+  if (selectedNodes.size >= 12) return;
+
+  // 2) на уровне не более 3
+  if (levelCounts[level] >= 3) return;
+
+  // выбираем
+  div.classList.add("selected");
+  selectedNodes.add(card.id);
+  levelCounts[level]++;
 };
+
 
     container.appendChild(div);
   });
