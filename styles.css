@@ -1,4 +1,4 @@
-* {                           /*курлыкитттткккbпгшшшшшооооол*/
+* {                           /*курлыкийтттткккbпгшшшшшооооол*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -738,6 +738,23 @@ li.branch-2 .grid-node {
 #desktopTree .grid-node:not(.root)[style*="grid-column-start: 9"] {
   background: linear-gradient(to bottom, #fff1eb, #ff8a9a) !important;
   border-color: rgba(255,120,120,0.35) !important;
+}
+/* === ROOT CARD — FORCE GOLD (FINAL OVERRIDE) === */
+li.root > .grid-node {
+  background: linear-gradient(
+    to bottom,
+    #fff6cc 0%,
+    #f2d26b 45%,
+    #e0b94b 100%
+  ) !important;
+
+  border: 1px solid rgba(180,140,40,0.75) !important;
+
+  box-shadow:
+    0 0 0 2px rgba(255,215,120,0.55),
+    0 12px 28px rgba(180,140,40,0.45) !important;
+
+  font-weight: 700;
 }
 
 
