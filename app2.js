@@ -1,4 +1,4 @@
-// Простая SPA без фрейм.
+// Простаяя SPA без фрейм.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -211,10 +211,9 @@ function renderTree(container) {
   const row = Number(div.style.gridRowStart);
 
   // корень не выбираем
-  const isRoot = col === 5 && row === 1;
-  if (isRoot) return;
+  if (col === 5 && row === 1) return;
 
-  // Level 2 (row=2) — тоже не выбираем
+  // Level 2 тоже не выбираем
   if (row === 2) return;
 
   // если уже выбрана — снимаем
@@ -232,7 +231,7 @@ function renderTree(container) {
   // 1) всего не более 12
   if (selectedNodes.size >= 12) return;
 
-  // 2) на уровне 3–6 не более 3
+  // 2) на уровне (строке) не более 3
   if (row >= 3 && row <= 6 && levelCounts[row] >= 3) return;
 
   // выбираем
@@ -243,6 +242,7 @@ function renderTree(container) {
     levelCounts[row]++;
   }
 };
+
 
 
 
