@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймпыки.
+// Простаяя SPA без фреймпыкии.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -126,7 +126,7 @@ function renderCardMobile(card) {
 function buildFixedTreeLayout(rootId) {
   const nodes = [];
 
-  function place(cardId, col, row) {
+  function place(cardId, col, row, branch = null) {
   const card = byId(cardId);
   if (!card) return;
 
@@ -140,48 +140,34 @@ function buildFixedTreeLayout(rootId) {
 
 
   // --- Level 1 ---
-  place(rootId, 5, 6);
+  // root — без ветки
+place(rootId, 5, 6, null);
 
-  // --- Level 2 ---
-  const L2_POS = [
-    { col: 2, row: 5 },
-    { col: 5, row: 5 },
-    { col: 8, row: 5 },
-  ];
+// L2 — каждая из трёх — своя ветка
+l2.forEach((id, i) => {
+  place(id, L2_POS[i].col, L2_POS[i].row, i); // i = 0,1,2
+});
 
-  const l2 = firstNLinks(rootId, 3);
-
-  l2.forEach((id, i) => {
-    place(id, L2_POS[i].col, L2_POS[i].row);
+// L3
+l2.forEach((parentId, branch) => {
+  const kids = firstNLinks(parentId, 3);
+  kids.forEach((id, i) => {
+    const pos = L3_POS[branch][i];
+    place(id, pos.col, pos.row, branch);
+    l3.push({ id, col: pos.col, branch });
   });
+});
 
-  // --- Level 3 ---
-  const L3_POS = [
-    [{ col: 1, row: 4 }, { col: 2, row: 4 }, { col: 3, row: 4 }],
-    [{ col: 4, row: 4 }, { col: 5, row: 4 }, { col: 6, row: 4 }],
-    [{ col: 7, row: 4 }, { col: 8, row: 4 }, { col: 9, row: 4 }],
-  ];
+// L4 — нужно сохранить branch в l3 и передавать дальше
+const L4_ROWS = [3, 2, 1];
 
-  const l3 = [];
-
-  l2.forEach((parentId, branch) => {
-    const kids = firstNLinks(parentId, 3);
-    kids.forEach((id, i) => {
-      const pos = L3_POS[branch][i];
-      place(id, pos.col, pos.row);
-      l3.push({ id, col: pos.col });
-    });
+l3.forEach(({ id, col, branch }) => {
+  const kids = firstNLinks(id, 3);
+  kids.forEach((kidId, i) => {
+    place(kidId, col, L4_ROWS[i], branch);
   });
+});
 
-  // --- Level 4 ---
-  const L4_ROWS = [3, 2, 1];
-
-  l3.forEach(({ id, col }) => {
-    const kids = firstNLinks(id, 3);
-    kids.forEach((kidId, i) => {
-      place(kidId, col, L4_ROWS[i]);
-    });
-  });
 
   return nodes;
 }
@@ -208,13 +194,14 @@ function renderTree(container) {
 
   const nodes = buildFixedTreeLayout(currentCardId);
 
-  nodes.forEach(({ card, col, row }) => {
+  nodes.forEach(({ card, col, row, branch }) => {
     const div = document.createElement("div");
+     div.className = "grid-node";
      if (selectedNodes.has(card.id)) {
   div.classList.add("selected");
 }
 
-    div.className = "grid-node";
+    
 if (branch !== null && branch !== undefined) {
   div.dataset.branch = branch;
 }
