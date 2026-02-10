@@ -1,4 +1,4 @@
-// курлык
+// курлыкк
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -138,17 +138,19 @@ function renderCardMobile(card) {
 function buildFixedTreeLayout(rootId) {
   const nodes = [];
 
-  function place(cardId, col, row, branch = null) {
-    const card = byId(cardId);
-    if (!card) return;
+  function place(cardId, col, row, branch = null, parentId = null) {
+  const card = byId(cardId);
+  if (!card) return;
 
-    nodes.push({
-      card,
-      col,
-      row: flipRow(row),
-      branch
-    });
-  }
+  nodes.push({
+    card,
+    col,
+    row: flipRow(row),
+    branch,
+    parentId
+  });
+}
+
 
   // --- Level 1 (root) ---
   place(rootId, 5, 6, null);
@@ -163,7 +165,7 @@ function buildFixedTreeLayout(rootId) {
   const l2 = firstNLinks(rootId, 3);
 
   l2.forEach((id, i) => {
-    place(id, L2_POS[i].col, L2_POS[i].row, i); // branch = 0/1/2
+    place(id, L2_POS[i].col, L2_POS[i].row, i, rootId); // branch = 0/1/2
   });
 
   // --- Level 3 ---
@@ -179,7 +181,7 @@ function buildFixedTreeLayout(rootId) {
     const kids = firstNLinks(parentId, 3);
     kids.forEach((id, i) => {
       const pos = L3_POS[branch][i];
-      place(id, pos.col, pos.row, branch);
+      place(id, pos.col, pos.row, branch, parentId);
       l3.push({ id, col: pos.col, branch });
     });
   });
@@ -190,7 +192,7 @@ function buildFixedTreeLayout(rootId) {
   l3.forEach(({ id, col, branch }) => {
     const kids = firstNLinks(id, 3);
     kids.forEach((kidId, i) => {
-      place(kidId, col, L4_ROWS[i], branch);
+      place(kidId, col, L4_ROWS[i], branch, id);
     });
   });
 
@@ -232,6 +234,7 @@ div.innerHTML = `<span class="node-title">${card.title}</span>`;
 div.dataset.id = card.id;
 div.dataset.col = col;
 div.dataset.row = row;
+div.dataset.parent = parentId;
 
 
  div.onclick = (e) => {
@@ -286,10 +289,12 @@ div.dataset.row = row;
   // LEVEL 3 — одиночный выбор
   // =========================
   if (row === 3) {
+  const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
+  if (!selectedL2) return;
 
-    // нельзя выбирать 3-й уровень без выбранного 2-го
-    const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
-    if (!selectedL2) return;
+  const parentId = div.dataset.parent;
+  if (parentId !== selectedL2.dataset.id) return;
+}
 
     // проверяем принадлежность ветке
     const parentCard = byId(selectedL2.dataset.id);
@@ -331,10 +336,13 @@ div.dataset.row = row;
   // LEVEL 4 — одиночный выбор в столбце
   // =========================
   if (row >= 4) {
+  const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
+  if (!selectedL3) return;
 
-    // нельзя выбирать 4-й уровень без выбранного 3-го в этом столбце
-    const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
-    if (!selectedL3) return;
+  const parentId = div.dataset.parent;
+  if (parentId !== selectedL3.dataset.id) return;
+}
+
 
     const selectedL3Col = Number(selectedL3.dataset.col);
     if (selectedL3Col !== col) return;
