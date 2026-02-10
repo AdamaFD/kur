@@ -1,4 +1,4 @@
-* {                           /*курлыки*/
+* {                           /*курлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1031,6 +1031,15 @@ li.branch-2 .grid-node {
 #desktopTree .grid-node[style*="grid-row-start: 3"] {
   background-color: rgba(255, 245, 200, 0.25) !important;
   backdrop-filter: blur(1px);
+}
+.node-title {
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.node-title.gold {
+  color: #d4af37; /* золото */
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+  font-weight: 600;
 }
 
 
