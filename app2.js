@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейм.
+// Простаяя SPA без фреймпиздец.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -199,45 +199,39 @@ function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
 
-  // 1) строим узлы
   const nodes = buildFixedTreeLayout(currentCardId);
 
-  // 2) сбрасываем счётчики перед каждым рендером
+  // сбрасываем счётчики перед рендером
   levelBranchCounts = {
-    3: { 0: 0, 1: 0, 2: 0 }
+    3: {0:0, 1:0, 2:0}
   };
 
   levelColumnCounts = {
-    4: { 1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0 },
-    5: { 1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0 },
-    6: { 1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0 }
+    4: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0},
+    5: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0},
+    6: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
   };
 
-  // 3) восстановим счётчики по уже выбранным узлам
+  // восстанавливаем ограничения по выбранным картам
   nodes.forEach(({ card, col, row, branch }) => {
     if (!selectedNodes.has(card.id)) return;
 
-    // row уже после flipRow, поэтому:
-    // row === 3  -> Level 3
-    // row 4..6  -> Level 4..6 (столбики)
-    if (row === 3 && branch !== null && branch !== undefined) {
+    if (row === 3) {
       levelBranchCounts[3][branch] = 1;
     } else if (row >= 4 && row <= 6) {
       levelColumnCounts[row][col] = 1;
     }
   });
 
-  // 4) теперь рендерим DOM, опираясь на корректные счётчики
   nodes.forEach(({ card, col, row, branch }) => {
     const div = document.createElement("div");
     div.className = "grid-node";
 
-    // пометим как выбранный, если он в selectedNodes
     if (selectedNodes.has(card.id)) {
       div.classList.add("selected");
     }
 
-    if (branch !== null && branch !== undefined) {
+    if (branch !== null) {
       div.dataset.branch = branch;
     }
 
@@ -252,18 +246,14 @@ function renderTree(container) {
       const nodeRow = Number(div.style.gridRowStart);
       const nodeBranch = Number(div.dataset.branch);
 
-      // корень не выбираем
       if (nodeCol === 5 && nodeRow === 1) return;
-
-      // Level 2 не выбираем
       if (nodeRow === 2) return;
 
-      // если уже выбрана — снять
       if (div.classList.contains("selected")) {
         div.classList.remove("selected");
         selectedNodes.delete(card.id);
 
-        if (nodeRow === 3 && !isNaN(nodeBranch)) {
+        if (nodeRow === 3) {
           levelBranchCounts[3][nodeBranch] = 0;
         } else if (nodeRow >= 4 && nodeRow <= 6) {
           levelColumnCounts[nodeRow][nodeCol] = 0;
@@ -271,23 +261,18 @@ function renderTree(container) {
         return;
       }
 
-      // ограничение: всего 12
       if (selectedNodes.size >= 12) return;
 
-      // LEVEL 3 — ограничение по ветке
       if (nodeRow === 3) {
-        if (isNaN(nodeBranch)) return;
         if (levelBranchCounts[3][nodeBranch] >= 1) return;
         levelBranchCounts[3][nodeBranch] = 1;
       }
 
-      // LEVEL 4–6 — ограничение по колонне (столбик)
       if (nodeRow >= 4 && nodeRow <= 6) {
         if (levelColumnCounts[nodeRow][nodeCol] >= 1) return;
         levelColumnCounts[nodeRow][nodeCol] = 1;
       }
 
-      // выбираем
       div.classList.add("selected");
       selectedNodes.add(card.id);
     };
@@ -295,6 +280,7 @@ function renderTree(container) {
     container.appendChild(div);
   });
 }
+
 
 
 /* =========================
