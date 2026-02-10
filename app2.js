@@ -1,4 +1,4 @@
-// курлык
+// курлыки
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -358,6 +358,7 @@ if (row >= 4) {
   });
 
   // переключатель
+    // переключатель
   if (div.classList.contains("selected")) {
     div.classList.remove("selected");
     selectedNodes.delete(card.id);
@@ -367,14 +368,12 @@ if (row >= 4) {
   }
 
   return;
-}
+}   // конец LEVEL 4
+};  // конец onclick
 
-};
-
-
-  container.appendChild(div);
- 
-}
+container.appendChild(div);
+}); // конец nodes.forEach
+}   // конец renderTree
 
 
 
