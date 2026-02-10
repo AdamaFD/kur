@@ -1,4 +1,4 @@
-* {                           /*курлык*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1040,6 +1040,12 @@ li.branch-2 .grid-node {
   color: #d4af37; /* золото */
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
   font-weight: 600;
+}
+.grid-node.selected .node-title {
+  color: #d4af37; /* золото */
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
 
