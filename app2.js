@@ -1,4 +1,4 @@
-// курлык
+// курлыки
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -220,25 +220,25 @@ function renderTree(container) {
 
   const nodes = buildFixedTreeLayout(currentCardId);
 
-  nodes.forEach(({ card, col, row, branch }) => {
-    const div = document.createElement("div");
-    div.className = "grid-node";
+  nodes.forEach(({ card, col, row, branch, parentId }) => {
+  const div = document.createElement("div");
+  div.className = "grid-node";
 
-    if (selectedNodes.has(card.id)) {
-      div.classList.add("selected");
-    }
+  if (selectedNodes.has(card.id)) {
+    div.classList.add("selected");
+  }
 
-    if (branch !== null) {
-      div.dataset.branch = branch;
-    }
+  if (branch !== null) {
+    div.dataset.branch = branch;
+  }
 
-    div.style.gridColumnStart = col;
-div.style.gridRowStart = row;
-div.innerHTML = `<span class="node-title">${card.title}</span>`;
-div.dataset.id = card.id;
-div.dataset.col = col;
-div.dataset.row = row;
-div.dataset.parent = parentId;
+  div.style.gridColumnStart = col;
+  div.style.gridRowStart = row;
+  div.innerHTML = `<span class="node-title">${card.title}</span>`;
+  div.dataset.id = card.id;
+  div.dataset.col = col;
+  div.dataset.row = row;
+  div.dataset.parent = parentId; // теперь работает
 
 
  div.onclick = (e) => {
