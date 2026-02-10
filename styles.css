@@ -1,4 +1,4 @@
-* {                           /*мурлыки*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1053,19 +1053,19 @@ li.branch-2 .grid-node {
 .grid-node[data-row="1"][data-col="1"],
 .grid-node[data-row="2"][data-col="1"],
 .grid-node[data-row="3"][data-col="1"] {
-  background-color: #0a2a66; /* тёмно-синий */
+  background-color: #0a2a66 !important;
 }
 
 .grid-node[data-row="1"][data-col="2"],
 .grid-node[data-row="2"][data-col="2"],
 .grid-node[data-row="3"][data-col="2"] {
-  background-color: #1d4fa3; /* средний синий */
+  background-color: #1d4fa3 !important;
 }
 
 .grid-node[data-row="1"][data-col="3"],
 .grid-node[data-row="2"][data-col="3"],
 .grid-node[data-row="3"][data-col="3"] {
-  background-color: #4d7fe0; /* светлый синий */
+  background-color: #4d7fe0 !important;
 }
 
 
@@ -1073,19 +1073,19 @@ li.branch-2 .grid-node {
 .grid-node[data-row="1"][data-col="4"],
 .grid-node[data-row="2"][data-col="4"],
 .grid-node[data-row="3"][data-col="4"] {
-  background-color: #4a0a66; /* тёмно-фиолетовый */
+  background-color: #4a0a66 !important;
 }
 
 .grid-node[data-row="1"][data-col="5"],
 .grid-node[data-row="2"][data-col="5"],
 .grid-node[data-row="3"][data-col="5"] {
-  background-color: #7a2fa3; /* средний фиолетовый */
+  background-color: #7a2fa3 !important;
 }
 
 .grid-node[data-row="1"][data-col="6"],
 .grid-node[data-row="2"][data-col="6"],
 .grid-node[data-row="3"][data-col="6"] {
-  background-color: #b07fe0; /* светлый фиолетовый */
+  background-color: #b07fe0 !important;
 }
 
 
@@ -1093,20 +1093,17 @@ li.branch-2 .grid-node {
 .grid-node[data-row="1"][data-col="7"],
 .grid-node[data-row="2"][data-col="7"],
 .grid-node[data-row="3"][data-col="7"] {
-  background-color: #660a0a; /* тёмно-красный */
+  background-color: #660a0a !important;
 }
 
 .grid-node[data-row="1"][data-col="8"],
 .grid-node[data-row="2"][data-col="8"],
 .grid-node[data-row="3"][data-col="8"] {
-  background-color: #a32f2f; /* средний красный */
+  background-color: #a32f2f !important;
 }
 
 .grid-node[data-row="1"][data-col="9"],
 .grid-node[data-row="2"][data-col="9"],
 .grid-node[data-row="3"][data-col="9"] {
-  background-color: #e07f7f; /* светлый красный */
+  background-color: #e07f7f !important;
 }
-
-
-
