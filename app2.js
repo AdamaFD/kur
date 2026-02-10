@@ -229,6 +229,8 @@ function renderTree(container) {
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
+div.dataset.id = card.id;
+div.dataset.col = col;
 
    div.onclick = (e) => {
   e.stopPropagation();
@@ -301,16 +303,13 @@ function renderTree(container) {
   }
 
   // =========================
-  // LEVEL 4 — RADIO В СТОЛБИКЕ
-  // =========================
-  // =========================
-// LEVEL 4 — RADIO В СТОЛБИКЕ (ФИНАЛ)
+// LEVEL 4 — RADIO В СТОЛБИКЕ (ИСПРАВЛЕНО)
 // =========================
 if (isLevel4) {
 
-  // снять ВСЕ выбранные в этом столбике
+  // снять ВСЕ выбранные карты в этом столбике
   const selectedInColumn = container.querySelectorAll(
-    `.grid-node.selected[style*="grid-column-start: ${col}"]`
+    `.grid-node.selected[data-col="${col}"]`
   );
 
   selectedInColumn.forEach(node => {
@@ -325,12 +324,9 @@ if (isLevel4) {
   return;
 }
 
+
 };
-
-
-
-
-    container.appendChild(div);
+  container.appendChild(div);
   });
 }
 
