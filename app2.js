@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейМы.
+// Простаяя SPA без фрейм.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -38,6 +38,8 @@ let selectedNodes = new Set();
 
 
 let selectedByColumn = {}; 
+// key = col, value = card.id
+let selectedLevel3ByColumn = {}; 
 // key = col, value = card.id
 
 
@@ -232,37 +234,91 @@ function renderTree(container) {
   e.stopPropagation();
 
   const col = Number(div.style.gridColumnStart);
-
-  // корень и уровень 2 не выбираем (как у тебя)
   const row = Number(div.style.gridRowStart);
+
+  // корень и уровень 2 не выбираем
   if (col === 5 && row === 1) return;
   if (row === 2) return;
 
-  const alreadySelectedId = selectedByColumn[col];
+  const isLevel3 = row === 3;
+  const isLevel4 = row >= 4;
 
-  // ===== если клик по уже выбранной =====
-  if (div.classList.contains("selected")) {
-    div.classList.remove("selected");
-    selectedNodes.delete(card.id);
-    delete selectedByColumn[col];
+  // =========================
+  // LEVEL 4 — НЕЛЬЗЯ без LEVEL 3
+  // =========================
+  if (isLevel4 && !selectedLevel3ByColumn[col]) {
     return;
   }
 
-  // ===== если в столбике уже есть выбранная =====
-  if (alreadySelectedId) {
-    // снять старую
-    const oldNode = container.querySelector(
-      `.grid-node.selected[style*="grid-column-start: ${col}"]`
-    );
-    if (oldNode) oldNode.classList.remove("selected");
-    selectedNodes.delete(alreadySelectedId);
+  // =========================
+  // СНЯТИЕ ВЫБОРА
+  // =========================
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
+
+    if (isLevel3) {
+      delete selectedLevel3ByColumn[col];
+
+      // сброс 4 уровня в этом столбике
+      const level4Node = container.querySelector(
+        `.grid-node.selected[style*="grid-column-start: ${col}"]`
+      );
+      if (level4Node) {
+        const id = level4Node.dataset.id;
+        level4Node.classList.remove("selected");
+        selectedNodes.delete(id);
+        delete selectedByColumn[col];
+      }
+    }
+
+    if (isLevel4) {
+      delete selectedByColumn[col];
+    }
+
+    return;
   }
 
-  // ===== выбрать новую =====
-  div.classList.add("selected");
-  selectedNodes.add(card.id);
-  selectedByColumn[col] = card.id;
+  // =========================
+  // LEVEL 3 — ВЫБОР
+  // =========================
+  if (isLevel3) {
+    // снять старый 3 уровень в столбике
+    const oldLevel3 = selectedLevel3ByColumn[col];
+    if (oldLevel3) {
+      const oldNode = container.querySelector(
+        `.grid-node.selected[data-id="${oldLevel3}"]`
+      );
+      if (oldNode) oldNode.classList.remove("selected");
+      selectedNodes.delete(oldLevel3);
+    }
+
+    // выбрать новый
+    div.classList.add("selected");
+    selectedNodes.add(card.id);
+    selectedLevel3ByColumn[col] = card.id;
+    return;
+  }
+
+  // =========================
+  // LEVEL 4 — RADIO В СТОЛБИКЕ
+  // =========================
+  if (isLevel4) {
+    const oldLevel4 = selectedByColumn[col];
+    if (oldLevel4) {
+      const oldNode = container.querySelector(
+        `.grid-node.selected[data-id="${oldLevel4}"]`
+      );
+      if (oldNode) oldNode.classList.remove("selected");
+      selectedNodes.delete(oldLevel4);
+    }
+
+    div.classList.add("selected");
+    selectedNodes.add(card.id);
+    selectedByColumn[col] = card.id;
+  }
 };
+
 
 
 
