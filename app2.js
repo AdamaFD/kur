@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейм.
+// Простаяя SPA без фреймм.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -303,20 +303,28 @@ function renderTree(container) {
   // =========================
   // LEVEL 4 — RADIO В СТОЛБИКЕ
   // =========================
-  if (isLevel4) {
-    const oldLevel4 = selectedByColumn[col];
-    if (oldLevel4) {
-      const oldNode = container.querySelector(
-        `.grid-node.selected[data-id="${oldLevel4}"]`
-      );
-      if (oldNode) oldNode.classList.remove("selected");
-      selectedNodes.delete(oldLevel4);
-    }
+  // =========================
+// LEVEL 4 — RADIO В СТОЛБИКЕ (ФИНАЛ)
+// =========================
+if (isLevel4) {
 
-    div.classList.add("selected");
-    selectedNodes.add(card.id);
-    selectedByColumn[col] = card.id;
-  }
+  // снять ВСЕ выбранные в этом столбике
+  const selectedInColumn = container.querySelectorAll(
+    `.grid-node.selected[style*="grid-column-start: ${col}"]`
+  );
+
+  selectedInColumn.forEach(node => {
+    node.classList.remove("selected");
+    selectedNodes.delete(node.dataset.id);
+  });
+
+  // выбрать текущую
+  div.classList.add("selected");
+  selectedNodes.add(card.id);
+
+  return;
+}
+
 };
 
 
