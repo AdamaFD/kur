@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мурлыки*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1046,6 +1046,66 @@ li.branch-2 .grid-node {
   font-weight: 600;
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
   transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+
+/* ВЕТКА 0 — СИНИЕ */
+.grid-node[data-row="1"][data-col="1"],
+.grid-node[data-row="2"][data-col="1"],
+.grid-node[data-row="3"][data-col="1"] {
+  background-color: #0a2a66; /* тёмно-синий */
+}
+
+.grid-node[data-row="1"][data-col="2"],
+.grid-node[data-row="2"][data-col="2"],
+.grid-node[data-row="3"][data-col="2"] {
+  background-color: #1d4fa3; /* средний синий */
+}
+
+.grid-node[data-row="1"][data-col="3"],
+.grid-node[data-row="2"][data-col="3"],
+.grid-node[data-row="3"][data-col="3"] {
+  background-color: #4d7fe0; /* светлый синий */
+}
+
+
+/* ВЕТКА 1 — ФИОЛЕТОВЫЕ */
+.grid-node[data-row="1"][data-col="4"],
+.grid-node[data-row="2"][data-col="4"],
+.grid-node[data-row="3"][data-col="4"] {
+  background-color: #4a0a66; /* тёмно-фиолетовый */
+}
+
+.grid-node[data-row="1"][data-col="5"],
+.grid-node[data-row="2"][data-col="5"],
+.grid-node[data-row="3"][data-col="5"] {
+  background-color: #7a2fa3; /* средний фиолетовый */
+}
+
+.grid-node[data-row="1"][data-col="6"],
+.grid-node[data-row="2"][data-col="6"],
+.grid-node[data-row="3"][data-col="6"] {
+  background-color: #b07fe0; /* светлый фиолетовый */
+}
+
+
+/* ВЕТКА 2 — КРАСНЫЕ */
+.grid-node[data-row="1"][data-col="7"],
+.grid-node[data-row="2"][data-col="7"],
+.grid-node[data-row="3"][data-col="7"] {
+  background-color: #660a0a; /* тёмно-красный */
+}
+
+.grid-node[data-row="1"][data-col="8"],
+.grid-node[data-row="2"][data-col="8"],
+.grid-node[data-row="3"][data-col="8"] {
+  background-color: #a32f2f; /* средний красный */
+}
+
+.grid-node[data-row="1"][data-col="9"],
+.grid-node[data-row="2"][data-col="9"],
+.grid-node[data-row="3"][data-col="9"] {
+  background-color: #e07f7f; /* светлый красный */
 }
 
 
