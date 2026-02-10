@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймпиздец.
+// Простаяя SPA без фрейоткат.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -190,38 +190,26 @@ function buildFixedTreeLayout(rootId) {
 }
 
 
+
 /* =========================
    TREE RENDER
 ========================= */
 
+
+let selectedNodes = new Set();
+
+let levelBranchCounts = {
+  3: {0:0, 1:0, 2:0},
+  4: {0:0, 1:0, 2:0},
+  5: {0:0, 1:0, 2:0},
+  6: {0:0, 1:0, 2:0}
+};
 
 function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
 
   const nodes = buildFixedTreeLayout(currentCardId);
-
-  // сбрасываем счётчики перед рендером
-  levelBranchCounts = {
-    3: {0:0, 1:0, 2:0}
-  };
-
-  levelColumnCounts = {
-    4: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0},
-    5: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0},
-    6: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
-  };
-
-  // восстанавливаем ограничения по выбранным картам
-  nodes.forEach(({ card, col, row, branch }) => {
-    if (!selectedNodes.has(card.id)) return;
-
-    if (row === 3) {
-      levelBranchCounts[3][branch] = 1;
-    } else if (row >= 4 && row <= 6) {
-      levelColumnCounts[row][col] = 1;
-    }
-  });
 
   nodes.forEach(({ card, col, row, branch }) => {
     const div = document.createElement("div");
@@ -242,44 +230,38 @@ function renderTree(container) {
     div.onclick = (e) => {
       e.stopPropagation();
 
-      const nodeCol = Number(div.style.gridColumnStart);
-      const nodeRow = Number(div.style.gridRowStart);
-      const nodeBranch = Number(div.dataset.branch);
+      const row = Number(div.style.gridRowStart);
+      const branch = Number(div.dataset.branch);
 
-      if (nodeCol === 5 && nodeRow === 1) return;
-      if (nodeRow === 2) return;
+      // корень не выбираем
+      if (col === 5 && row === 1) return;
 
+      // Level 2 не выбираем
+      if (row === 2) return;
+
+      // если уже выбрана — снять
       if (div.classList.contains("selected")) {
         div.classList.remove("selected");
         selectedNodes.delete(card.id);
-
-        if (nodeRow === 3) {
-          levelBranchCounts[3][nodeBranch] = 0;
-        } else if (nodeRow >= 4 && nodeRow <= 6) {
-          levelColumnCounts[nodeRow][nodeCol] = 0;
-        }
+        levelBranchCounts[row][branch] = 0;
         return;
       }
 
+      // ограничение: всего 12
       if (selectedNodes.size >= 12) return;
 
-      if (nodeRow === 3) {
-        if (levelBranchCounts[3][nodeBranch] >= 1) return;
-        levelBranchCounts[3][nodeBranch] = 1;
-      }
-
-      if (nodeRow >= 4 && nodeRow <= 6) {
-        if (levelColumnCounts[nodeRow][nodeCol] >= 1) return;
-        levelColumnCounts[nodeRow][nodeCol] = 1;
-      }
+      // ограничение: 1 карта на ветку на уровне
+      if (levelBranchCounts[row][branch] >= 1) return;
 
       div.classList.add("selected");
       selectedNodes.add(card.id);
+      levelBranchCounts[row][branch] = 1;
     };
 
     container.appendChild(div);
   });
 }
+
 
 
 
