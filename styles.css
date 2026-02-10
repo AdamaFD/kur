@@ -1,4 +1,4 @@
-* {                           /*курлык*/
+* {                           /*курлыки*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1027,16 +1027,10 @@ li.branch-2 .grid-node {
   50%  { text-shadow: 0 0 22px rgba(255,210,100,1); }
   100% { text-shadow: 0 0 8px rgba(255,230,140,1); }
 }
-/* Разделитель между Level 3 (row=4) и Level 4 (row=3) */
-#desktopTree .grid-node[style*="grid-row-start: 3"]::before {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(255, 215, 120, 0.35);
-  box-shadow: 0 0 6px rgba(255, 215, 120, 0.4);
+/* Подсветка фона Level 4 */
+#desktopTree .grid-node[style*="grid-row-start: 3"] {
+  background-color: rgba(255, 245, 200, 0.25) !important;
+  backdrop-filter: blur(1px);
 }
 
 
