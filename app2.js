@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейм.
+// Простаяя SPA без фреймов.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -239,10 +239,10 @@ div.dataset.col = col;
   const row = Number(div.style.gridRowStart);
 
  
-  // корень, 2-й и 3-й уровни не выбираем
+// корень и уровень 2 не выбираем
 if (col === 5 && row === 1) return;
 if (row === 2) return;
-if (row === 3) return;
+
 
 
   const isLevel3 = row === 3;
