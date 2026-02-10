@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймовкаррр.
+// Простаяя SPA без фрейм.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -272,6 +272,18 @@ div.dataset.row = row;
   // LEVEL 3 — одиночный выбор, одна ветка
   // =========================
   if (row === 3) {
+     // нельзя выбирать Level 3, если он не принадлежит выбранному Level 2
+const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
+if (selectedL2) {
+  const parentId = selectedL2.dataset.id;
+  const parentCard = byId(parentId);
+  const allowedChildren = getLinks(parentCard);
+
+  if (!allowedChildren.includes(card.id)) {
+    return; // клик по чужой ветке — игнорируем
+  }
+}
+
     // снять все выбранные на уровне 3
     const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
     selectedL3.forEach(node => {
