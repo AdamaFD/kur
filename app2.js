@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейМ.
+// Простаяя SPA без фрейМы.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -35,15 +35,10 @@ let currentCardId = null;
 
 let selectedNodes = new Set();
 
-let levelBranchCounts = {
-  3: {0:0, 1:0, 2:0},
-  4: {0:0, 1:0, 2:0},
-  5: {0:0, 1:0, 2:0},
-  6: {0:0, 1:0, 2:0}
-};
-let level4ColumnSelected = {}; 
-// ключ = col, значение = card.id
 
+
+let selectedByColumn = {}; 
+// key = col, value = card.id
 
 
 
@@ -233,56 +228,42 @@ function renderTree(container) {
     div.style.gridRowStart = row;
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
 
-    div.onclick = (e) => {
+   div.onclick = (e) => {
   e.stopPropagation();
 
-  const row = Number(div.style.gridRowStart);
   const col = Number(div.style.gridColumnStart);
-  const branch = Number(div.dataset.branch);
 
-  // корень
+  // корень и уровень 2 не выбираем (как у тебя)
+  const row = Number(div.style.gridRowStart);
   if (col === 5 && row === 1) return;
-
-  // уровень 2
   if (row === 2) return;
 
-  const isLevel4 = row >= 4; 
-  // потому что после flipRow:
-  // L4 (1,2,3) → gridRowStart (6,5,4)
+  const alreadySelectedId = selectedByColumn[col];
 
-  // ================= СНЯТИЕ ВЫБОРА =================
+  // ===== если клик по уже выбранной =====
   if (div.classList.contains("selected")) {
     div.classList.remove("selected");
     selectedNodes.delete(card.id);
-
-    if (isLevel4) {
-      delete level4ColumnSelected[col];
-    } else {
-      levelBranchCounts[row][branch] = 0;
-    }
+    delete selectedByColumn[col];
     return;
   }
 
-  // ================= ОГРАНИЧЕНИЯ =================
-  if (selectedNodes.size >= 12) return;
-
-  // 🔴 ГЛАВНОЕ ОГРАНИЧЕНИЕ
-  if (isLevel4) {
-    if (level4ColumnSelected[col]) return;
-  } else {
-    if (levelBranchCounts[row][branch] >= 1) return;
+  // ===== если в столбике уже есть выбранная =====
+  if (alreadySelectedId) {
+    // снять старую
+    const oldNode = container.querySelector(
+      `.grid-node.selected[style*="grid-column-start: ${col}"]`
+    );
+    if (oldNode) oldNode.classList.remove("selected");
+    selectedNodes.delete(alreadySelectedId);
   }
 
-  // ================= ВЫБОР =================
+  // ===== выбрать новую =====
   div.classList.add("selected");
   selectedNodes.add(card.id);
-
-  if (isLevel4) {
-    level4ColumnSelected[col] = card.id;
-  } else {
-    levelBranchCounts[row][branch] = 1;
-  }
+  selectedByColumn[col] = card.id;
 };
+
 
 
     container.appendChild(div);
