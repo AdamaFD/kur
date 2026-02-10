@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейоткатттттттттттт.
+// Простаяя SPA без фрейМ.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -41,6 +41,8 @@ let levelBranchCounts = {
   5: {0:0, 1:0, 2:0},
   6: {0:0, 1:0, 2:0}
 };
+let level4ColumnSelected = {}; 
+// ключ = col, значение = card.id
 
 
 
@@ -232,35 +234,56 @@ function renderTree(container) {
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
 
     div.onclick = (e) => {
-      e.stopPropagation();
+  e.stopPropagation();
 
-      const row = Number(div.style.gridRowStart);
-      const branch = Number(div.dataset.branch);
+  const row = Number(div.style.gridRowStart);
+  const col = Number(div.style.gridColumnStart);
+  const branch = Number(div.dataset.branch);
 
-      // корень не выбираем
-      if (col === 5 && row === 1) return;
+  // корень
+  if (col === 5 && row === 1) return;
 
-      // Level 2 не выбираем
-      if (row === 2) return;
+  // уровень 2
+  if (row === 2) return;
 
-      // если уже выбрана — снять
-      if (div.classList.contains("selected")) {
-        div.classList.remove("selected");
-        selectedNodes.delete(card.id);
-        levelBranchCounts[row][branch] = 0;
-        return;
-      }
+  const isLevel4 = row >= 4; 
+  // потому что после flipRow:
+  // L4 (1,2,3) → gridRowStart (6,5,4)
 
-      // ограничение: всего 12
-      if (selectedNodes.size >= 12) return;
+  // ================= СНЯТИЕ ВЫБОРА =================
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
 
-      // ограничение: 1 карта на ветку на уровне
-      if (levelBranchCounts[row][branch] >= 1) return;
+    if (isLevel4) {
+      delete level4ColumnSelected[col];
+    } else {
+      levelBranchCounts[row][branch] = 0;
+    }
+    return;
+  }
 
-      div.classList.add("selected");
-      selectedNodes.add(card.id);
-      levelBranchCounts[row][branch] = 1;
-    };
+  // ================= ОГРАНИЧЕНИЯ =================
+  if (selectedNodes.size >= 12) return;
+
+  // 🔴 ГЛАВНОЕ ОГРАНИЧЕНИЕ
+  if (isLevel4) {
+    if (level4ColumnSelected[col]) return;
+  } else {
+    if (levelBranchCounts[row][branch] >= 1) return;
+  }
+
+  // ================= ВЫБОР =================
+  div.classList.add("selected");
+  selectedNodes.add(card.id);
+
+  if (isLevel4) {
+    level4ColumnSelected[col] = card.id;
+  } else {
+    levelBranchCounts[row][branch] = 1;
+  }
+};
+
 
     container.appendChild(div);
   });
