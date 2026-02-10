@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейоткат.
+// Простаяя SPA без фрейоткатттттттттттт.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -32,6 +32,15 @@ const mobileTree = document.getElementById("mobileTree");
 
 let cards = [];
 let currentCardId = null;
+
+let selectedNodes = new Set();
+
+let levelBranchCounts = {
+  3: {0:0, 1:0, 2:0},
+  4: {0:0, 1:0, 2:0},
+  5: {0:0, 1:0, 2:0},
+  6: {0:0, 1:0, 2:0}
+};
 
 
 
@@ -196,14 +205,9 @@ function buildFixedTreeLayout(rootId) {
 ========================= */
 
 
-let selectedNodes = new Set();
 
-let levelBranchCounts = {
-  3: {0:0, 1:0, 2:0},
-  4: {0:0, 1:0, 2:0},
-  5: {0:0, 1:0, 2:0},
-  6: {0:0, 1:0, 2:0}
-};
+
+
 
 function renderTree(container) {
   container.innerHTML = "";
