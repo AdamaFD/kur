@@ -1,4 +1,4 @@
-// Простаяя SPA без фрейм.
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -234,7 +234,7 @@ div.dataset.col = col;
 div.dataset.row = row;
 
 
-  div.onclick = (e) => {
+ div.onclick = (e) => {
   e.stopPropagation();
 
   const col = Number(div.dataset.col);
@@ -247,16 +247,30 @@ div.dataset.row = row;
   // LEVEL 2 — одиночный выбор
   // =========================
   if (row === 2) {
-    // снять все выбранные на уровне 2, кроме текущего
-    const selectedL2 = container.querySelectorAll('.grid-node.selected[data-row="2"]');
-    selectedL2.forEach(node => {
-      if (node !== div) {
+
+    // снять выбор уровня 3 и 4 при смене уровня 2
+    const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
+    selectedL3.forEach(node => {
+      node.classList.remove("selected");
+      selectedNodes.delete(node.dataset.id);
+    });
+
+    const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
+    selectedL4.forEach(node => {
+      if (Number(node.dataset.row) >= 4) {
         node.classList.remove("selected");
         selectedNodes.delete(node.dataset.id);
       }
     });
 
-    // переключатель для текущего
+    // снять старый выбор уровня 2
+    const oldL2 = container.querySelector('.grid-node.selected[data-row="2"]');
+    if (oldL2 && oldL2 !== div) {
+      oldL2.classList.remove("selected");
+      selectedNodes.delete(oldL2.dataset.id);
+    }
+
+    // переключатель
     if (div.classList.contains("selected")) {
       div.classList.remove("selected");
       selectedNodes.delete(card.id);
@@ -269,88 +283,75 @@ div.dataset.row = row;
   }
 
   // =========================
-  // LEVEL 3 — одиночный выбор, одна ветка
+  // LEVEL 3 — одиночный выбор
   // =========================
   if (row === 3) {
-     // нельзя выбирать Level 3, если он не принадлежит выбранному Level 2
-const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
-if (selectedL2) {
-  const parentId = selectedL2.dataset.id;
-  const parentCard = byId(parentId);
-  const allowedChildren = getLinks(parentCard);
 
-  if (!allowedChildren.includes(card.id)) {
-    return; // клик по чужой ветке — игнорируем
-  }
-}
+    // нельзя выбирать 3-й уровень без выбранного 2-го
+    const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
+    if (!selectedL2) return;
 
-    // снять все выбранные на уровне 3
-    const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
-    selectedL3.forEach(node => {
-      node.classList.remove("selected");
-      selectedNodes.delete(node.dataset.id);
-    });
+    // проверяем принадлежность ветке
+    const parentCard = byId(selectedL2.dataset.id);
+    const allowedChildren = getLinks(parentCard);
 
-    // если клик по уже выбранному — просто всё сняли и выходим
-    if (div.classList.contains("selected")) {
-      div.classList.remove("selected");
-      selectedNodes.delete(card.id);
-
-      // сбросить все 4-е уровни во всех столбцах
-      const selectedL4All = container.querySelectorAll('.grid-node.selected');
-      selectedL4All.forEach(node => {
-        const r = Number(node.dataset.row);
-        if (r >= 4) {
-          node.classList.remove("selected");
-          selectedNodes.delete(node.dataset.id);
-        }
-      });
-
-      selectedLevel3ByColumn = {};
-      return;
+    if (!allowedChildren.includes(card.id)) {
+      return; // чужая ветка — игнор
     }
 
-    // выбрать текущий 3-й уровень
-    div.classList.add("selected");
-    selectedNodes.add(card.id);
-
-    // одна активная ветка — очищаем и записываем только текущую
-    selectedLevel3ByColumn = {};
-    selectedLevel3ByColumn[col] = card.id;
-
-    // при смене ветки — сбросить все 4-е уровни
-    const selectedL4All = container.querySelectorAll('.grid-node.selected');
-    selectedL4All.forEach(node => {
-      const r = Number(node.dataset.row);
-      if (r >= 4) {
+    // снять все 4-е уровни при смене 3-го
+    const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
+    selectedL4.forEach(node => {
+      if (Number(node.dataset.row) >= 4) {
         node.classList.remove("selected");
         selectedNodes.delete(node.dataset.id);
       }
     });
+
+    // снять старый выбор уровня 3
+    const oldL3 = container.querySelector('.grid-node.selected[data-row="3"]');
+    if (oldL3 && oldL3 !== div) {
+      oldL3.classList.remove("selected");
+      selectedNodes.delete(oldL3.dataset.id);
+    }
+
+    // переключатель
+    if (div.classList.contains("selected")) {
+      div.classList.remove("selected");
+      selectedNodes.delete(card.id);
+    } else {
+      div.classList.add("selected");
+      selectedNodes.add(card.id);
+    }
 
     return;
   }
 
   // =========================
-  // LEVEL 4 — только если выбран LEVEL 3 в этом столбце
+  // LEVEL 4 — одиночный выбор в столбце
   // =========================
   if (row >= 4) {
-    if (!selectedLevel3ByColumn[col]) return;
 
-    // снять только 4-й уровень в этом столбце
+    // нельзя выбирать 4-й уровень без выбранного 3-го в этом столбце
+    const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
+    if (!selectedL3) return;
+
+    const selectedL3Col = Number(selectedL3.dataset.col);
+    if (selectedL3Col !== col) return;
+
+    // снять старый выбор 4-го уровня в этом столбце
     const selectedInColumn = container.querySelectorAll(
       `.grid-node.selected[data-col="${col}"]`
     );
 
     selectedInColumn.forEach(node => {
-      const r = Number(node.dataset.row);
-      if (r >= 4) {
+      if (Number(node.dataset.row) >= 4) {
         node.classList.remove("selected");
         selectedNodes.delete(node.dataset.id);
       }
     });
 
-    // переключатель для текущего
+    // переключатель
     if (div.classList.contains("selected")) {
       div.classList.remove("selected");
       selectedNodes.delete(card.id);
@@ -362,6 +363,7 @@ if (selectedL2) {
     return;
   }
 };
+
 
   container.appendChild(div);
   });
