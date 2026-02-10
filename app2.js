@@ -1,4 +1,4 @@
-// курлыкк
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -152,6 +152,7 @@ function buildFixedTreeLayout(rootId) {
 }
 
 
+
   // --- Level 1 (root) ---
   place(rootId, 5, 6, null);
 
@@ -165,7 +166,8 @@ function buildFixedTreeLayout(rootId) {
   const l2 = firstNLinks(rootId, 3);
 
   l2.forEach((id, i) => {
-    place(id, L2_POS[i].col, L2_POS[i].row, i, rootId); // branch = 0/1/2
+    place(id, L2_POS[i].col, L2_POS[i].row, i, rootId);
+ // branch = 0/1/2
   });
 
   // --- Level 3 ---
@@ -182,6 +184,7 @@ function buildFixedTreeLayout(rootId) {
     kids.forEach((id, i) => {
       const pos = L3_POS[branch][i];
       place(id, pos.col, pos.row, branch, parentId);
+
       l3.push({ id, col: pos.col, branch });
     });
   });
@@ -193,6 +196,7 @@ function buildFixedTreeLayout(rootId) {
     const kids = firstNLinks(id, 3);
     kids.forEach((kidId, i) => {
       place(kidId, col, L4_ROWS[i], branch, id);
+
     });
   });
 
@@ -285,52 +289,48 @@ div.dataset.parent = parentId;
     return;
   }
 
-  // =========================
-  // LEVEL 3 — одиночный выбор
-  // =========================
-  if (row === 3) {
+ // =========================
+// LEVEL 3 — одиночный выбор
+// =========================
+if (row === 3) {
+
+  // нельзя выбирать Level 3 без выбранного Level 2
   const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
   if (!selectedL2) return;
 
-  const parentId = div.dataset.parent;
-  if (parentId !== selectedL2.dataset.id) return;
+  // нельзя выбирать Level 3, если он не принадлежит выбранному Level 2
+  if (div.dataset.parent !== selectedL2.dataset.id) {
+    return; // чужая ветка — игнор
+  }
+
+  // снять все 4-е уровни при смене 3-го
+  const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
+  selectedL4.forEach(node => {
+    if (Number(node.dataset.row) >= 4) {
+      node.classList.remove("selected");
+      selectedNodes.delete(node.dataset.id);
+    }
+  });
+
+  // снять старый выбор уровня 3
+  const oldL3 = container.querySelector('.grid-node.selected[data-row="3"]');
+  if (oldL3 && oldL3 !== div) {
+    oldL3.classList.remove("selected");
+    selectedNodes.delete(oldL3.dataset.id);
+  }
+
+  // переключатель
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
+  } else {
+    div.classList.add("selected");
+    selectedNodes.add(card.id);
+  }
+
+  return;
 }
 
-    // проверяем принадлежность ветке
-    const parentCard = byId(selectedL2.dataset.id);
-    const allowedChildren = getLinks(parentCard);
-
-    if (!allowedChildren.includes(card.id)) {
-      return; // чужая ветка — игнор
-    }
-
-    // снять все 4-е уровни при смене 3-го
-    const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
-    selectedL4.forEach(node => {
-      if (Number(node.dataset.row) >= 4) {
-        node.classList.remove("selected");
-        selectedNodes.delete(node.dataset.id);
-      }
-    });
-
-    // снять старый выбор уровня 3
-    const oldL3 = container.querySelector('.grid-node.selected[data-row="3"]');
-    if (oldL3 && oldL3 !== div) {
-      oldL3.classList.remove("selected");
-      selectedNodes.delete(oldL3.dataset.id);
-    }
-
-    // переключатель
-    if (div.classList.contains("selected")) {
-      div.classList.remove("selected");
-      selectedNodes.delete(card.id);
-    } else {
-      div.classList.add("selected");
-      selectedNodes.add(card.id);
-    }
-
-    return;
-  }
 
   // =========================
   // LEVEL 4 — одиночный выбор в столбце
