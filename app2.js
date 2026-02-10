@@ -1,4 +1,4 @@
-// курлыки
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -333,43 +333,42 @@ if (row === 3) {
 
 
   // =========================
-  // LEVEL 4 — одиночный выбор в столбце
-  // =========================
-  if (row >= 4) {
+// LEVEL 4 — одиночный выбор в столбце
+// =========================
+if (row >= 4) {
+
+  // нельзя выбирать 4-й уровень без выбранного 3-го
   const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
   if (!selectedL3) return;
 
-  const parentId = div.dataset.parent;
-  if (parentId !== selectedL3.dataset.id) return;
+  // 4-й уровень можно выбирать только в той же ветке (том же столбце)
+  const selectedL3Col = Number(selectedL3.dataset.col);
+  if (selectedL3Col !== col) return;
+
+  // снять старый выбор 4-го уровня в этом столбце
+  const selectedInColumn = container.querySelectorAll(
+    `.grid-node.selected[data-col="${col}"]`
+  );
+
+  selectedInColumn.forEach(node => {
+    if (Number(node.dataset.row) >= 4) {
+      node.classList.remove("selected");
+      selectedNodes.delete(node.dataset.id);
+    }
+  });
+
+  // переключатель
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
+  } else {
+    div.classList.add("selected");
+    selectedNodes.add(card.id);
+  }
+
+  return;
 }
 
-
-    const selectedL3Col = Number(selectedL3.dataset.col);
-    if (selectedL3Col !== col) return;
-
-    // снять старый выбор 4-го уровня в этом столбце
-    const selectedInColumn = container.querySelectorAll(
-      `.grid-node.selected[data-col="${col}"]`
-    );
-
-    selectedInColumn.forEach(node => {
-      if (Number(node.dataset.row) >= 4) {
-        node.classList.remove("selected");
-        selectedNodes.delete(node.dataset.id);
-      }
-    });
-
-    // переключатель
-    if (div.classList.contains("selected")) {
-      div.classList.remove("selected");
-      selectedNodes.delete(card.id);
-    } else {
-      div.classList.add("selected");
-      selectedNodes.add(card.id);
-    }
-
-    return;
-  }
 };
 
 
