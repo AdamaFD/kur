@@ -1,4 +1,4 @@
-// Простаяя SPA без фреймов.
+// Простаяя SPA без фреймовкар.
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -239,9 +239,53 @@ div.dataset.col = col;
   const row = Number(div.style.gridRowStart);
 
  
-// корень и уровень 2 не выбираем
+// корень не выбираем
 if (col === 5 && row === 1) return;
-if (row === 2) return;
+// =========================
+// LEVEL 2 — одиночный выбор
+// =========================
+if (row === 2) {
+
+  const old = container.querySelector('.grid-node.selected[data-row="2"]');
+  if (old && old !== div) {
+    old.classList.remove("selected");
+    selectedNodes.delete(old.dataset.id);
+  }
+
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
+  } else {
+    div.classList.add("selected");
+    selectedNodes.add(card.id);
+  }
+
+  return;
+}
+// =========================
+// LEVEL 3 — одиночный выбор
+// =========================
+if (row === 3) {
+
+  const old = container.querySelector('.grid-node.selected[data-row="3"]');
+  if (old && old !== div) {
+    old.classList.remove("selected");
+    selectedNodes.delete(old.dataset.id);
+  }
+
+  if (div.classList.contains("selected")) {
+    div.classList.remove("selected");
+    selectedNodes.delete(card.id);
+    delete selectedLevel3ByColumn[col];
+  } else {
+    div.classList.add("selected");
+    selectedNodes.add(card.id);
+    selectedLevel3ByColumn[col] = card.id;
+  }
+
+  return;
+}
+
 
 
 
@@ -308,24 +352,33 @@ if (row === 2) return;
   // =========================
 // LEVEL 4 — RADIO В СТОЛБИКЕ (ИСПРАВЛЕНО)
 // =========================
-if (isLevel4) {
+// =========================
+// LEVEL 4 — можно выбирать только если выбран LEVEL 3 в этом столбце
+// =========================
+if (row >= 4) {
 
-  // снять ВСЕ выбранные карты в этом столбике
+  if (!selectedLevel3ByColumn[col]) return;
+
+  // снять только Level 4 в этом столбце
   const selectedInColumn = container.querySelectorAll(
     `.grid-node.selected[data-col="${col}"]`
   );
 
   selectedInColumn.forEach(node => {
-    node.classList.remove("selected");
-    selectedNodes.delete(node.dataset.id);
+    const r = Number(node.style.gridRowStart);
+    if (r >= 4) {
+      node.classList.remove("selected");
+      selectedNodes.delete(node.dataset.id);
+    }
   });
 
-  // выбрать текущую
+  // выбрать текущий
   div.classList.add("selected");
   selectedNodes.add(card.id);
 
   return;
 }
+
 
 
 };
