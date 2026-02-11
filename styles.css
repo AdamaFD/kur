@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1183,5 +1183,47 @@ li.branch-2 .grid-node {
     0% 50%
   );
   border-radius: 0 !important;
+}
+/* =========================================
+   DESKTOP — CARD IMAGE TOOLTIP ON HOVER
+   ========================================= */
+
+@media (min-width: 920px) {
+
+  .grid-node {
+    position: relative;
+  }
+
+  /* скрытое окно */
+  .grid-node .card-preview {
+    position: absolute;
+    top: 50%;
+    left: 110%;
+    transform: translateY(-50%);
+    width: 220px;
+    height: 140px;
+
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+
+    display: none;
+    padding: 6px;
+    z-index: 9999;
+  }
+
+  /* картинка внутри */
+  .grid-node .card-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  /* показываем при наведении */
+  .grid-node:hover .card-preview {
+    display: block;
+  }
 }
 
