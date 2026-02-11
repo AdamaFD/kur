@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурksr*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1190,40 +1190,44 @@ li.branch-2 .grid-node {
 
 @media (min-width: 920px) {
 
-  .grid-node {
-    position: relative;
-  }
-
-  /* скрытое окно */
-  .grid-node .card-preview {
-    position: absolute;
-    top: 50%;
-    left: 110%;
-    transform: translateY(-50%);
-    width: 220px;
-    height: 140px;
-
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-
-    display: none;
-    padding: 6px;
-    z-index: 9999;
-  }
-
-  /* картинка внутри */
-  .grid-node .card-preview png {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 8px;
-  }
-
-  /* показываем при наведении */
-  .grid-node:hover .card-preview {
-    display: block;
-  }
+  /* Убедитесь, что узел сетки имеет относительное позиционирование для работы absolute позиционирования card-preview */
+.grid-node {
+  position: relative;
+  /* Дополнительные стили для узла дерева, если необходимо */
 }
 
+/* Скрываем предпросмотр изображения по умолчанию */
+.grid-node .card-preview {
+  display: none; /* Скрыто по умолчанию */
+  position: absolute; /* Позиционируем относительно узла */
+  z-index: 10;       /* Убедимся, что изображение поверх других элементов */
+  bottom: 100%;      /* Помещаем его ВЫШЕ узла. Используйте top: 100% для размещения НИЖЕ узла */
+  left: 50%;         /* Центрируем по горизонтали */
+  transform: translateX(-50%); /* Точная центровка */
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none; /* Игнорируем события мыши на предпросмотре, чтобы не блокировать клики на узел */
+  width: 180px; /* Задайте желаемую ширину предпросмотра */
+  border-radius: 4px;
+}
+
+/* Стили для изображения внутри предпросмотра */
+.grid-node .card-preview img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Показываем предпросмотр при наведении на узел сетки */
+.grid-node:hover .card-preview {
+  display: block;
+}
+
+/* Если вам нужно, чтобы предпросмотр был при наведении на span.node-title, можно изменить селектор: */
+/*
+.grid-node .node-title:hover + .card-preview {
+  display: block;
+}
+*/
