@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1139,8 +1139,8 @@ li.branch-2 .grid-node {
 #mobileTree  .grid-node[data-col="7"][data-row="4"],
 #mobileTree  .grid-node[data-col="7"][data-row="5"],
 #mobileTree  .grid-node[data-col="7"][data-row="6"] {
-  background: #b03048 !important;
-  border-color: #b03048 !important;
+  background: #c6425a !important;
+  border-color: #c6425a !important;
   background-image: none !important;
   box-shadow: none !important;
 }
