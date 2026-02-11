@@ -1,4 +1,4 @@
-// кур
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -112,7 +112,11 @@ function renderDesktopList() {
 ========================= */
 function renderCardDesktop(card) {
   desktopCard.innerHTML = `
-    <img src="images/${card.id}.jpg" alt="">
+    desktopCard.innerHTML = `
+  <img src="${card.id}.png" alt="">
+  <button class="open-pdf">Открыть карту (PDF)</button>
+`;
+
     <button class="open-pdf">Открыть карту (PDF)</button>
   `;
   const openPdfBtn = desktopCard.querySelector(".open-pdf");
