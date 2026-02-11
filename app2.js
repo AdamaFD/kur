@@ -1,4 +1,4 @@
-// курлыки
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -103,7 +103,7 @@ function renderCardDesktop(card) {
 }
 function renderCardMobile(card) {
   descTab.innerHTML = `
-    <img src="${card.id}.png" class="card-image-large" alt="Изображение карты ${card.id}">
+    <img src="image/${card.id}.png" class="card-image-large" alt="Изображение карты ${card.id}">
     <button class="open-pdf">Открыть карту</button>
   `;
   const openPdfBtn = descTab.querySelector(".open-pdf");
