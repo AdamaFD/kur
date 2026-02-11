@@ -506,6 +506,24 @@ body {
   box-shadow:
     0 4px 10px rgba(0,0,0,0.08);
 }
+/* =========================================
+   LEVEL 4 — HEXAGON SHAPE
+   ========================================= */
+
+#desktopTree .grid-node[data-row="4"],
+#desktopTree .grid-node[data-row="5"],
+#desktopTree .grid-node[data-row="6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  clip-path: polygon(
+    25% 0%, 75% 0%,
+    100% 50%,
+    75% 100%, 25% 100%,
+    0% 50%
+  );
+  border-radius: 0 !important;
+}
 
 /* ---------- ROOT ---------- */
 .grid-node.root {
