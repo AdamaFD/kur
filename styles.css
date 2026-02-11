@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1169,7 +1169,7 @@ li.branch-2 .grid-node {
   background-image: none !important;
   box-shadow: none !important;
 }
-/* LEVEL 4 — HEXAGON SHAPE (slightly bigger) */
+/* LEVEL 4 — HEXAGON SHAPE (bigger +5px) */
 #desktopTree .grid-node[data-row="4"],
 #desktopTree .grid-node[data-row="5"],
 #desktopTree .grid-node[data-row="6"],
@@ -1177,9 +1177,9 @@ li.branch-2 .grid-node {
 #mobileTree  .grid-node[data-row="5"],
 #mobileTree  .grid-node[data-row="6"] {
   clip-path: polygon(
-    22% 0%, 78% 0%,
+    18% 0%, 82% 0%,
     100% 50%,
-    78% 100%, 22% 100%,
+    82% 100%, 18% 100%,
     0% 50%
   );
   border-radius: 0 !important;
