@@ -1,4 +1,4 @@
-// курлык
+// курлыки
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -183,12 +183,14 @@ function renderTree(container) {
     }
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
+    // --- ИЗМЕНЕННАЯ ЧАСТЬ: ДОБАВЛЕНИЕ card-preview и img ---
     div.innerHTML = `
       <span class="node-title">${card.title}</span>
       <div class="card-preview">
-        <img src="${card.id}.png" alt="Изображение карты ${card.id}">
+        <img src="./${card.id}.png" alt="Предпросмотр карты ${card.id}">
       </div>
     `;
+    // --- КОНЕЦ ИЗМЕНЕННОЙ ЧАСТИ ---
     div.dataset.id = card.id;
     div.dataset.col = col;
     div.dataset.row = row;
@@ -333,11 +335,39 @@ backBtn.onclick = () => {
   backBtn.classList.add("hidden");
   treeBtn.classList.add("hidden");
 };
-treeBtn.onclick = () => drawerTree.classList.add("open");
+
+// Исправлено: событие data-close должно срабатывать на закрытие drawerTree,
+// а не на открытие, которое управляется treeBtn.
+// Также добавлена логика для закрытия по клику на overlay.
 document.addEventListener("click", (e) => {
   const key = e.target?.getAttribute("data-close");
-  if (key) document.getElementById(key).classList.remove("open");
+  if (key) {
+    const targetElement = document.getElementById(key);
+    if (targetElement) {
+      targetElement.setAttribute("aria-hidden", "true");
+      document.body.classList.remove('drawer-open'); // Убрать класс для блокировки скролла
+    }
+  }
 });
+
+// Добавим обработчик для открытия drawerTree по кнопке treeBtn
+if (treeBtn && drawerTree) {
+  treeBtn.addEventListener('click', () => {
+    drawerTree.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('drawer-open'); // Добавить класс для блокировки скролла
+    renderTree(mobileTree); // Рендерим дерево для мобильной версии при открытии
+  });
+
+  // Логика для закрытия drawerTree по клику на overlay
+  const drawerOverlay = drawerTree.querySelector('.drawer-overlay');
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener('click', () => {
+      drawerTree.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    });
+  }
+}
+
 /* =========================
    INIT
 ========================= */
