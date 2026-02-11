@@ -1,4 +1,4 @@
-// курлыки
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -234,7 +234,13 @@ function renderTree(container) {
 
   div.style.gridColumnStart = col;
   div.style.gridRowStart = row;
-  div.innerHTML = `<span class="node-title">${card.title}</span>`;
+  div.innerHTML = `
+  <span class="node-title">${card.title}</span>
+  <div class="card-preview">
+    <img src="${card.id}.png" alt="">
+  </div>
+`;
+
   div.dataset.id = card.id;
   div.dataset.col = col;
   div.dataset.row = row;
