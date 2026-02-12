@@ -1,4 +1,4 @@
-// курлыки
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -272,7 +272,8 @@ function renderTree(container) {
       // =========================
       // LEVEL 4 — одиночный выбор в столбце
       // =========================
-      if (row >= 4) {
+      if (row === 4 || row === 5 || row === 6) {
+
         // нельзя выбирать 4-й уровень без выбранного 3-го
         const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
         if (!selectedL3) return;
