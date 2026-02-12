@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1190,72 +1190,64 @@ li.branch-2 .grid-node {
 
 @media (min-width: 920px) {
 
-  /* Убедитесь, что узел сетки имеет относительное позиционирование для работы absolute позиционирования card-preview */
-.grid-node {
-  position: relative;
-  /* Дополнительные стили для узла дерева, если необходимо */
-}
+  /* Узел дерева */
+  .grid-node {
+    position: relative;
+    overflow: visible !important;
+    z-index: 1;
+  }
 
-/* Скрываем предпросмотр изображения по умолчанию */
-.grid-node {
-  position: relative;
-  overflow: visible;
-  z-index: 1;
-}
+  /* Превью по умолчанию (для 1–3 уровней — снизу) */
+  .grid-node .card-preview {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
 
-.grid-node .card-preview {
-  position: absolute;
-  top: 100%;           /* показываем снизу */
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 10px;
+    width: 180px; /* уменьшено */
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.3);
 
-  width: 260px;
-  background: white;
-  padding: 6px;
-  border-radius: 10px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s ease;
 
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.2s ease;
+    z-index: 999;
+  }
 
-  z-index: 999;        /* перекрывает всё дерево */
-}
+  /* Для 4 уровня (строки 4–6) — показываем сверху */
+  .grid-node[data-row="4"] .card-preview,
+  .grid-node[data-row="5"] .card-preview,
+  .grid-node[data-row="6"] .card-preview {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
 
-.grid-node:hover {
-  z-index: 1000;       /* сама нода выше остальных */
-}
+  /* Показываем при наведении */
+  .grid-node:hover {
+    z-index: 1000;
+  }
 
-.grid-node:hover .card-preview {
-  opacity: 1;
-}
+  .grid-node:hover .card-preview {
+    opacity: 1;
+  }
 
+  /* Изображение */
+  .grid-node .card-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 
-/* Стили для изображения внутри предпросмотра */
-.grid-node .card-preview img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Показываем предпросмотр при наведении на узел сетки */
-.grid-node:hover .card-preview {
-  display: block;
-}
-
-/* Если вам нужно, чтобы предпросмотр был при наведении на span.node-title, можно изменить селектор: */
-/*
-.grid-node .node-title:hover + .card-preview {
-  display: block;
-}
-*/
-@media (min-width: 920px) {
+  /* Разрешаем выход за границы дерева */
   #desktopTree {
     overflow: visible !important;
   }
+
 }
-.grid-node {
-  position: relative;
-  overflow: visible !important;
-}
+
