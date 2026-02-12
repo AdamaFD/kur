@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1270,5 +1270,13 @@ li.branch-2 .grid-node {
   top: auto;
   bottom: 100%;
   margin-bottom: 8px;
+}
+/* Превью для уровней 4–6 (row = 3, 2, 1) */
+.grid-node[data-row="3"] .card-preview,
+.grid-node[data-row="2"] .card-preview,
+.grid-node[data-row="1"] .card-preview {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 8px;
 }
 
