@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1199,7 +1199,8 @@ li.branch-2 .grid-node {
 
   /* Превью по умолчанию (для 1–3 уровней — снизу) */
   .grid-node .card-preview {
-    position: absolute;
+    position: fixed;
+
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -1248,6 +1249,18 @@ li.branch-2 .grid-node {
   #desktopTree {
     overflow: visible !important;
   }
+}
+#desktopTree {
+  position: relative;
+}
 
+.grid-node:hover {
+  z-index: 9999 !important;
+}
+#desktopTree > .grid-node {
+  position: relative;
+}
+#desktopTree {
+  isolation: isolate;
 }
 
