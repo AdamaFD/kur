@@ -1,4 +1,4 @@
-// курлык
+// курлыки
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -175,6 +175,11 @@ function renderTree(container) {
   nodes.forEach(({ card, col, row, branch, parentId }) => {
     const div = document.createElement("div");
     div.className = "grid-node";
+
+if (row >= 4) {
+  div.classList.add("bottom-level");
+}
+
     if (selectedNodes.has(card.id)) {
       div.classList.add("selected");
     }
