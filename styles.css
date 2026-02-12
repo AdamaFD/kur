@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мурлыки*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1199,7 +1199,7 @@ li.branch-2 .grid-node {
 
   /* Превью по умолчанию (для 1–3 уровней — снизу) */
   .grid-node .card-preview {
-    position: fixed;
+    position: absolute;
 
     top: 100%;
     left: 50%;
