@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1225,14 +1225,14 @@ li.branch-2 .grid-node {
     z-index: 9999;
   }
 
-  /* Уровни 4–6 (row = 3, 2, 1) — превью сверху */
-  .grid-node[data-row="3"] .card-preview,
-  .grid-node[data-row="2"] .card-preview,
-  .grid-node[data-row="1"] .card-preview {
-    top: auto;
-    bottom: 100%;
-    margin-top: 0;
-    margin-bottom: 8px;
+  /* Уровни 4 (row = 4, 5, 6) — превью сверху */
+  .grid-node[data-row="6"] .card-preview,
+  .grid-node[data-row="5"] .card-preview,
+  .grid-node[data-row="4"] .card-preview {
+    top: auto; /* Сброс top */
+    bottom: 100%; /* Позиционирование сверху */
+    margin-top: 0; /* Сброс margin-top */
+    margin-bottom: 8px; /* Отступ от узла */
   }
 
   /* Показываем при наведении */
