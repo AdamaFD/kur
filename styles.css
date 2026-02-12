@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1317,6 +1317,13 @@ li.branch-2 .grid-node {
     top: -150px !important; /* Пример: если превью 3-го уровня показывается */
     bottom: auto !important;
   }
+}
+/* ВСЕ уровни показывают превью вниз */
+.grid-node .card-preview {
+  top: 100% !important;
+  bottom: auto !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
 }
 /* ВСЕ уровни показывают превью вниз */
 .grid-node .card-preview {
