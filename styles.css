@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1260,5 +1260,10 @@ li.branch-2 .grid-node {
   position: relative;
   isolation: isolate;
   overflow: visible !important;
+}
+.grid-node.bottom-level .card-preview {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 8px;
 }
 
