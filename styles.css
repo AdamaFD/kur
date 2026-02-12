@@ -1,4 +1,4 @@
-* {                           /*мурлыки*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1188,6 +1188,9 @@ li.branch-2 .grid-node {
    DESKTOP — CARD IMAGE TOOLTIP ON HOVER
    ========================================= */
 
+/* ================================
+   ДЕСКТОПНАЯ ВЕРСИЯ
+================================ */
 @media (min-width: 920px) {
 
   /* Узел дерева */
@@ -1197,7 +1200,7 @@ li.branch-2 .grid-node {
     z-index: 1;
   }
 
-  /* Превью по умолчанию (для 1–3 уровней — снизу) */
+  /* Превью по умолчанию (уровни 1–3 — снизу) */
   .grid-node .card-preview {
     position: absolute;
 
@@ -1206,7 +1209,7 @@ li.branch-2 .grid-node {
     transform: translateX(-50%);
     margin-top: 8px;
 
-    width: 180px; /* уменьшено */
+    width: 180px;
     background: white;
     padding: 5px;
     border-radius: 8px;
@@ -1214,12 +1217,12 @@ li.branch-2 .grid-node {
 
     opacity: 0;
     pointer-events: none;
-    transition: 0.2s ease;
+    transition: opacity 0.2s ease;
 
     z-index: 999;
   }
 
-  /* Для 4 уровня (строки 4–6) — показываем сверху */
+  /* Для уровней 4–6 — показываем сверху */
   .grid-node[data-row="4"] .card-preview,
   .grid-node[data-row="5"] .card-preview,
   .grid-node[data-row="6"] .card-preview {
@@ -1231,7 +1234,7 @@ li.branch-2 .grid-node {
 
   /* Показываем при наведении */
   .grid-node:hover {
-    z-index: 1000;
+    z-index: 10000 !important;
   }
 
   .grid-node:hover .card-preview {
@@ -1245,22 +1248,17 @@ li.branch-2 .grid-node {
     display: block;
   }
 
-  /* Разрешаем выход за границы дерева */
-  #desktopTree {
+  /* Разрешаем выход превью за границы */
+  #desktopTree,
+  #desktopTree * {
     overflow: visible !important;
   }
 }
-#desktopTree {
-  position: relative;
-}
 
-.grid-node:hover {
-  z-index: 9999 !important;
-}
-#desktopTree > .grid-node {
-  position: relative;
-}
+/* Корневой контейнер */
 #desktopTree {
+  position: relative;
   isolation: isolate;
+  overflow: visible !important;
 }
 
