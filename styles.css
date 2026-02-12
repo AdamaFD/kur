@@ -1,4 +1,4 @@
-* {                           /*мурksr*/
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1231,3 +1231,12 @@ li.branch-2 .grid-node {
   display: block;
 }
 */
+@media (min-width: 920px) {
+  #desktopTree {
+    overflow: visible !important;
+  }
+}
+.grid-node {
+  position: relative;
+  overflow: visible !important;
+}
