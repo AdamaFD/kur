@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1195,78 +1195,86 @@ li.branch-2 .grid-node {
    ДЕСКТОПНАЯ ВЕРСИЯ
 ================================ */
 @media (min-width: 920px) {
-
-  /* Узел дерева */
+  /* Контейнер дерева */
+  #desktopTree {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: repeat(9, 1fr) !important;
+    grid-template-rows: repeat(6, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 10px !important;
+    overflow: visible !important; /* КРИТИЧНО */
+    isolation: isolate; /* Для корректной работы z-index */
+  }
+  /* Узел */
   .grid-node {
     position: relative;
-    overflow: visible;
-    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 12px;
+    text-align: center;
+    background: #f3f4f8;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    overflow: visible !important; /* Разрешаем превью выходить за границы узла */
+    z-index: 1; /* Базовый z-index для узлов */
   }
-
-  /* Превью по умолчанию — снизу */
+  .grid-node .node-title {
+    font-size: 14px;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  /* Общие стили для контейнера предварительного просмотра карточек */
+  /* Позиционирование по умолчанию: СНИЗУ (для data-row 1, 2, 3) */
   .grid-node .card-preview {
     position: absolute;
-
-    top: 100%;
+    top: 100%; /* Разместить снизу от узла */
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 8px;
-
+    margin-top: 8px; /* Отступ от узла */
     width: 180px;
     background: white;
     padding: 5px;
     border-radius: 8px;
     box-shadow: 0 10px 24px rgba(0,0,0,0.3);
-
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
-
-    z-index: 9999;
+    z-index: 9999; /* Высокий z-index, чтобы превью было поверх всего */
   }
-
-  /* Уровни 4 (row = 4, 5, 6) — превью сверху */
-  .grid-node[data-row="6"] .card-preview,
-  .grid-node[data-row="5"] .card-preview,
-  .grid-node[data-row="4"] .card-preview {
-    top: auto; /* Сброс top */
-    bottom: 100%; /* Позиционирование сверху */
-    margin-top: 0; /* Сброс margin-top */
-    margin-bottom: 8px; /* Отступ от узла */
-  }
-
-  /* Показываем при наведении */
-  .grid-node:hover {
-    z-index: 100000 !important;
-  }
-
-  .grid-node:hover .card-preview {
-    opacity: 1;
-  }
-
-  /* Изображение */
+  /* Изображение внутри превью */
   .grid-node .card-preview img {
     width: 100%;
     height: auto;
     display: block;
   }
-
-  /* Разрешаем выход превью за границы */
+  /* Переопределение позиционирования для уровней 4, 5, 6: СВЕРХУ */
+  .grid-node[data-row="4"] .card-preview,
+  .grid-node[data-row="5"] .card-preview,
+  .grid-node[data-row="6"] .card-preview {
+    top: auto; /* Сброс top */
+    bottom: 100%; /* Позиционирование сверху от узла */
+    margin-top: 0; /* Сброс margin-top */
+    margin-bottom: 8px; /* Отступ от узла */
+  }
+  /* Показываем превью при наведении на узел */
+  .grid-node:hover {
+    z-index: 100000 !important; /* Увеличиваем z-index узла при наведении для корректного отображения превью */
+  }
+  .grid-node:hover .card-preview {
+    opacity: 1; /* Делаем превью видимым */
+  }
+  /* Разрешаем выход превью за границы для #desktopTree и всех его дочерних элементов */
   #desktopTree,
   #desktopTree * {
     overflow: visible !important;
   }
 }
-
-/* Корневой контейнер */
-#desktopTree {
-  position: relative;
-  isolation: isolate;
-  overflow: visible !important;
-}
-
-/* Убираем ВСЕ скрывающие overflow правила */
+/* Корневой контейнер вне медиа-запроса, чтобы overflow: visible был всегда */
 #desktopTree {
   overflow: visible !important;
 }
-
