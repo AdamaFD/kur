@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1277,4 +1277,44 @@ li.branch-2 .grid-node {
 /* Корневой контейнер вне медиа-запроса, чтобы overflow: visible был всегда */
 #desktopTree {
   overflow: visible !important;
+}
+
+
+/* Добавьте этот код в ваш CSS-файл */
+
+@media (min-width: 920px) {
+  /* Стили для card-preview, когда он находится в grid-node любого уровня (для наведения) */
+  .grid-node .card-preview {
+    position: absolute; /* Убеждаемся, что позиционирование абсолютное */
+    left: 50%;
+    transform: translateX(-50%); /* Центрируем по горизонтали */
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 9999; /* Очень высокий z-index, чтобы быть поверх всего */
+    opacity: 0; /* Изначально скрыт */
+    pointer-events: none; /* Не перехватывает клики, пока не видим */
+    transition: opacity 0.2s ease-in-out, top 0.2s ease-in-out; /* Анимация */
+  }
+
+  .grid-node:hover .card-preview {
+    opacity: 1; /* Показываем при наведении */
+    pointer-events: auto; /* Делаем кликабельным при наведении */
+  }
+
+  /* СПЕЦИФИЧЕСКИЕ СТИЛИ ДЛЯ 4-го УРОВНЯ: ПРИНУДИТЕЛЬНО ПОДНИМАЕМ НА ВИДИМУЮ ВЫСОТУ */
+  .grid-node[data-row="4"]:hover .card-preview {
+    top: -300px !important; /* Экспериментируйте с этим значением: -200px, -250px, -350px */
+    bottom: auto !important; /* Отменяем любые conflicting bottom свойства */
+    background-color: rgba(255, 165, 0, 0.7) !important; /* Временный оранжевый фон для легкого обнаружения */
+  }
+
+  /* Для узлов 3-го уровня, чтобы они не перекрывали превью 4-го уровня */
+  .grid-node[data-row="3"]:hover .card-preview {
+    /* Если превью 3-го уровня также вылезает куда-то не туда, скорректируйте его top */
+    top: -150px !important; /* Пример: если превью 3-го уровня показывается */
+    bottom: auto !important;
+  }
 }
