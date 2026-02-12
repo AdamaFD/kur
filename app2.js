@@ -1,4 +1,4 @@
-// курлыки
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -48,9 +48,17 @@ const BRANCH_COLORS = [
 function flipRow(row) {
   return GRID_ROWS - row + 1;
 }
+// ... (остальной код) ...
+
 function byId(id) {
-  return cards.find((c) => String(c.id) === String(id));
+  const foundCard = cards.find((c) => String(c.id) === String(id));
+  if (!foundCard) {
+    console.warn(`Карта с ID ${id} не найдена в массиве 'cards'.`);
+  }
+  return foundCard;
 }
+
+// ... (остальной код) ...
 function getLinks(card) {
   return Array.isArray(card.links) ? card.links : [];
 }
