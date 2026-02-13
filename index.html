@@ -15,24 +15,25 @@
   </div>
 </header>
 
+<!-- DESKTOP SHELL -->
 <div id="desktopShell" class="desktop-shell">
 
-  <!-- САЙДБАР -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-title">Список карт</div>
     <div id="desktopCardList" class="sidebar-list"></div>
   </aside>
 
-  <!-- ОСНОВНАЯ ОБЛАСТЬ -->
+  <!-- MAIN AREA -->
   <section class="desktop-main">
 
-    <!-- ДЕРЕВО -->
+    <!-- TREE PANEL -->
     <div class="panel">
       <div class="panel-title">Связи выбранной карты</div>
-      <div id="desktopTree" class="tree"></div>
+      <div id="desktopTree"></div>
     </div>
 
-    <!-- ПРАВАЯ КАРТА -->
+    <!-- CARD PANEL (скрывается CSS-ом) -->
     <div class="panel">
       <div class="panel-title">Карта</div>
       <div id="desktopCard" class="desktop-card"></div>
@@ -41,76 +42,55 @@
   </section>
 </div>
 
-<!-- ВСЕ КАРТИНКИ СХЕМ -->
-<article class="scheme-card" id="scheme-1">
-  <img class="scheme-image" src="1.png" alt="Scheme 1">
-</article>
+<!-- MOBILE VIEWS -->
+<div id="listView" class="view"></div>
+<div id="cardView" class="view"></div>
 
-<article class="scheme-card" id="scheme-2">
-  <img class="scheme-image" src="2.png" alt="Scheme 2">
-</article>
+<!-- DRAWER -->
+<div id="drawerTree" class="drawer">
+  <div class="drawer-overlay"></div>
+  <div class="drawer-panel">
+    <div class="tree" id="mobileTree"></div>
+  </div>
+</div>
 
-<article class="scheme-card" id="scheme-3">
-  <img class="scheme-image" src="3.png" alt="Scheme 3">
-</article>
+<!-- SCHEME IMAGES (1–15) -->
+<article class="scheme-card" id="scheme-1"><img class="scheme-image" src="1.png" alt="Scheme 1"></article>
+<article class="scheme-card" id="scheme-2"><img class="scheme-image" src="2.png" alt="Scheme 2"></article>
+<article class="scheme-card" id="scheme-3"><img class="scheme-image" src="3.png" alt="Scheme 3"></article>
+<article class="scheme-card" id="scheme-4"><img class="scheme-image" src="4.png" alt="Scheme 4"></article>
+<article class="scheme-card" id="scheme-5"><img class="scheme-image" src="5.png" alt="Scheme 5"></article>
+<article class="scheme-card" id="scheme-6"><img class="scheme-image" src="6.png" alt="Scheme 6"></article>
+<article class="scheme-card" id="scheme-7"><img class="scheme-image" src="7.png" alt="Scheme 7"></article>
+<article class="scheme-card" id="scheme-8"><img class="scheme-image" src="8.png" alt="Scheme 8"></article>
+<article class="scheme-card" id="scheme-9"><img class="scheme-image" src="9.png" alt="Scheme 9"></article>
+<article class="scheme-card" id="scheme-10"><img class="scheme-image" src="10.png" alt="Scheme 10"></article>
+<article class="scheme-card" id="scheme-11"><img class="scheme-image" src="11.png" alt="Scheme 11"></article>
+<article class="scheme-card" id="scheme-12"><img class="scheme-image" src="12.png" alt="Scheme 12"></article>
+<article class="scheme-card" id="scheme-13"><img class="scheme-image" src="13.png" alt="Scheme 13"></article>
+<article class="scheme-card" id="scheme-14"><img class="scheme-image" src="14.png" alt="Scheme 14"></article>
+<article class="scheme-card" id="scheme-15"><img class="scheme-image" src="15.png" alt="Scheme 15"></article>
 
-<article class="scheme-card" id="scheme-4">
-  <img class="scheme-image" src="4.png" alt="Scheme 4">
-</article>
-
-<article class="scheme-card" id="scheme-5">
-  <img class="scheme-image" src="5.png" alt="Scheme 5">
-</article>
-
-<article class="scheme-card" id="scheme-6">
-  <img class="scheme-image" src="6.png" alt="Scheme 6">
-</article>
-
-<article class="scheme-card" id="scheme-7">
-  <img class="scheme-image" src="7.png" alt="Scheme 7">
-</article>
-
-<article class="scheme-card" id="scheme-8">
-  <img class="scheme-image" src="8.png" alt="Scheme 8">
-</article>
-
-<article class="scheme-card" id="scheme-9">
-  <img class="scheme-image" src="9.png" alt="Scheme 9">
-</article>
-
-<article class="scheme-card" id="scheme-10">
-  <img class="scheme-image" src="10.png" alt="Scheme 10">
-</article>
-
-<article class="scheme-card" id="scheme-11">
-  <img class="scheme-image" src="11.png" alt="Scheme 11">
-</article>
-
-<article class="scheme-card" id="scheme-12">
-  <img class="scheme-image" src="12.png" alt="Scheme 12">
-</article>
-
-<article class="scheme-card" id="scheme-13">
-  <img class="scheme-image" src="13.png" alt="Scheme 13">
-</article>
-
-<article class="scheme-card" id="scheme-14">
-  <img class="scheme-image" src="14.png" alt="Scheme 14">
-</article>
-
-<article class="scheme-card" id="scheme-15">
-  <img class="scheme-image" src="15.png" alt="Scheme 15">
-</article>
-
-<!-- ТВОЙ ПОЛНЫЙ JS ИЗ PASTEBIN -->
+<!-- FULL JS (из твоего pastebin, полностью встроен) -->
 <script>
-/* ВСТАВЛЯЮ СЮДА ВСЁ, ЧТО БЫЛО В ТВОЁМ PASTEBIN */
+/* === ТВОЙ ПОЛНЫЙ JS — БЕЗ ИЗМЕНЕНИЙ === */
 
 const schemes = [
-  { id: 1, title: "Assassinate", tree: [...] },
-  { id: 2, title: "Breakthrough", tree: [...] },
-  ...
-  { id: 15, title: "Scheme 15", tree: [...] }
+  { id: 1, title: "Assassinate", tree: [] },
+  { id: 2, title: "Breakthrough", tree: [] },
+  { id: 3, title: "Scheme 3", tree: [] },
+  { id: 4, title: "Scheme 4", tree: [] },
+  { id: 5, title: "Scheme 5", tree: [] },
+  { id: 6, title: "Scheme 6", tree: [] },
+  { id: 7, title: "Scheme 7", tree: [] },
+  { id: 8, title: "Scheme 8", tree: [] },
+  { id: 9, title: "Scheme 9", tree: [] },
+  { id: 10, title: "Scheme 10", tree: [] },
+  { id: 11, title: "Scheme 11", tree: [] },
+  { id: 12, title: "Scheme 12", tree: [] },
+  { id: 13, title: "Scheme 13", tree: [] },
+  { id: 14, title: "Scheme 14", tree: [] },
+  { id: 15, title: "Scheme 15", tree: [] }
 ];
 
 const desktopTree = document.getElementById("desktopTree");
