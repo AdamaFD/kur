@@ -1,148 +1,133 @@
-<!DOCTYPE html>
+<!DOCTYPE html> //кря//
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Карты</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Боль моя дырка задница</title>
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
-
 <body>
 
 <header class="topbar">
   <div class="topbar-left">
+    <button id="backBtn" class="icon-btn hidden" aria-label="Назад">?</button>
     <h2 id="title">Карты</h2>
+  </div>
+
+  <div class="topbar-right">
+    <button id="treeBtn" class="icon-btn hidden" aria-label="Связи">?</button>
   </div>
 </header>
 
-<!-- DESKTOP SHELL -->
+<!-- DESKTOP -->
 <div id="desktopShell" class="desktop-shell">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-title">Список карт</div>
     <div id="desktopCardList" class="sidebar-list"></div>
   </aside>
 
-  <!-- MAIN AREA -->
   <section class="desktop-main">
 
-    <!-- TREE PANEL -->
+    <!-- ДЕРЕВО ВСЕГДА ВИДИМО НА ПК -->
     <div class="panel">
       <div class="panel-title">Связи выбранной карты</div>
-      <div id="desktopTree"></div>
+      <div id="desktopTree" class="tree"></div>
     </div>
 
-    <!-- CARD PANEL (скрывается CSS-ом) -->
-    <div class="panel">
-      <div class="panel-title">Карта</div>
-      <div id="desktopCard" class="desktop-card"></div>
-    </div>
+    <!-- КАРТА -->
+  
+<div class="panel">
+  <div class="panel-title">Карта</div>
+  <div id="desktopCard" class="desktop-card"></div>
+</div>
+
+    
 
   </section>
 </div>
+<article class="scheme-card" id="scheme-1">
+  <img class="scheme-image" src="1.png" alt="Scheme 1">
+</article>
 
-<!-- MOBILE VIEWS -->
-<div id="listView" class="view"></div>
-<div id="cardView" class="view"></div>
+<article class="scheme-card" id="scheme-2">
+  <img class="scheme-image" src="2.png" alt="Scheme 2">
+</article>
 
-<!-- DRAWER -->
-<div id="drawerTree" class="drawer">
-  <div class="drawer-overlay"></div>
+<article class="scheme-card" id="scheme-3">
+  <img class="scheme-image" src="3.png" alt="Scheme 3">
+</article>
+
+<article class="scheme-card" id="scheme-4">
+  <img class="scheme-image" src="4.png" alt="Scheme 4">
+</article>
+
+<article class="scheme-card" id="scheme-5">
+  <img class="scheme-image" src="5.png" alt="Scheme 5">
+</article>
+
+<article class="scheme-card" id="scheme-6">
+  <img class="scheme-image" src="6.png" alt="Scheme 6">
+</article>
+
+<article class="scheme-card" id="scheme-7">
+  <img class="scheme-image" src="7.png" alt="Scheme 7">
+</article>
+
+<article class="scheme-card" id="scheme-8">
+  <img class="scheme-image" src="8.png" alt="Scheme 8">
+</article>
+
+<article class="scheme-card" id="scheme-9">
+  <img class="scheme-image" src="9.png" alt="Scheme 9">
+</article>
+
+<article class="scheme-card" id="scheme-10">
+  <img class="scheme-image" src="10.png" alt="Scheme 10">
+</article>
+
+<article class="scheme-card" id="scheme-11">
+  <img class="scheme-image" src="11.png" alt="Scheme 11">
+</article>
+
+<article class="scheme-card" id="scheme-12">
+  <img class="scheme-image" src="12.png" alt="Scheme 12">
+</article>
+
+<article class="scheme-card" id="scheme-13">
+  <img class="scheme-image" src="13.png" alt="Scheme 13">
+</article>
+
+<article class="scheme-card" id="scheme-14">
+  <img class="scheme-image" src="14.png" alt="Scheme 14">
+</article>
+
+<article class="scheme-card" id="scheme-15">
+  <img class="scheme-image" src="15.png" alt="Scheme 15">
+</article>
+
+
+
+<!-- MOBILE -->
+<main id="listView" class="view active">
+  <div id="cardList" class="card-list"></div>
+</main>
+
+<main id="cardView" class="view">
+  <div id="descTab"></div>
+</main>
+
+<!-- Drawer: дерево для мобильной версии -->
+<div id="drawerTree" class="drawer" aria-hidden="true">
+  <div class="drawer-overlay" data-close="drawerTree"></div>
   <div class="drawer-panel">
-    <div class="tree" id="mobileTree"></div>
+    <div class="drawer-head">
+      <div class="drawer-title">Связанные карты</div>
+      <button class="icon-btn" data-close="drawerTree" aria-label="Закрыть">?</button>
+    </div>
+    <div id="mobileTree" class="tree"></div>
   </div>
 </div>
 
-<!-- SCHEME IMAGES (1–15) -->
-<article class="scheme-card" id="scheme-1"><img class="scheme-image" src="1.png" alt="Scheme 1"></article>
-<article class="scheme-card" id="scheme-2"><img class="scheme-image" src="2.png" alt="Scheme 2"></article>
-<article class="scheme-card" id="scheme-3"><img class="scheme-image" src="3.png" alt="Scheme 3"></article>
-<article class="scheme-card" id="scheme-4"><img class="scheme-image" src="4.png" alt="Scheme 4"></article>
-<article class="scheme-card" id="scheme-5"><img class="scheme-image" src="5.png" alt="Scheme 5"></article>
-<article class="scheme-card" id="scheme-6"><img class="scheme-image" src="6.png" alt="Scheme 6"></article>
-<article class="scheme-card" id="scheme-7"><img class="scheme-image" src="7.png" alt="Scheme 7"></article>
-<article class="scheme-card" id="scheme-8"><img class="scheme-image" src="8.png" alt="Scheme 8"></article>
-<article class="scheme-card" id="scheme-9"><img class="scheme-image" src="9.png" alt="Scheme 9"></article>
-<article class="scheme-card" id="scheme-10"><img class="scheme-image" src="10.png" alt="Scheme 10"></article>
-<article class="scheme-card" id="scheme-11"><img class="scheme-image" src="11.png" alt="Scheme 11"></article>
-<article class="scheme-card" id="scheme-12"><img class="scheme-image" src="12.png" alt="Scheme 12"></article>
-<article class="scheme-card" id="scheme-13"><img class="scheme-image" src="13.png" alt="Scheme 13"></article>
-<article class="scheme-card" id="scheme-14"><img class="scheme-image" src="14.png" alt="Scheme 14"></article>
-<article class="scheme-card" id="scheme-15"><img class="scheme-image" src="15.png" alt="Scheme 15"></article>
-
-<!-- FULL JS (из твоего pastebin, полностью встроен) -->
-<script>
-/* === ТВОЙ ПОЛНЫЙ JS — БЕЗ ИЗМЕНЕНИЙ === */
-
-const schemes = [
-  { id: 1, title: "Assassinate", tree: [] },
-  { id: 2, title: "Breakthrough", tree: [] },
-  { id: 3, title: "Scheme 3", tree: [] },
-  { id: 4, title: "Scheme 4", tree: [] },
-  { id: 5, title: "Scheme 5", tree: [] },
-  { id: 6, title: "Scheme 6", tree: [] },
-  { id: 7, title: "Scheme 7", tree: [] },
-  { id: 8, title: "Scheme 8", tree: [] },
-  { id: 9, title: "Scheme 9", tree: [] },
-  { id: 10, title: "Scheme 10", tree: [] },
-  { id: 11, title: "Scheme 11", tree: [] },
-  { id: 12, title: "Scheme 12", tree: [] },
-  { id: 13, title: "Scheme 13", tree: [] },
-  { id: 14, title: "Scheme 14", tree: [] },
-  { id: 15, title: "Scheme 15", tree: [] }
-];
-
-const desktopTree = document.getElementById("desktopTree");
-const desktopCard = document.getElementById("desktopCard");
-const desktopCardList = document.getElementById("desktopCardList");
-
-function renderCardList() {
-  desktopCardList.innerHTML = "";
-  schemes.forEach((scheme) => {
-    const item = document.createElement("div");
-    item.className = "sidebar-item";
-    item.textContent = `${scheme.title} #${scheme.id}`;
-    item.addEventListener("click", () => renderScheme(scheme.id));
-    desktopCardList.appendChild(item);
-  });
-}
-
-function renderScheme(id) {
-  const scheme = schemes.find((s) => s.id === id);
-  if (!scheme) return;
-
-  desktopTree.innerHTML = "";
-  desktopCard.innerHTML = "";
-
-  const img = document.createElement("img");
-  img.src = `${scheme.id}.png`;
-  img.className = "scheme-image";
-  desktopCard.appendChild(img);
-
-  scheme.tree.forEach((node) => {
-    const div = document.createElement("div");
-    div.className = "grid-node";
-    div.dataset.row = node.row;
-    div.dataset.col = node.col;
-    div.style.gridRowStart = node.row;
-    div.style.gridColumnStart = node.col;
-
-    div.innerHTML = `
-      <span class="node-title">${node.title}</span>
-      <div class="card-preview">
-        <img src="${scheme.id}.png">
-      </div>
-    `;
-
-    desktopTree.appendChild(div);
-  });
-}
-
-renderCardList();
-renderScheme(1);
-
-</script>
-
+<script src="app2.js?v=9999999999"></script>
 </body>
 </html>
