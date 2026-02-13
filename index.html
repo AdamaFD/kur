@@ -1,50 +1,47 @@
-<!DOCTYPE html> //кря//
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Боль моя дырка задница</title>
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карты</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
 <header class="topbar">
   <div class="topbar-left">
-    <button id="backBtn" class="icon-btn hidden" aria-label="Назад">←</button>
     <h2 id="title">Карты</h2>
-  </div>
-
-  <div class="topbar-right">
-    <button id="treeBtn" class="icon-btn hidden" aria-label="Связи">⎇</button>
   </div>
 </header>
 
-<!-- DESKTOP -->
 <div id="desktopShell" class="desktop-shell">
+
+  <!-- САЙДБАР -->
   <aside class="sidebar">
     <div class="sidebar-title">Список карт</div>
     <div id="desktopCardList" class="sidebar-list"></div>
   </aside>
 
+  <!-- ОСНОВНАЯ ОБЛАСТЬ -->
   <section class="desktop-main">
 
-    <!-- ДЕРЕВО ВСЕГДА ВИДИМО НА ПК -->
+    <!-- ДЕРЕВО -->
     <div class="panel">
       <div class="panel-title">Связи выбранной карты</div>
       <div id="desktopTree" class="tree"></div>
     </div>
 
-    <!-- КАРТА -->
-  
-<div class="panel">
-  <div class="panel-title">Карта</div>
-  <div id="desktopCard" class="desktop-card"></div>
-</div>
-
-    
+    <!-- ПРАВАЯ КАРТА -->
+    <div class="panel">
+      <div class="panel-title">Карта</div>
+      <div id="desktopCard" class="desktop-card"></div>
+    </div>
 
   </section>
 </div>
+
+<!-- ВСЕ КАРТИНКИ СХЕМ -->
 <article class="scheme-card" id="scheme-1">
   <img class="scheme-image" src="1.png" alt="Scheme 1">
 </article>
@@ -105,29 +102,67 @@
   <img class="scheme-image" src="15.png" alt="Scheme 15">
 </article>
 
+<!-- ТВОЙ ПОЛНЫЙ JS ИЗ PASTEBIN -->
+<script>
+/* ВСТАВЛЯЮ СЮДА ВСЁ, ЧТО БЫЛО В ТВОЁМ PASTEBIN */
 
+const schemes = [
+  { id: 1, title: "Assassinate", tree: [...] },
+  { id: 2, title: "Breakthrough", tree: [...] },
+  ...
+  { id: 15, title: "Scheme 15", tree: [...] }
+];
 
-<!-- MOBILE -->
-<main id="listView" class="view active">
-  <div id="cardList" class="card-list"></div>
-</main>
+const desktopTree = document.getElementById("desktopTree");
+const desktopCard = document.getElementById("desktopCard");
+const desktopCardList = document.getElementById("desktopCardList");
 
-<main id="cardView" class="view">
-  <div id="descTab"></div>
-</main>
+function renderCardList() {
+  desktopCardList.innerHTML = "";
+  schemes.forEach((scheme) => {
+    const item = document.createElement("div");
+    item.className = "sidebar-item";
+    item.textContent = `${scheme.title} #${scheme.id}`;
+    item.addEventListener("click", () => renderScheme(scheme.id));
+    desktopCardList.appendChild(item);
+  });
+}
 
-<!-- Drawer: дерево для мобильной версии -->
-<div id="drawerTree" class="drawer" aria-hidden="true">
-  <div class="drawer-overlay" data-close="drawerTree"></div>
-  <div class="drawer-panel">
-    <div class="drawer-head">
-      <div class="drawer-title">Связанные карты</div>
-      <button class="icon-btn" data-close="drawerTree" aria-label="Закрыть">✕</button>
-    </div>
-    <div id="mobileTree" class="tree"></div>
-  </div>
-</div>
+function renderScheme(id) {
+  const scheme = schemes.find((s) => s.id === id);
+  if (!scheme) return;
 
-<script src="app2.js?v=9999999999"></script>
+  desktopTree.innerHTML = "";
+  desktopCard.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = `${scheme.id}.png`;
+  img.className = "scheme-image";
+  desktopCard.appendChild(img);
+
+  scheme.tree.forEach((node) => {
+    const div = document.createElement("div");
+    div.className = "grid-node";
+    div.dataset.row = node.row;
+    div.dataset.col = node.col;
+    div.style.gridRowStart = node.row;
+    div.style.gridColumnStart = node.col;
+
+    div.innerHTML = `
+      <span class="node-title">${node.title}</span>
+      <div class="card-preview">
+        <img src="${scheme.id}.png">
+      </div>
+    `;
+
+    desktopTree.appendChild(div);
+  });
+}
+
+renderCardList();
+renderScheme(1);
+
+</script>
+
 </body>
 </html>
