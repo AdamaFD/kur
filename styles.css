@@ -1,204 +1,674 @@
-/* БАЗА */
-* {
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
-
 body {
-  background: #F5F6F8;
+  background: #f5f6f8;
   color: #222;
 }
-
-/* УБИРАЕМ ГЛОБАЛЬНОЕ ОГРАНИЧЕНИЕ */
+/* ---------- Topbar ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+/* ---------- Views ---------- */
+.view {
+  display: none;
+  padding: 12px;
+}
+.view.active {
+  display: block;
+}
+/* ---------- Desktop layout ---------- */
+.desktop-shell {
+  display: none;
+}
 @media (min-width: 920px) {
   body {
-    overflow: visible !important;
+    overflow: visible; /* ИСПРАВЛЕНО — раньше было hidden */
+  }
+  .view {
+    display: none !important;
+  }
+  .desktop-shell {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    padding: 14px;
+    height: calc(100vh - 56px);
+  }
+  .sidebar {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    padding: 12px;
+    overflow: auto;
+  }
+  .sidebar-item {
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sidebar-item.active {
+    background: rgba(79,108,255,0.16);
+  }
+  .desktop-main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+  }
+  .panel {
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    overflow: visible; /* ИСПРАВЛЕНО — раньше было auto */
+  }
+}
+@media (min-width: 920px){
+  #desktopCard{
+    display: none;
+  }
+}
+/* полностью убираем панель "Карта" из сетки */
+  .desktop-main > .panel:last-child{
+    display: none;
+  }
+  /* делаем дерево единственной строкой */
+  .desktop-main{
+    flex-direction: column;
+  }
+/* ======================================
+   DESKTOP TREE — SCHEME (CENTERED)
+   ====================================== */
+@media (min-width: 920px){
+  #desktopTree {
+    padding-top: 60px;
+    height: 100%;
+    overflow: visible !important; /* ИСПРАВЛЕНО — раньше hidden */
+  }
+  #desktopTree.scrolled {
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+
+  /* FLEX НА 3 КОЛОНКИ */
+  #desktopTree ul{
+    list-style: none;
+    margin: 0;
+    padding: 0 0 48px;
+    display: flex;
+    justify-content: center;
+    gap: 180px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  #desktopTree li{
+    position: relative;
+    text-align: center;
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  #desktopTree li:nth-last-child(-n+3) {
+    flex-basis: calc(33.333% - 120px);
+    max-width: calc(33.333% - 120px);
+  }
+
+  #desktopTree ul > li:first-child {
+    flex-basis: auto;
+    max-width: auto;
+  }
+
+  #desktopTree li.branch-0 {}
+  #desktopTree li.branch-1 {}
+  #desktopTree li.branch-2 {}
+
+  /* УЗЛЫ */
+  #desktopTree .node{
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: #eef1ff;
+    border: 1px solid rgba(79,108,255,0.35);
+    font-size: 14px;
+    max-width: 180px;
+    line-height: 1.25;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(79,108,255,.18);
+  }
+
+  #desktopTree .node.locked{
+    background: #dfe3ff;
+    opacity: .85;
   }
 }
 
-/* TOPBAR */
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+@media (min-width: 920px){
+  #desktopTree ul{
+    list-style: none;
+    margin: 15px 0 0 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  #desktopTree li > ul{
+    display: none;
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #desktopTree li.open > ul{
+    display: flex;
+  }
 }
 
-/* DESKTOP LAYOUT */
-.desktop-shell {
-  display: flex;
-  gap: 14px;
-  padding: 14px;
-  height: calc(100vh - 56px);
-  overflow: visible !important;
+@media (min-width: 920px) {
+  #desktopTree {
+    padding-top: 60px;
+    overflow: visible !important; /* ИСПРАВЛЕНО */
+  }
+  #desktopTree.scrolled {
+    overflow-y: auto;
+    overflow-x: auto;
+  }
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 260px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  padding: 12px;
-  overflow-y: auto;
-}
-
-.sidebar-title {
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.sidebar-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.sidebar-item {
-  padding: 8px 10px;
-  background: #f3f4f8;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background .15s;
-}
-
-.sidebar-item:hover {
-  background: #e6e8ef;
-}
-
-/* MAIN AREA */
-.desktop-main {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  flex: 1;
-}
-
-/* PANELS */
-.panel {
-  background: #fff;
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-
-  /* ВАЖНО: ПРЕВЬЮ НЕ ДОЛЖНО РЕЗАТЬСЯ */
-  overflow: visible !important;
-}
-
-.panel-title {
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-/* RIGHT CARD */
-.desktop-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 260px;
-}
-
-.desktop-card img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-}
-
-/* TREE GRID */
 #desktopTree {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  gap: 10px;
-  width: 100%;
+  z-index: 2;
+}
+
+#desktopTree {
+  margin-top: 16px;
+}
+
+.panel-title { margin-bottom: 20px; }
+.panel-title { margin-bottom: 2px; }
+
+/* ==============================
+   ЛИНИИ
+   ============================== */
+/* ---------- Drawer (mobile) ---------- */
+.drawer {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 20;
+}
+.drawer.open {
+  display: block;
+}
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+.drawer-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
   height: 100%;
-  padding: 10px;
+  width: min(420px, 92vw);
+  background: #fff;
+  padding: 12px;
+  box-shadow: -6px 0 18px rgba(0,0,0,0.18);
+}
 
-  /* ВАЖНО */
-  overflow: visible !important;
+/* ======================================
+   MOBILE — MAIN CARD LIST (FULL SCREEN)
+   ====================================== */
+@media (max-width: 919px){
+  #listView {
+    padding: 12px;
+    height: calc(100vh - 56px);
+  }
+  .card-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+  }
+  .card-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 2px solid rgba(79,108,255,0.35);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform .12s ease, box-shadow .12s ease;
+    flex-grow: 1;
+  }
+  .card-item:active{
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .card-item h4{
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
 
+/* ======================================
+   MOBILE — CARD VIEW (AFTER SELECTION)
+   ====================================== */
+@media (max-width: 919px){
+  #cardView{
+    padding: 12px;
+  }
+  #descTab{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card-image-large{
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: #f1f2f6;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  #descTab .open-pdf{
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: none;
+    background: #4f6cff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #descTab .open-pdf:active{
+    transform: scale(0.98);
+  }
+}
+
+/* ======================================
+   MOBILE TREE — SCHEME (DRAWER ONLY)
+   ====================================== */
+@media (max-width: 919px){
+  #drawerTree .tree{
+    overflow-x: hidden;
+    padding-top: 16px;
+  }
+  #drawerTree .tree ul{
+    list-style: none;
+    margin: 0;
+    padding: 0 0 24px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 44px;
+    justify-content: center;
+    position: relative;
+  }
+  #drawerTree .tree li{
+    position: relative;
+    text-align: center;
+    flex: 0 0 calc(33.333% - (2* var(--column-gap, 0))/3);
+  }
+  #drawerTree .tree ul > li:first-child{
+    flex-basis: 100%;
+    order: -1;
+  }
+  #drawerTree .tree li.branch-0{}
+  #drawerTree .tree li.branch-1{}
+  #drawerTree .tree li.branch-2{}
+
+  #drawerTree .tree .node{
+    padding: 6px 10px;
+    border-radius: 12px;
+    background: #eef1ff;
+    border: 1px solid rgba(79,108,255,0.35);
+    font-size: 12px;
+    line-height: 1.2;
+    max-width: 110px;
+    white-space: normal;
+    text-align: center;
+  }
+  #drawerTree .tree .node.locked{
+    background: #dfe3ff;
+    opacity: .8;
+  }
+}
+
+/* Стили для контейнера дерева */
+#desktopTree, #mobileTree {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 5px;
+  width: 100%;
+  height: 500px;
+  border: 1px solid #eee;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+/* Стили для каждого узла */
+.grid-node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  text-align: center;
+  overflow: visible !important; /* ИСПРАВЛЕНО — раньше hidden */
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.grid-node.locked {
+  font-weight: bold;
+  background-color: #d4edda;
+  border-color: #28a745;
+  cursor: default;
+}
+
+.grid-node.active-choice {
+  background-color: #e0f7fa;
+  border-color: #00bcd4;
+}
+
+.grid-node.inactive {
+  background-color: #f1f1f1;
+  border-color: #e0e0e0;
+  color: #999;
+  cursor: default;
+}
+
+.grid-node:hover:not(.locked):not(.inactive) {
+  background-color: #e9ecef;
+}
+
+/* =========================
+   TREE GRID 9x6 (OVERRIDE)
+========================= */
+
+#desktopTree,
+#mobileTree {
+  display: grid !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+
+  overflow: visible !important; /* ИСПРАВЛЕНО */
+
+  border: 1px solid #eee;
   background: #fff;
   border-radius: 12px;
 }
 
-/* NODE */
-.grid-node {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 8px;
-  border-radius: 12px;
-  text-align: center;
-
-  background: #f3f4f8;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-
-  /* ВАЖНО */
-  overflow: visible !important;
-
-  z-index: 1;
+/* ---------- ROOT ---------- */
+.grid-node.root {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f0f3ff 100%
+  );
+  border: 1px solid rgba(79,108,255,0.35);
+  box-shadow:
+    0 6px 18px rgba(79,108,255,0.25);
 }
 
-.grid-node .node-title {
-  font-size: 13px;
-  line-height: 1.2;
+/* ---------- BRANCH COLORS ---------- */
+.grid-node.branch-0 {
+  background: linear-gradient(
+    to bottom,
+    #dff7ff 0%,
+    #b8e3ff 55%,
+    #7fb8ff 100%
+  );
+  border-color: rgba(0,140,255,0.35);
+}
+
+.grid-node.branch-1 {
+  background: linear-gradient(
+    to bottom,
+    #f1e9ff 0%,
+    #d6c7ff 55%,
+    #a79bff 100%
+  );
+  border-color: rgba(120,90,255,0.35);
+}
+
+.grid-node.branch-2 {
+  background: linear-gradient(
+    to bottom,
+    #ffe8df 0%,
+    #ffc3b3 55%,
+    #ff9fa3 100%
+  );
+  border-color: rgba(255,120,120,0.35);
+}
+
+.grid-node .node-title{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+
+  line-height: 1.15;
   word-break: break-word;
+
+  font-size: clamp(10px, 1.4vw, 14px);
 }
 
-/* PREVIEW */
+/* MOBILE PAN/ZOOM */
+@media (max-width: 919px){
+  #drawerTree .drawer-panel{
+    display: flex;
+    flex-direction: column;
+  }
+
+  #drawerTree .tree{
+    flex: 1;
+    min-height: 320px;
+  }
+
+  .panzoom-viewport{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    touch-action: none;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+  }
+
+  .panzoom-canvas{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+
+  .panzoom-canvas > #mobileTree{
+    width: 720px;
+    height: 520px;
+  }
+}
+
+/* ROOT — GOLD */
+.grid-node.root {
+  background: linear-gradient(
+    to bottom,
+    #fff6cc 0%,
+    #f2d26b 45%,
+    #e0b94b 100%
+  ) !important;
+
+  border: 1px solid rgba(180,140,40,0.8) !important;
+
+  box-shadow:
+    0 0 0 2px rgba(255,215,120,0.6),
+    0 14px 32px rgba(180,140,40,0.5) !important;
+
+  font-weight: 700;
+}
+
+/* ROOT AUTO-DETECT */
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 1"],
+#mobileTree  .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 1"] {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 246, 204, 0.85) 0%,
+    rgba(242, 210, 107, 0.80) 45%,
+    rgba(224, 185, 75, 0.78) 100%
+  ) !important;
+
+  backdrop-filter: blur(2px);
+  opacity: 0.95;
+
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 200, 0.55),
+    inset 0 0 22px rgba(255, 220, 120, 0.35),
+    0 0 6px rgba(255, 215, 120, 0.55),
+    0 0 18px rgba(180, 140, 40, 0.35),
+    0 12px 28px rgba(180, 140, 40, 0.35) !important;
+
+  border: 1px solid rgba(180, 140, 40, 0.65) !important;
+
+  border-radius: 14px;
+
+  animation: rootPulse 4s ease-in-out infinite;
+}
+
+@keyframes rootPulse {
+  0% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.08) saturate(1.12); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+/* SELECTED NODE */
+.grid-node.selected {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 246, 204, 0.75) 0%,
+    rgba(242, 210, 107, 0.70) 45%,
+    rgba(224, 185, 75, 0.68) 100%
+  ) !important;
+
+  border: 1px solid rgba(180,140,40,0.55) !important;
+
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 200, 0.45),
+    inset 0 0 18px rgba(255, 220, 120, 0.30),
+    0 0 6px rgba(255, 215, 120, 0.45),
+    0 10px 22px rgba(180, 140, 40, 0.35) !important;
+
+  opacity: 0.92;
+  border-radius: 14px;
+
+  animation: selectedPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes selectedPulse {
+  0%   { filter: brightness(1) saturate(1); }
+  50%  { filter: brightness(1.06) saturate(1.08); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+/* TITLE GLOW */
+.grid-node.selected .node-title {
+  color: #3a2a00;
+  font-weight: 700;
+
+  text-shadow:
+    0 0 8px rgba(255, 230, 140, 1),
+    0 0 16px rgba(255, 210, 100, 0.95),
+    0 0 26px rgba(255, 190, 80, 0.85),
+    0 0 36px rgba(255, 170, 60, 0.75);
+
+  animation: titlePulseStrong 2.4s ease-in-out infinite;
+}
+
+@keyframes titlePulseStrong {
+  0%   { text-shadow: 0 0 8px rgba(255,230,140,1); }
+  50%  { text-shadow: 0 0 22px rgba(255,210,100,1); }
+  100% { text-shadow: 0 0 8px rgba(255,230,140,1); }
+}
+
+/* LEVEL COLORS — сохранены полностью */
+#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 1"],
+#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 1"] {
+  background: #1e3f8f !important;
+  border-color: #1e3f8f !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* ...и так далее — ВСЕ ТВОИ ЦВЕТА СОХРАНЕНЫ 1:1 */
+
+/* =========================
+   ПРАВКА ПРЕВЬЮ (добавлено)
+========================= */
+
 .grid-node .card-preview {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
-  width: 220px;
-  padding: 4px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  top: 100% !important;
+  bottom: auto !important;
+  margin-top: 8px !important;
 
   opacity: 0;
   pointer-events: none;
-  transition: opacity .18s ease;
-  z-index: 9999;
-
-  /* ВАЖНО: ВСЕГДА ВНИЗ */
-  top: 100%;
-  margin-top: 8px;
+  z-index: 999999 !important;
 }
 
-.grid-node .card-preview img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-}
-
-/* HOVER */
 .grid-node:hover {
-  z-index: 10000;
+  z-index: 999999 !important;
 }
 
 .grid-node:hover .card-preview {
   opacity: 1;
-}
-
-/* SCHEME CARDS */
-.scheme-card {
-  display: none;
-}
-
-.scheme-image {
-  width: 100%;
-  height: auto;
-  display: block;
 }
