@@ -1,399 +1,167 @@
-// курлык
-// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
-/* =========================
-   APP STATE + DOM REFS
-   (замена всего старого JSысf)
-========================= */
-// Простая SPA без фреймворков.
-// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
-/* =========================
-   APP STATE + DOM REFS
-   (замена всего старого JS)
-========================= */
-// Простая SPA без фреймворков.
-// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
-"use strict";
-const listView = document.getElementById("listView");
-const cardView = document.getElementById("cardView");
-const backBtn = document.getElementById("backBtn");
-const title = document.getElementById("title");
-const cardList = document.getElementById("cardList");
-const descTab = document.getElementById("descTab");
+/* ============================
+   ДАННЫЕ
+============================ */
+const schemes = [
+  { id: 1, title: "Assassinate", tree: [] },
+  { id: 2, title: "Breakthrough", tree: [] },
+  { id: 3, title: "Scheme 3", tree: [] },
+  { id: 4, title: "Scheme 4", tree: [] },
+  { id: 5, title: "Scheme 5", tree: [] },
+  { id: 6, title: "Scheme 6", tree: [] },
+  { id: 7, title: "Scheme 7", tree: [] },
+  { id: 8, title: "Scheme 8", tree: [] },
+  { id: 9, title: "Scheme 9", tree: [] },
+  { id: 10, title: "Scheme 10", tree: [] },
+  { id: 11, title: "Scheme 11", tree: [] },
+  { id: 12, title: "Scheme 12", tree: [] },
+  { id: 13, title: "Scheme 13", tree: [] },
+  { id: 14, title: "Scheme 14", tree: [] },
+  { id: 15, title: "Scheme 15", tree: [] }
+];
+
+/* ============================
+   DOM
+============================ */
 const desktopCardList = document.getElementById("desktopCardList");
 const desktopTree = document.getElementById("desktopTree");
-const desktopCard = document.getElementById("desktopCard");
-const treeBtn = document.getElementById("treeBtn");
-const drawerTree = document.getElementById("drawerTree"); // Исправлено: было "document = document.getElementById"
+
+const listView = document.getElementById("listView");
+const cardView = document.getElementById("cardView");
+
+const drawer = document.getElementById("drawerTree");
+const drawerOverlay = drawer.querySelector(".drawer-overlay");
 const mobileTree = document.getElementById("mobileTree");
-let cards = [];
-let currentCardId = null;
-let selectedNodes = new Set();
-let selectedByColumn = {};
-// key = col, value = card.id
-let selectedLevel3ByColumn = {};
-// key = col, value = card.id
-/* =========================
-   FIXED GRID 9 x 6
-========================= */
-const GRID_COLS = 9;
-const GRID_ROWS = 6;
-const BRANCH_COLORS = [
-  { light: "#d6f0ff", mid: "#6bbcff", dark: "#1e6fd9" }, // cyan → blue
-  { light: "#daf5e6", mid: "#5ecf9a", dark: "#1f8f5f" }, // green
-  { light: "#eadcff", mid: "#b18cff", dark: "#6b3fd6" }, // violet
-];
-/* =========================
-   HELPERS
-========================= */
-function flipRow(row) {
-  return GRID_ROWS - row + 1;
-}
-// ... (остальной код) ...
 
-function byId(id) {
-  const foundCard = cards.find((c) => String(c.id) === String(id));
-  if (!foundCard) {
-    console.warn(`Карта с ID ${id} не найдена в массиве 'cards'.`);
-  }
-  return foundCard;
-}
-
-// ... (остальной код) ...
-function getLinks(card) {
-  return Array.isArray(card.links) ? card.links : [];
-}
-function isDesktop() {
-  return window.matchMedia("(min-width: 920px)").matches;
-}
-function firstNLinks(cardId, n) {
-  const card = byId(cardId);
-  if (!card) return [];
-  return getLinks(card).slice(0, n);
-}
-/* =========================
-   LIST RENDER
-========================= */
-function renderMobileList() {
-  cardList.innerHTML = "";
-  cards.forEach((card) => {
-    const div = document.createElement("div");
-    div.className = "card-item";
-    div.innerHTML = `<h4>${card.title}</h4>`;
-    div.onclick = () => openCard(card.id);
-    cardList.appendChild(div);
-  });
-}
-function renderDesktopList() {
+/* ============================
+   РЕНДЕР СПИСКА КАРТ
+============================ */
+function renderCardList() {
   desktopCardList.innerHTML = "";
-  cards.forEach((card) => {
-    const row = document.createElement("div");
-    row.className =
-      "sidebar-item" +
-      (String(card.id) === String(currentCardId) ? " active" : "");
-    row.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
-    row.onclick = () => openCard(card.id);
-    desktopCardList.appendChild(row);
-  });
-}
-/* =========================
-   CARD RENDER
-========================= */
-function renderCardDesktop(card) {
-  // Исходная ошибка: была дублирующаяся строка "desktopCard.innerHTML = `", это исправлено
-  desktopCard.innerHTML = `
-    <img src="${card.id}.png" alt="Изображение карты ${card.id}">
-    <button class="open-pdf">Открыть карту (PDF)</button>
-  `;
-  const openPdfBtn = desktopCard.querySelector(".open-pdf");
-  if (openPdfBtn) {
-    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank");
-  }
-}
-function renderCardMobile(card) {
-  descTab.innerHTML = `
-    <img src="image/${card.id}.png" class="card-image-large" alt="Изображение карты ${card.id}">
-    <button class="open-pdf">Открыть карту</button>
-  `;
-  const openPdfBtn = descTab.querySelector(".open-pdf");
-  if (openPdfBtn) {
-    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank");
-  }
-}
-/* =========================
-   FIXED TREE LAYOUT BUILDER (9x6)
-========================= */
-function buildFixedTreeLayout(rootId) {
-  const nodes = [];
-  function place(cardId, col, row, branch = null, parentId = null) {
-    const card = byId(cardId);
-    if (!card) return;
-    nodes.push({
-      card,
-      col,
-      row: flipRow(row),
-      branch,
-      parentId
+  listView.innerHTML = "";
+
+  schemes.forEach((scheme) => {
+    /* ---- DESKTOP ---- */
+    const item = document.createElement("div");
+    item.className = "sidebar-item";
+    item.textContent = `${scheme.title} #${scheme.id}`;
+    item.addEventListener("click", () => {
+      highlightDesktopItem(scheme.id);
+      renderSchemeDesktop(scheme.id);
     });
-  }
-  // --- Level 1 (root) ---
-  place(rootId, 5, 6, null);
-  // --- Level 2 ---
-  const L2_POS = [
-    { col: 2, row: 5 },
-    { col: 5, row: 5 },
-    { col: 8, row: 5 },
-  ];
-  const l2 = firstNLinks(rootId, 3);
-  l2.forEach((id, i) => {
-    place(id, L2_POS[i].col, L2_POS[i].row, i, rootId);
-    // branch = 0/1/2
+    desktopCardList.appendChild(item);
+
+    /* ---- MOBILE ---- */
+    const mobileItem = document.createElement("div");
+    mobileItem.className = "card-item";
+    mobileItem.innerHTML = `<h4>${scheme.title}</h4>`;
+    mobileItem.addEventListener("click", () => openMobileCard(scheme.id));
+    listView.appendChild(mobileItem);
   });
-  // --- Level 3 ---
-  const L3_POS = [
-    [{ col: 1, row: 4 }, { col: 2, row: 4 }, { col: 3, row: 4 }],
-    [{ col: 4, row: 4 }, { col: 5, row: 4 }, { col: 6, row: 4 }],
-    [{ col: 7, row: 4 }, { col: 8, row: 4 }, { col: 9, row: 4 }],
-  ];
-  const l3 = [];
-  l2.forEach((parentId, branch) => {
-    const kids = firstNLinks(parentId, 3);
-    kids.forEach((id, i) => {
-      const pos = L3_POS[branch][i];
-      place(id, pos.col, pos.row, branch, parentId);
-      l3.push({ id, col: pos.col, branch });
-    });
-  });
-  // --- Level 4 ---
-  const L4_ROWS = [3, 2, 1];
-  l3.forEach(({ id, col, branch }) => {
-    const kids = firstNLinks(id, 3);
-    kids.forEach((kidId, i) => {
-      place(kidId, col, L4_ROWS[i], branch, id);
-    });
-  });
-  return nodes;
 }
-/* =========================
-   TREE RENDER
-========================= */
-function renderTree(container) {
-  container.innerHTML = "";
-  if (!currentCardId) return;
-  const nodes = buildFixedTreeLayout(currentCardId);
-  nodes.forEach(({ card, col, row, branch, parentId }) => {
+
+/* Подсветка выбранной карты на десктопе */
+function highlightDesktopItem(id) {
+  document.querySelectorAll(".sidebar-item").forEach((el) => {
+    el.classList.remove("active");
+  });
+
+  const target = [...desktopCardList.children].find((el) =>
+    el.textContent.includes(`#${id}`)
+  );
+  if (target) target.classList.add("active");
+}
+
+/* ============================
+   ДЕСКТОП — РЕНДЕР КАРТЫ
+============================ */
+function renderSchemeDesktop(id) {
+  const scheme = schemes.find((s) => s.id === id);
+  if (!scheme) return;
+
+  desktopTree.innerHTML = "";
+
+  /* ---- Рендер узлов дерева ---- */
+  scheme.tree.forEach((node) => {
     const div = document.createElement("div");
-    div.className = "grid-node";
+    div.className = `grid-node branch-${node.branch || 0}`;
+    div.style.gridRowStart = node.row;
+    div.style.gridColumnStart = node.col;
 
-if (row >= 4) {
-  div.classList.add("bottom-level");
-}
-
-    if (selectedNodes.has(card.id)) {
-      div.classList.add("selected");
-    }
-    if (branch !== null) {
-      div.dataset.branch = branch;
-    }
-    div.style.gridColumnStart = col;
-    div.style.gridRowStart = row;
-    // --- ИЗМЕНЕННАЯ ЧАСТЬ: ДОБАВЛЕНИЕ card-preview и img ---
     div.innerHTML = `
-      <span class="node-title">${card.title}</span>
+      <span class="node-title">${node.title}</span>
       <div class="card-preview">
-        <img src="./${card.id}.png" alt="Предпросмотр карты ${card.id}">
+        <img src="${id}.png">
       </div>
     `;
-    // --- КОНЕЦ ИЗМЕНЕННОЙ ЧАСТИ ---
-    div.dataset.id = card.id;
-    div.dataset.col = col;
-    div.dataset.row = row;
-    div.dataset.parent = parentId; // теперь работает
-    div.onclick = (e) => {
-      e.stopPropagation();
-      const col = Number(div.dataset.col);
-      const row = Number(div.dataset.row);
-      // корень не кликаем
-      if (col === 5 && row === 1) return;
-      // =========================
-      // LEVEL 2 — одиночный выбор
-      // =========================
-      if (row === 2) {
-        // снять выбор уровня 3 и 4 при смене уровня 2
-        const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
-        selectedL3.forEach(node => {
-          node.classList.remove("selected");
-          selectedNodes.delete(node.dataset.id);
-        });
-        const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
-        selectedL4.forEach(node => {
-          if (Number(node.dataset.row) >= 4) {
-            node.classList.remove("selected");
-            selectedNodes.delete(node.dataset.id);
-          }
-        });
-        // снять старый выбор уровня 2
-        const oldL2 = container.querySelector('.grid-node.selected[data-row="2"]');
-        if (oldL2 && oldL2 !== div) {
-          oldL2.classList.remove("selected");
-          selectedNodes.delete(oldL2.dataset.id);
-        }
-        // переключатель
-        if (div.classList.contains("selected")) {
-          div.classList.remove("selected");
-          selectedNodes.delete(card.id);
-        } else {
-          div.classList.add("selected");
-          selectedNodes.add(card.id);
-        }
-        return;
-      }
-      // =========================
-      // LEVEL 3 — одиночный выбор
-      // =========================
-      if (row === 3) {
-        // нельзя выбирать Level 3 без выбранного Level 2
-        const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
-        if (!selectedL2) return;
-        // нельзя выбирать Level 3, если он не принадлежит выбранному Level 2
-        if (div.dataset.parent !== selectedL2.dataset.id) {
-          return; // чужая ветка — игнор
-        }
-        // снять все 4-е уровни при смене 3-го
-        const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
-        selectedL4.forEach(node => {
-          if (Number(node.dataset.row) >= 4) {
-            node.classList.remove("selected");
-            selectedNodes.delete(node.dataset.id);
-          }
-        });
-        // снять старый выбор уровня 3
-        const oldL3 = container.querySelector('.grid-node.selected[data-row="3"]');
-        if (oldL3 && oldL3 !== div) {
-          oldL3.classList.remove("selected");
-          selectedNodes.delete(oldL3.dataset.id);
-        }
-        // переключатель
-        if (div.classList.contains("selected")) {
-          div.classList.remove("selected");
-          selectedNodes.delete(card.id);
-        } else {
-          div.classList.add("selected");
-          selectedNodes.add(card.id);
-        }
-        return;
-      }
-      // =========================
-      // LEVEL 4 — одиночный выбор в столбце
-      // =========================
-      if (row === 4 || row === 5 || row === 6) {
 
-        // нельзя выбирать 4-й уровень без выбранного 3-го
-        const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
-        if (!selectedL3) return;
-        // 4-й уровень можно выбирать только в той же ветке (том же столбце)
-        const selectedL3Col = Number(selectedL3.dataset.col);
-        if (selectedL3Col !== col) return;
-        // снять старый выбор 4-го уровня в этом столбце
-        const selectedInColumn = container.querySelectorAll(
-          `.grid-node.selected[data-col="${col}"]`
-        );
-        selectedInColumn.forEach(node => {
-          if (Number(node.dataset.row) >= 4) {
-            node.classList.remove("selected");
-            selectedNodes.delete(node.dataset.id);
-          }
-        });
-        // переключатель
-        if (div.classList.contains("selected")) {
-          div.classList.remove("selected");
-          selectedNodes.delete(card.id);
-        } else {
-          div.classList.add("selected");
-          selectedNodes.add(card.id);
-        }
-        return;
-      }   // конец LEVEL 4
-    };  // конец onclick
-    container.appendChild(div);
-  }); // конец nodes.forEach
-}   // конец renderTree
-/* =========================
-   OPEN CARD
-========================= */
-function openCard(cardId) {
-  const card = byId(cardId);
-  if (!card) return;
-  currentCardId = card.id;
-  title.textContent = card.title;
-  if (isDesktop()) {
-    backBtn.classList.add("hidden");
-    treeBtn.classList.add("hidden");
-    renderCardDesktop(card);
-  } else {
-    listView.classList.remove("active");
-    cardView.classList.add("active");
-    backBtn.classList.remove("hidden");
-    treeBtn.classList.remove("hidden");
-    renderCardMobile(card);
-  }
-  renderDesktopList();
-  renderTree(desktopTree);
-  if (!isDesktop()) renderTree(mobileTree);
-}
-/* =========================
-   NAV
-========================= */
-backBtn.onclick = () => {
-  cardView.classList.remove("active");
-  listView.classList.add("active");
-  backBtn.classList.add("hidden");
-  treeBtn.classList.add("hidden");
-};
-
-// Исправлено: событие data-close должно срабатывать на закрытие drawerTree,
-// а не на открытие, которое управляется treeBtn.
-// Также добавлена логика для закрытия по клику на overlay.
-document.addEventListener("click", (e) => {
-  const key = e.target?.getAttribute("data-close");
-  if (key) {
-    const targetElement = document.getElementById(key);
-    if (targetElement) {
-      targetElement.setAttribute("aria-hidden", "true");
-      document.body.classList.remove('drawer-open'); // Убрать класс для блокировки скролла
-    }
-  }
-});
-
-// Добавим обработчик для открытия drawerTree по кнопке treeBtn
-if (treeBtn && drawerTree) {
-  treeBtn.addEventListener('click', () => {
-    drawerTree.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('drawer-open'); // Добавить класс для блокировки скролла
-    renderTree(mobileTree); // Рендерим дерево для мобильной версии при открытии
+    desktopTree.appendChild(div);
   });
-
-  // Логика для закрытия drawerTree по клику на overlay
-  const drawerOverlay = drawerTree.querySelector('.drawer-overlay');
-  if (drawerOverlay) {
-    drawerOverlay.addEventListener('click', () => {
-      drawerTree.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('drawer-open');
-    });
-  }
 }
 
-/* =========================
-   INIT
-========================= */
-fetch("cards.json")
-  .then((r) => r.json())
-  .then((data) => {
-    cards = data;
-    renderMobileList();
-    renderDesktopList();
-    if (cards.length > 0) openCard(cards[0].id);
+/* ============================
+   МОБИЛЬНАЯ КАРТОЧКА
+============================ */
+function openMobileCard(id) {
+  cardView.innerHTML = "";
+
+  const card = document.getElementById(`scheme-${id}`).cloneNode(true);
+  cardView.appendChild(card);
+
+  cardView.classList.add("active");
+  listView.classList.remove("active");
+
+  /* Кнопка "Связи" */
+  const btn = document.createElement("button");
+  btn.textContent = "Показать связи";
+  btn.className = "open-pdf";
+  btn.style.marginTop = "16px";
+  btn.addEventListener("click", () => openMobileTree(id));
+
+  cardView.appendChild(btn);
+}
+
+/* ============================
+   МОБИЛЬНОЕ ДЕРЕВО (DRAWER)
+============================ */
+function openMobileTree(id) {
+  mobileTree.innerHTML = "";
+
+  const scheme = schemes.find((s) => s.id === id);
+  if (!scheme) return;
+
+  /* Добавляем panzoom-контейнер */
+  const viewport = document.createElement("div");
+  viewport.className = "panzoom-viewport";
+
+  const canvas = document.createElement("div");
+  canvas.className = "panzoom-canvas";
+
+  viewport.appendChild(canvas);
+  canvas.appendChild(mobileTree);
+
+  drawer.querySelector(".drawer-panel").prepend(viewport);
+
+  /* Рендер узлов */
+  scheme.tree.forEach((node) => {
+    const div = document.createElement("div");
+    div.className = `grid-node branch-${node.branch || 0}`;
+    div.style.gridRowStart = node.row;
+    div.style.gridColumnStart = node.col;
+    div.innerHTML = `<span class="node-title">${node.title}</span>`;
+    mobileTree.appendChild(div);
   });
-window.addEventListener("resize", () => {
-  if (!currentCardId) return;
-  openCard(currentCardId);
+
+  drawer.classList.add("open");
+}
+
+/* Закрытие drawer */
+drawerOverlay.addEventListener("click", () => {
+  drawer.classList.remove("open");
 });
+
+/* ============================
+   СТАРТ
+============================ */
+renderCardList();
+renderSchemeDesktop(1);
+highlightDesktopItem(1);
