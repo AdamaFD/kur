@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1324,15 +1324,16 @@ li.branch-2 .grid-node {
   position: absolute;
   /* Центрирование по горизонтали */
   left: 50%;
-  /* Позиционирование над узлом, как мы обсуждали */
-  bottom: 100%; 
-  margin-bottom: 5px; /* Небольшой отступ от узла */
+  /* Позиционирование ПОД узлом */
+  top: 100%; /* ← ИЗМЕНЕНО: теперь превью будет под узлом */
+  margin-top: 5px; /* ← ИЗМЕНЕНО: Небольшой отступ от узла */
   z-index: 10; /* Убедитесь, что превью отображается поверх других элементов */
 
   /* Начальное состояние для анимации */
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-50%) translateY(20px); /* Смещаем вниз на 20px и центрируем */
+  /* ← ИЗМЕНЕНО: Смещаем ВВЕРХ на 20px, чтобы при появлении оно "падало" вниз */
+  transform: translateX(-50%) translateY(-20px);
   
   /* Плавный переход для opacity, transform и visibility */
   transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
@@ -1351,7 +1352,8 @@ li.branch-2 .grid-node {
 .grid-node:hover .card-preview {
   opacity: 1; /* Полностью видно */
   visibility: visible; /* Видно */
-  transform: translateX(-50%) translateY(0); /* Поднимается до своего нормального положения и центрируется */
+  /* Возвращается в свое нормальное положение, создавая эффект "падения" */
+  transform: translateX(-50%) translateY(0);
 }
 
 /* Стили для изображения внутри превью */
