@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мурлыкки*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1184,221 +1184,60 @@ li.branch-2 .grid-node {
   );
   border-radius: 0 !important;
 }
-/* =========================================
-   DESKTOP — CARD IMAGE TOOLTIP ON HOVER
-   ========================================= */
 
-/* ================================
-   ДЕСКТОПНАЯ ВЕРСИЯ
-================================ */
-/* ================================
-   ДЕСКТОПНАЯ ВЕРСИЯ
-================================ */
+
+
 @media (min-width: 920px) {
 
-  /* Узел дерева */
   .grid-node {
     position: relative;
-    overflow: visible;
-    z-index: 1;
+    overflow: visible !important;
   }
 
-  /* Превью по умолчанию — снизу */
   .grid-node .card-preview {
     position: absolute;
-
-    top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 8px;
+    width: 150px;
 
-    width: 180px;
     background: white;
-    padding: 5px;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+    padding: 5px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.2s ease;
-
+    transition: opacity 0.25s ease;
     z-index: 9999;
   }
 
-  /* Уровни 4–6 (row = 3, 2, 1) — превью сверху */
-  .grid-node[data-row="3"] .card-preview,
+  /* 2–3 уровень → вниз */
   .grid-node[data-row="2"] .card-preview,
-  .grid-node[data-row="1"] .card-preview {
-    top: auto;
-    bottom: 100%;
-    margin-top: 0;
-    margin-bottom: 8px;
+  .grid-node[data-row="3"] .card-preview {
+    top: 100%;
+    margin-top: 6px;
   }
 
-  /* Показываем при наведении */
-  .grid-node:hover {
-    z-index: 100000 !important;
+  /* 4–6 уровень → вверх */
+  .grid-node[data-row="4"] .card-preview,
+  .grid-node[data-row="5"] .card-preview,
+  .grid-node[data-row="6"] .card-preview {
+    bottom: 100%;
+    margin-bottom: 6px;
   }
 
   .grid-node:hover .card-preview {
     opacity: 1;
+    visibility: visible;
   }
 
-  /* Изображение */
-  .grid-node .card-preview img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  /* Разрешаем выход превью за границы */
-  #desktopTree,
-  #desktopTree * {
-    overflow: visible !important;
-  }
-}
-
-/* Корневой контейнер */
-#desktopTree {
-  position: relative;
-  isolation: isolate;
-  overflow: visible !important;
-}
-
-/* Убираем ВСЕ скрывающие overflow правила */
-#desktopTree {
-  overflow: visible !important;
-}
-
-@media (min-width: 920px) {
   #desktopTree {
     overflow: visible !important;
   }
 }
-/* ============================================
-   ФИНАЛЬНОЕ ДЕРЕВО 9×6 + ПРЕВЬЮ (ПК)
-   ============================================ */
 
-@media (min-width: 920px) {
-
-  /* Контейнер дерева */
-  #desktopTree {
-    position: relative;
-    display: grid !important;
-    grid-template-columns: repeat(9, 1fr) !important;
-    grid-template-rows: repeat(6, 1fr) !important;
-    gap: 10px !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 10px !important;
-    overflow: visible !important; /* КРИТИЧНО */
-  }
-
-  /* Узел */
-  .grid-node {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 8px;
-    border-radius: 12px;
-    text-align: center;
-
-    background: #f3f4f8;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-
-    overflow: visible !important;
-    z-index: 1;
-  }
-
-  .grid-node .node-title {
-    font-size: 14px;
-    line-height: 1.2;
-    word-break: break-word;
-  }
-
-
-/* ОБЩИЕ СТИЛИ ДЛЯ CARD-PREVIEW */
-/* Эти стили применяются ко всем превью */
-.grid-node {
-  position: relative; /* Добавьте это свойство! */
-  /* Все остальные ваши стили для .grid-node */
-}
-
-.grid-node .card-preview {
-  position: absolute;
-  left: 50%; /* Центрирование по горизонтали */
-  z-index: 100; /* Убедитесь, что превью отображается поверх других элементов */
-
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  border-radius: 8px;
-  width: 150px;
-  text-align: center;
-  pointer-events: none; /* Превью не должно блокировать события мыши под ним */
-
-  opacity: 0;
-  visibility: hidden;
-  /* Плавный переход для opacity, transform и visibility */
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
-}
-
-/* Стили для изображения внутри превью */
-.card-preview-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-
-/* СПЕЦИФИЧНЫЕ ПРАВИЛА ПОЗИЦИОНИРОВАНИЯ ДЛЯ РАЗНЫХ УРОВНЕЙ */
-/* Напоминание о data-row:
-   - Корневой узел: data-row="1" (мы его не обрабатываем, так как на него не кликаем и обычно не наводим)
-   - Уровень 2: data-row="2"
-   - Уровень 3: data-row="3"
-   - Уровень 4 (и его дочерние, если есть): data-row="4", "5", "6"
-*/
-
-
-/* Превью для уровней 2 и 3 (data-row 2 и 3)
-   Будут появляться ПОД узлом, всплывая сверху вниз */
-.grid-node[data-row="2"] .card-preview,
-.grid-node[data-row="3"] .card-preview {
-  top: 100%; /* Позиционирование ПОД узлом */
-  margin-top: 5px; /* Отступ */
-  transform: translateX(-50%) translateY(-20px); /* Начальное состояние: смещено вверх */
-}
-
-/* При наведении на узлы уровней 2 и 3 */
-.grid-node[data-row="2"]:hover .card-preview,
-.grid-node[data-row="3"]:hover .card-preview {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0); /* Конечная позиция: падает вниз */
-}
-
-
-/* Превью для узлов 4-го уровня (data-row 4, 5, 6)
-   Будут появляться НАД узлом, всплывая снизу вверх */
-.grid-node[data-row="2"] .card-preview,
-.grid-node[data-row="3"] .card-preview {
-  top: 100%; /* Позиционирование ПОД узлом */
-  margin-top: 5px; /* Отступ */
-  transform: translateX(-50%) translateY(-20px); /* Начальное состояние: смещено вверх */
-}
-
-/* При наведении на узлы 4-го уровня */
-.grid-node[data-row="4"]:hover .card-preview,
-.grid-node[data-row="5"]:hover .card-preview,
-.grid-node[data-row="6"]:hover .card-preview {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0); /* Конечная позиция: всплывает вверх */
-}
 
 
 
