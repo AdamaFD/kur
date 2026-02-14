@@ -1,9 +1,9 @@
-<!DOCTYPE html> //кряксука//
+<!DOCTYPE html> //ПИЗДЕЦ//
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Боль моя дырка задница</title>
+  <title>Карты</title>
   <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
@@ -20,37 +20,100 @@
 <div id="desktopShell" class="desktop-shell">
   <aside class="sidebar">
     <div class="sidebar-title">Список карт</div>
-    <div id="desktopCardList" class="sidebar-list"></div>
+    <div id="desktopCardList" class="sidebar-list">
+      <!-- Здесь будет ваш список карт, динамически генерируемый JS -->
+      <!-- Пример элемента списка: -->
+      <!-- <div class="card-list-item">Название карты 1</div> -->
+      <!-- <div class="card-list-item active">Выбранная карта</div> -->
+    </div>
   </aside>
   <section class="desktop-main">
     <!-- ДЕРЕВО ВСЕГДА ВИДИМО НА ПК -->
     <div class="panel">
       <div class="panel-title">Связи выбранной карты</div>
-      <div id="desktopTree" class="tree" style="display: grid; grid-template-columns: repeat(var(--max-depth), auto); grid-auto-rows: minmax(100px, auto);">
-        <!-- Ваш HTML для узлов дерева -->
-        <div class="grid-node root-node" style="grid-area: 1 / 1 / span 1 / span 1;">
-            <div class="node-title">Root Node</div>
-            <div class="card-preview">
-                <img src="path/to/root_image.jpg" alt="Root Image">
-                <span class="tooltip">Root Node Description</span>
-            </div>
+      <div id="desktopTree" class="tree">
+        <!-- Это пример статичного HTML для узлов дерева, чтобы вы увидели визуальный макет. -->
+        <!-- Ваш app2.js должен будет динамически генерировать такую же структуру. -->
+
+        <!-- Уровень 0 (Root) -->
+        <div class="tree-level level-0">
+            <div class="tree-node node-hexagon type-root">Assassinate</div>
         </div>
-        <div class="grid-node branch-0" style="grid-area: 2 / 2 / span 1 / span 1;">
-            <div class="node-title">Branch 0-1</div>
-            <div class="card-preview">
-                <img src="path/to/branch0_1_image.jpg" alt="Branch 0-1 Image">
-                <span class="tooltip">Branch 0-1 Description</span>
-            </div>
+
+        <!-- Уровень 1 -->
+        <div class="tree-level level-1">
+            <div class="tree-node node-rectangle type-node-1-light inactive">Sneak the Rooftops</div>
+            <div class="tree-node node-rectangle type-node-1-light inactive">Detonate Charges</div>
+            <div class="tree-node node-rectangle type-node-1-light inactive">Runic Binding</div>
+            <div class="tree-node node-rectangle type-node-1-light inactive">Take the Highground</div>
+            <div class="tree-node node-rectangle type-node-1-light inactive">Runic Binding</div>
+        </div>
+
+        <!-- Уровень 2 -->
+        <div class="tree-level level-2">
+            <div class="tree-node node-hexagon type-node-2-blue">Detonate Charges</div>
+            <div class="tree-node node-hexagon type-node-2-blue">Grave Robbing</div>
+            <div class="tree-node node-hexagon type-node-2-blue">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-2-purple">Grave Robbing</div>
+            <div class="tree-node node-hexagon type-node-2-purple">Runic Binding</div>
+            <div class="tree-node node-hexagon type-node-2-purple">Take the Highground</div>
+            <div class="tree-node node-hexagon type-node-2-pink">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-2-pink">Take the Highground</div>
+            <div class="tree-node node-hexagon type-node-2-red">Ensnare</div>
+        </div>
+
+        <!-- Уровень 3 -->
+        <div class="tree-level level-3">
+            <div class="tree-node node-hexagon type-node-3-blue">Grave Robbing</div>
+            <div class="tree-node node-hexagon type-node-3-blue">Runic Binding</div>
+            <div class="tree-node node-hexagon type-node-3-blue">Take the Highground</div>
+            <div class="tree-node node-hexagon type-node-3-purple">Runic Binding</div>
+            <div class="tree-node node-hexagon type-node-3-purple">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-3-purple">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-3-pink">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-3-red">Take the Highground</div>
+            <div class="tree-node node-hexagon type-node-3-red">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-3-red">Reshape the Land</div>
+        </div>
+
+        <!-- Уровень 4 -->
+        <div class="tree-level level-4">
+            <div class="tree-node node-hexagon type-node-4-blue">Runic Binding</div>
+            <div class="tree-node node-hexagon type-node-4-blue">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-4-blue">Make It Look Like an Accident</div>
+            <div class="tree-node node-hexagon type-node-4-purple">Leave Your Mark</div>
+            <div class="tree-node node-hexagon type-node-4-purple">Take the Highground</div>
+            <div class="tree-node node-hexagon type-node-4-purple">Runic Binding</div>
+            <div class="tree-node node-hexagon type-node-4-red">Make It Look Like an Accident</div>
+            <div class="tree-node node-hexagon type-node-4-red">Runic Binding</div>
+            <div class="tree-node node-hexagon type-node-4-red">Search the Area</div>
+        </div>
+
+        <!-- Уровень 5 -->
+        <div class="tree-level level-5">
+            <div class="tree-node node-hexagon type-node-5-blue">Take the Highground</div>
+            <div class="tree-node node-hexagon type-node-5-blue">Make It Look Like an Accident</div>
+            <div class="tree-node node-hexagon type-node-5-blue">Reshape the Land</div>
+            <div class="tree-node node-hexagon type-node-5-purple">Make It Look Like an Accident</div>
+            <div class="tree-node node-hexagon type-node-5-purple">Ensnare</div>
+            <div class="tree-node node-hexagon type-node-5-purple">Detonate Charges</div>
+            <div class="tree-node node-hexagon type-node-5-red">Reshape the Land</div>
+            <div class="tree-node node-hexagon type-node-5-red">Detonate Charges</div>
+            <div class="tree-node node-hexagon type-node-5-red">Frame Job</div>
         </div>
       </div>
     </div>
     <!-- КАРТА -->
-<div class="panel">
-  <div class="panel-title">Карта</div>
-  <div id="desktopCard" class="desktop-card"></div>
-</div>
+    <div class="panel">
+      <div class="panel-title">Карта</div>
+      <div id="desktopCard" class="desktop-card">
+        <!-- Здесь будет содержимое выбранной карты -->
+      </div>
+    </div>
   </section>
 </div>
+
+<!-- Секции article scheme-card остаются как есть -->
 <article class="scheme-card" id="scheme-1">
   <img class="scheme-image" src="1.png" alt="Scheme 1">
 </article>
@@ -96,6 +159,7 @@
 <article class="scheme-card" id="scheme-15">
   <img class="scheme-image" src="15.png" alt="Scheme 15">
 </article>
+
 <!-- MOBILE -->
 <main id="listView" class="view active">
   <div id="cardList" class="card-list"></div>
@@ -111,30 +175,20 @@
       <div class="drawer-title">Связанные карты</div>
       <button class="icon-btn" data-close="drawerTree" aria-label="Закрыть">✕</button>
     </div>
-    <div id="mobileTree" class="tree" style="display: grid; grid-template-columns: repeat(var(--max-depth), auto); grid-auto-rows: minmax(100px, auto);">
-        <!-- Ваш HTML для узлов дерева -->
-        <div class="grid-node root-node" style="grid-area: 1 / 1 / span 1 / span 1;">
-            <div class="node-title">Root Node</div>
-            <div class="card-preview">
-                <img src="path/to/root_image.jpg" alt="Root Image">
-                <span class="tooltip">Root Node Description</span>
-            </div>
-        </div>
-        <div class="grid-node branch-0" style="grid-area: 2 / 2 / span 1 / span 1;">
-            <div class="node-title">Branch 0-1</div>
-            <div class="card-preview">
-                <img src="path/to/branch0_1_image.jpg" alt="Branch 0-1 Image">
-                <span class="tooltip">Branch 0-1 Description</span>
-            </div>
-        </div>
+    <div id="mobileTree" class="tree">
+      <!-- Пример узлов для мобильной версии (будут заполняться app2.js) -->
+      <!-- Мобильная версия может использовать ту же структуру, что и desktopTree, но с другими стилями адаптации -->
+      <div class="tree-level level-0">
+          <div class="tree-node node-hexagon type-root">Assassinate</div>
+      </div>
+      <div class="tree-level level-1">
+          <div class="tree-node node-rectangle type-node-1-light inactive">Sneak the Rooftops</div>
+          <div class="tree-node node-rectangle type-node-1-light inactive">Detonate Charges</div>
+      </div>
+      <!-- и так далее -->
     </div>
   </div>
 </div>
-<!-- Здесь должен быть ваш основной JavaScript файл -->
 <script src="app2.js?v=9999999999"></script>
-
 </body>
 </html>
-
-
-
