@@ -112,24 +112,15 @@ function renderDesktopList() {
 ========================= */
 function renderCardDesktop(card) {
   desktopCard.innerHTML = `
-    <img src="images/${card.id}.jpg" alt="">
-    <button class="open-pdf">Открыть карту (PDF)</button>
-  `;
-  const openPdfBtn = desktopCard.querySelector(".open-pdf");
-  if (openPdfBtn) {
-    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank");
-  }
+    <img src="${card.id}.png" alt="">
+    
+ 
 }
 
 function renderCardMobile(card) {
   descTab.innerHTML = `
-    <img src="images/${card.id}.jpg" class="card-image-large">
-    <button class="open-pdf">Открыть карту</button>
-  `;
-  const openPdfBtn = descTab.querySelector(".open-pdf");
-  if (openPdfBtn) {
-    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank");
-  }
+    <img src="${card.id}.png" class="card-image-large">
+    
 }
 
 /* =========================
