@@ -1,4 +1,4 @@
-// курлык
+// курлыкbb
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -232,18 +232,17 @@ function renderTree(container) {
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
     div.dataset.id = card.id;
     div.dataset.col = col;
-    div.dataset.row = row;
+    div.dataset.row = row; // Атрибут data-row будет использоваться для CSS
     div.dataset.parent = parentId;
 
-    // --- ОБНОВЛЕННЫЙ КОД ДЛЯ ПРЕВЬЮ (БЕЗ ЗАГОЛОВКА) ---
+    // --- КОД ДЛЯ ПРЕВЬЮ ---
     const previewDiv = document.createElement("div");
     previewDiv.className = "card-preview";
     previewDiv.innerHTML = `
       <img src="${card.id}.png" alt="${card.title}" class="card-preview-image">
-      <!-- Заголовок card-preview-title удален -->
     `;
     div.appendChild(previewDiv);
-    // --------------------------------------------------
+    // ----------------------
 
     div.onclick = (e) => {
       e.stopPropagation();
@@ -353,7 +352,6 @@ function renderTree(container) {
     container.appendChild(div);
   }); // конец nodes.forEach
 } // конец renderTree
-
 
 /* =========================
    OPEN CARD
