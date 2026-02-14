@@ -1319,26 +1319,13 @@ li.branch-2 .grid-node {
     word-break: break-word;
   }
 
-  /* Основные стили для card-preview, включая начальное состояние для анимации */
+  /* ОБЩИЕ СТИЛИ ДЛЯ CARD-PREVIEW */
+/* Эти стили применяются ко всем превью */
 .grid-node .card-preview {
   position: absolute;
-  /* Центрирование по горизонтали */
-  left: 50%;
-  /* Позиционирование ПОД узлом */
-  top: 100%; /* ← ИЗМЕНЕНО: теперь превью будет под узлом */
-  margin-top: 5px; /* ← ИЗМЕНЕНО: Небольшой отступ от узла */
-  z-index: 10; /* Убедитесь, что превью отображается поверх других элементов */
+  left: 50%; /* Центрирование по горизонтали */
+  z-index: 100; /* Увеличиваем z-index, чтобы превью было поверх всего */
 
-  /* Начальное состояние для анимации */
-  opacity: 0;
-  visibility: hidden;
-  /* ← ИЗМЕНЕНО: Смещаем ВВЕРХ на 20px, чтобы при появлении оно "падало" вниз */
-  transform: translateX(-50%) translateY(-20px);
-  
-  /* Плавный переход для opacity, transform и visibility */
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
-
-  /* Дополнительные стили для самого превью, если нужно */
   background-color: white; /* Пример */
   border: 1px solid #ccc; /* Пример */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Пример */
@@ -1346,14 +1333,10 @@ li.branch-2 .grid-node {
   border-radius: 8px;
   width: 150px; /* Пример ширины */
   text-align: center;
-}
 
-/* Стиль при наведении на grid-node */
-.grid-node:hover .card-preview {
-  opacity: 1; /* Полностью видно */
-  visibility: visible; /* Видно */
-  /* Возвращается в свое нормальное положение, создавая эффект "падения" */
-  transform: translateX(-50%) translateY(0);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
 }
 
 /* Стили для изображения внутри превью */
@@ -1361,4 +1344,92 @@ li.branch-2 .grid-node {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
+}
+
+
+/* СПЕЦИФИЧНЫЕ ПРАВИЛА ПОЗИЦИОНИРОВАНИЯ ДЛЯ РАЗНЫХ УРОВНЕЙ */
+
+/* Превью для уровней 1, 2 и 3 (data-row 6, 5, 4 соответственно) 
+   Будут появляться ПОД узлом, всплывая сверху вниз */
+/* В коде `row` для level 1 это 6, для level 2 это 5, для level 3 это 4 */
+.grid-node[data-row="6"] .card-preview,
+.grid-node[data-row="5"] .card-preview,
+.grid-node[data-row="4"] .card-preview {
+  top: 100%; /* Позиционирование ПОД узлом */
+  margin-top: 5px; /* Отступ */
+  transform: translateX(-50%) translateY(-20px); /* Начальное состояние: смещено вверх */
+}
+
+/* При наведении на узлы уровней 1, 2, 3 */
+.grid-node[data-row="6"]:hover .card-preview,
+.grid-node[data-row="5"]:hover .card-preview,
+.grid-node[data-row="4"]:hover .card-preview {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Конечная позиция: падает вниз */
+}
+
+
+/* Превью для уровней 4, 5 и 6 (data-row 3, 2, 1 соответственно)
+   Будут появляться НАД узлом, всплывая снизу вверх */
+/* В коде `row` для level 4 это 3 (L4_ROWS=[3,2,1] -> flipRow -> 4,5,6), 
+   так что data-row будет 4,5,6. 
+   Оригинальные L4_ROWS = [3,2,1] означают, что flipped rows будут 4,5,6.
+   Тогда для уровней 4, 5 и 6, data-row будет 4, 5, 6.
+   А для 1,2,3 - 6,5,4.
+
+   Давайте перепроверим `flipRow(row)`:
+   - Level 1 (root): place(rootId, 5, 6) -> flipRow(6) = 6-6+1 = 1. `data-row="1"`
+   - Level 2: place(id, col, row=5) -> flipRow(5) = 6-5+1 = 2. `data-row="2"`
+   - Level 3: place(id, col, row=4) -> flipRow(4) = 6-4+1 = 3. `data-row="3"`
+   - Level 4: place(kidId, col, L4_ROWS[i]) -> L4_ROWS = [3,2,1].
+     flipRow(3) = 6-3+1 = 4.
+     flipRow(2) = 6-2+1 = 5.
+     flipRow(1) = 6-1+1 = 6.
+     Значит, Level 4 nodes будут иметь `data-row` = "4", "5", "6".
+
+   Получается, что ВСЕ узлы, кроме корня, будут иметь `data-row` от 2 до 6.
+   Корневой узел имеет `data-row="1"`.
+   Уровни 2 и 3 имеют `data-row="2"` и `data-row="3"` соответственно.
+   Уровень 4 имеет `data-row="4"`, `data-row="5"`, `data-row="6"`.
+
+   Значит, правила для `data-row="4"`, `data-row="5"`, `data-row="6"` должны быть для превью *над* узлом, а не под ним.
+   Правила для `data-row="2"` и `data-row="3"` могут быть для превью *под* узлом.
+*/
+
+/* Превью для уровней 2 и 3 (data-row 2 и 3)
+   Будут появляться ПОД узлом, всплывая сверху вниз */
+.grid-node[data-row="2"] .card-preview,
+.grid-node[data-row="3"] .card-preview {
+  top: 100%; /* Позиционирование ПОД узлом */
+  margin-top: 5px; /* Отступ */
+  transform: translateX(-50%) translateY(-20px); /* Начальное состояние: смещено вверх */
+}
+
+/* При наведении на узлы уровней 2 и 3 */
+.grid-node[data-row="2"]:hover .card-preview,
+.grid-node[data-row="3"]:hover .card-preview {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Конечная позиция: падает вниз */
+}
+
+
+/* Превью для узлов 4-го уровня (data-row 4, 5, 6)
+   Будут появляться НАД узлом, всплывая снизу вверх */
+.grid-node[data-row="4"] .card-preview,
+.grid-node[data-row="5"] .card-preview,
+.grid-node[data-row="6"] .card-preview {
+  bottom: 100%; /* Позиционирование НАД узлом */
+  margin-bottom: 5px; /* Отступ */
+  transform: translateX(-50%) translateY(20px); /* Начальное состояние: смещено вниз */
+}
+
+/* При наведении на узлы 4-го уровня */
+.grid-node[data-row="4"]:hover .card-preview,
+.grid-node[data-row="5"]:hover .card-preview,
+.grid-node[data-row="6"]:hover .card-preview {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Конечная позиция: всплывает вверх */
 }
