@@ -1,4 +1,4 @@
-* {                           /*мурлыкииии*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1195,26 +1195,30 @@ li.branch-2 .grid-node {
    DESKTOP CARD PREVIEW FIX
    =============================== */
 
+/* ===============================
+   DESKTOP CARD PREVIEW — CLEAN VERSION
+   =============================== */
+
 @media (min-width: 920px) {
 
-  /* Убираем любые ограничения */
+  /* Разрешаем превью выходить за границы */
   #desktopTree,
   #desktopTree * {
     overflow: visible !important;
   }
 
-  /* Узел */
+  /* Базовый слой узла */
   #desktopTree .grid-node {
     position: relative;
     z-index: 1;
   }
 
-  /* Поднимаем ноду */
+  /* Поднимаем узел при наведении */
   #desktopTree .grid-node:hover {
     z-index: 99999 !important;
   }
 
-  /* Превью */
+  /* Превью карточки */
   #desktopTree .card-preview {
     position: absolute;
     left: 50%;
@@ -1233,7 +1237,7 @@ li.branch-2 .grid-node {
     transition: 0.2s ease;
   }
 
-  /* 1–3 уровень — вниз */
+  /* Ряды 1–3 — превью вниз */
   #desktopTree .grid-node[data-row="1"] .card-preview,
   #desktopTree .grid-node[data-row="2"] .card-preview,
   #desktopTree .grid-node[data-row="3"] .card-preview {
@@ -1241,24 +1245,26 @@ li.branch-2 .grid-node {
     margin-top: 10px;
   }
 
-  /* 4 уровень — вверх */
+  /* Ряд 4 — превью вверх */
   #desktopTree .grid-node[data-row="4"] .card-preview {
     bottom: 100%;
     margin-bottom: 10px;
   }
 
-  /* Показ */
+  /* Показ превью */
   #desktopTree .grid-node:hover .card-preview {
     opacity: 1;
     visibility: visible;
   }
 
+  /* Картинка внутри превью */
   #desktopTree .card-preview img {
     width: 100%;
     display: block;
     border-radius: 6px;
   }
 }
+
 
 
 
