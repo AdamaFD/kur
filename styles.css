@@ -1,4 +1,4 @@
-* {                           /*мурык*/
+* {                           /*мурр*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1324,48 +1324,52 @@ li.branch-2 .grid-node {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-
     width: 180px;
     padding: 5px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 10px 24px rgba(0,0,0,0.3);
-
     opacity: 0;
     pointer-events: none;
     transition: opacity .2s ease;
-
     z-index: 9999;
   }
-
   .grid-node .card-preview img {
     width: 100%;
     height: auto;
     display: block;
   }
-
   /* Показываем превью */
   .grid-node:hover {
-    z-index: 10000;
+    z-index: 10000; /* Переносим сюда z-index, чтобы он был применен к hovered grid-node, а не к всем его детям */
   }
-
   .grid-node:hover .card-preview {
     opacity: 1;
+    pointer-events: auto; /* Добавлено, чтобы превью было кликабельным, когда оно видимо */
   }
 
-  /* Превью ВНИЗ (уровни 1–3 после flipRow → row 6,5,4) */
+  /*
+  ВАЖНО: ИСПРАВЛЕНЫ ПРАВИЛА ПОЗИЦИОНИРОВАНИЯ
+  Узлы 4-го уровня имеют data-row="4", "5", "6" (после flipRow).
+  Для этих узлов превью должно показываться ВВЕРХ.
+  */
+
+  /* Превью ВВЕРХ (для узлов 4-го уровня: data-row="4", "5", "6") */
   .grid-node[data-row="6"] .card-preview,
   .grid-node[data-row="5"] .card-preview,
   .grid-node[data-row="4"] .card-preview {
-    top: 100%;
-    margin-top: 8px;
+    bottom: 100%; /* Позиционируем снизу относительно родителя */
+    margin-bottom: 8px; /* Отступ вверх */
+    top: auto; /* Отменяем top: 100% если он был */
   }
 
-  /* Превью ВВЕРХ (уровни 4–6 после flipRow → row 3,2,1) */
+  /* Превью ВВЕРХ (для узлов 1, 2, 3 уровней: data-row="1", "2", "3") */
   .grid-node[data-row="3"] .card-preview,
   .grid-node[data-row="2"] .card-preview,
   .grid-node[data-row="1"] .card-preview {
     bottom: 100%;
     margin-bottom: 8px;
+    top: auto;
   }
+
 }
