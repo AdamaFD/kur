@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мурлыкииии*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1191,73 +1191,72 @@ li.branch-2 .grid-node {
    DESKTOP CARD PREVIEW (FINAL)
    =============================== */
 
+/* ===============================
+   DESKTOP CARD PREVIEW FIX
+   =============================== */
+
 @media (min-width: 920px) {
 
-  /* Контейнер дерева не должен обрезать */
-  #desktopTree {
+  /* Убираем любые ограничения */
+  #desktopTree,
+  #desktopTree * {
     overflow: visible !important;
   }
 
   /* Узел */
   #desktopTree .grid-node {
     position: relative;
-    overflow: visible !important;
     z-index: 1;
   }
 
-  /* При наведении поднимаем поверх всех */
+  /* Поднимаем ноду */
   #desktopTree .grid-node:hover {
-    z-index: 10000 !important;
+    z-index: 99999 !important;
   }
 
-  /* Само превью */
-  #desktopTree .grid-node .card-preview {
+  /* Превью */
+  #desktopTree .card-preview {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    background: #ffffff;
+    width: 220px;
+
+    background: #fff;
     padding: 6px;
     border-radius: 10px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
 
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 
-    transition: opacity 0.18s ease;
+    transition: 0.2s ease;
   }
 
-  /* Картинка */
-  #desktopTree .grid-node .card-preview img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 6px;
-  }
-
-  /* ===== УРОВНИ ===== */
-
-  /* 1-3 уровень — показываем снизу */
+  /* 1–3 уровень — вниз */
   #desktopTree .grid-node[data-row="1"] .card-preview,
   #desktopTree .grid-node[data-row="2"] .card-preview,
   #desktopTree .grid-node[data-row="3"] .card-preview {
     top: 100%;
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
-  /* 4 уровень — показываем сверху */
-  #desktopTree .grid-node[data-row="4"] .card-preview,
-  #desktopTree .grid-node[data-row="5"] .card-preview,
-  #desktopTree .grid-node[data-row="6"] .card-preview {
+  /* 4 уровень — вверх */
+  #desktopTree .grid-node[data-row="4"] .card-preview {
     bottom: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
-  /* Показываем при hover */
+  /* Показ */
   #desktopTree .grid-node:hover .card-preview {
     opacity: 1;
     visibility: visible;
+  }
+
+  #desktopTree .card-preview img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
   }
 }
 
