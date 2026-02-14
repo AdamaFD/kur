@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мурлыкиии*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -984,6 +984,9 @@ li.branch-2 .grid-node {
   border-color: #1e3f8f !important;
   background-image: none !important;
   box-shadow: none !important;
+  position: relative;
+z-index: 1;                      /хрень какая то две строки/
+
 }
 
 #desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 2"],
