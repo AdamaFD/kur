@@ -1,4 +1,4 @@
-// курлык
+// курлыкbbb
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -112,7 +112,7 @@ function renderDesktopList() {
 ========================= */
 function renderCardDesktop(card) {
   desktopCard.innerHTML = ` // Очищает содержимое и устанавливает HTML для отображения карточки на десктопе.
-    <img src="images/${card.id}.jpg" alt=""> // Отображает изображение карточки.
+    <img src="${card.id}.png" alt=""> // Отображает изображение карточки.
     <button class="open-pdf">Открыть карту (PDF)</button> // Кнопка для открытия PDF.
   `;
   const openPdfBtn = desktopCard.querySelector(".open-pdf"); // Находит кнопку "Открыть карту (PDF)".
@@ -122,7 +122,7 @@ function renderCardDesktop(card) {
 }
 function renderCardMobile(card) {
   descTab.innerHTML = ` // Очищает содержимое и устанавливает HTML для отображения карточки на мобильных.
-    <img src="images/${card.id}.jpg" class="card-image-large"> // Отображает изображение карточки.
+    <img src="${card.id}.png" class="card-image-large"> // Отображает изображение карточки.
     <button class="open-pdf">Открыть карту</button> // Кнопка для открытия PDF.
   `;
   const openPdfBtn = descTab.querySelector(".open-pdf"); // Находит кнопку "Открыть карту".
