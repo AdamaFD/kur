@@ -1,4 +1,4 @@
-* {                           /*мур*/
+* {                           /*мурлык*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1398,4 +1398,179 @@ li.branch-2 .grid-node {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0); /* Конечная позиция: всплывает вверх */
+}
+
+
+
+
+
+/* General body styling */
+body {
+    background-color: #1a1a1a; /* Dark background for the theme */
+    color: #f0f0f0; /* Light text for contrast */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Container for the tree visualization */
+#desktopTree {
+    display: grid;
+    position: relative; /* Needed for absolute positioning of lines/arrows */
+    padding: 20px;
+    gap: 10px; /* Space between grid items */
+}
+
+/* Styling for all grid nodes */
+.grid-node {
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #f0f0f0;
+    min-width: 150px; /* Ensure a minimum width for nodes */
+    min-height: 80px; /* Ensure a minimum height for nodes */
+    position: relative; /* For potential future absolute positioning within node */
+}
+
+.grid-node:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Specific styling for the root node */
+.root-node {
+    background-color: #007bff; /* Blue for root */
+    border-color: #0056b3;
+    color: white;
+    font-weight: bold;
+}
+
+/* Styling for branch nodes */
+.branch-0 {
+    background-color: #28a745; /* Green for first level branches */
+    border-color: #1e7e34;
+    color: white;
+}
+
+.branch-1 {
+    background-color: #ffc107; /* Yellow for second level branches */
+    border-color: #d39e00;
+    color: #333; /* Darker text for yellow background */
+}
+
+.branch-2 {
+    background-color: #dc3545; /* Red for third level branches */
+    border-color: #c82333;
+    color: white;
+}
+
+/* Styling for leaf nodes */
+.leaf-node {
+    background-color: #6c757d; /* Grey for leaf nodes */
+    border-color: #545b62;
+    color: white;
+}
+
+/* Styling for node titles */
+.node-title {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Styling for card preview (image and tooltip container) */
+.card-preview {
+    position: relative;
+    width: 100%;
+    height: 100px; /* Fixed height for image preview */
+    margin-top: 5px;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: #222; /* Dark background for image area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensures image fits without cropping */
+    display: block;
+    border-radius: 4px;
+}
+
+.card-preview .tooltip {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the image */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    white-space: nowrap; /* Prevent tooltip text from wrapping */
+}
+
+.card-preview:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Dark theme specific adjustments */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    .grid-node {
+        background-color: #222;
+        border-color: #444;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+    .grid-node:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    }
+    .root-node {
+        background-color: #0056b3;
+        border-color: #003366;
+    }
+    .branch-0 {
+        background-color: #1e7e34;
+        border-color: #135221;
+    }
+    .branch-1 {
+        background-color: #d39e00;
+        border-color: #a07a00;
+        color: #e0e0e0;
+    }
+    .branch-2 {
+        background-color: #c82333;
+        border-color: #921822;
+    }
+    .leaf-node {
+        background-color: #545b62;
+        border-color: #3a3f44;
+    }
+    .card-preview {
+        background-color: #1a1a1a;
+    }
+    .card-preview .tooltip {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #e0e0e0;
+    }
 }
