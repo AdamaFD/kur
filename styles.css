@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мурлыкБЛЯТЬ*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1404,173 +1404,462 @@ li.branch-2 .grid-node {
 
 
 
-/* General body styling */
+/* General Body & Layout */
 body {
-    background-color: #1a1a1a; /* Dark background for the theme */
-    color: #f0f0f0; /* Light text for contrast */
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0; /* Light background for the overall app */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Container for the tree visualization */
-#desktopTree {
-    display: grid;
-    position: relative; /* Needed for absolute positioning of lines/arrows */
-    padding: 20px;
-    gap: 10px; /* Space between grid items */
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    z-index: 100;
 }
 
-/* Styling for all grid nodes */
-.grid-node {
-    background-color: #333;
-    border: 1px solid #555;
-    border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+.topbar-left, .topbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-right: 15px;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: #007bff;
+}
+
+.topbar h2 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333;
+}
+
+/* Desktop Shell (Main Layout) */
+.desktop-shell {
+    display: flex;
+    flex: 1;
+    background-color: #f8f8f8; /* Slightly lighter background for the shell */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px; /* Fixed width for sidebar */
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.03);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+}
+
+.sidebar-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.sidebar-list {
+    flex-grow: 1;
+    overflow-y: auto; /* Scrollable list of cards */
+}
+
+.card-list-item {
+    padding: 10px 0;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    color: #555;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.card-list-item:last-child {
+    border-bottom: none;
+}
+
+.card-list-item:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.card-list-item.active {
+    font-weight: bold;
+    color: #007bff;
+    background-color: #e6f2ff;
+}
+
+/* Desktop Main Section (Tree and Card panels) */
+.desktop-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px; /* Space between the tree panel and card panel */
+}
+
+.panel {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Tree Container */
+#desktopTree {
+    /* flex: 1; /* Allow tree to grow and take available space */
+    overflow-x: auto; /* Enable horizontal scrolling for wide trees */
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    padding-bottom: 15px; /* Space for horizontal scrollbar */
+    display: flex; /* Use flexbox for horizontal levels */
+    align-items: flex-start; /* Align levels at the top */
+    gap: 20px; /* Space between tree levels */
+    min-height: 300px; /* Minimum height for the tree panel */
+}
+
+/* Tree Levels */
+.tree-level {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center nodes vertically within their level */
     align-items: center;
-    color: #f0f0f0;
-    min-width: 150px; /* Ensure a minimum width for nodes */
-    min-height: 80px; /* Ensure a minimum height for nodes */
-    position: relative; /* For potential future absolute positioning within node */
-}
-
-.grid-node:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Specific styling for the root node */
-.root-node {
-    background-color: #007bff; /* Blue for root */
-    border-color: #0056b3;
-    color: white;
-    font-weight: bold;
-}
-
-/* Styling for branch nodes */
-.branch-0 {
-    background-color: #28a745; /* Green for first level branches */
-    border-color: #1e7e34;
-    color: white;
-}
-
-.branch-1 {
-    background-color: #ffc107; /* Yellow for second level branches */
-    border-color: #d39e00;
-    color: #333; /* Darker text for yellow background */
-}
-
-.branch-2 {
-    background-color: #dc3545; /* Red for third level branches */
-    border-color: #c82333;
-    color: white;
-}
-
-/* Styling for leaf nodes */
-.leaf-node {
-    background-color: #6c757d; /* Grey for leaf nodes */
-    border-color: #545b62;
-    color: white;
-}
-
-/* Styling for node titles */
-.node-title {
-    font-size: 1.1em;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-/* Styling for card preview (image and tooltip container) */
-.card-preview {
+    gap: 10px; /* Vertical spacing between nodes in a level */
     position: relative;
-    width: 100%;
-    height: 100px; /* Fixed height for image preview */
-    margin-top: 5px;
-    overflow: hidden;
-    border-radius: 4px;
-    background-color: #222; /* Dark background for image area */
+    padding: 0 5px; /* Padding inside levels to prevent nodes touching borders */
+}
+
+/* Node Styling */
+.tree-node {
+    width: 140px; /* Fixed width for nodes */
+    height: 60px; /* Fixed height for nodes */
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.card-preview img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Ensures image fits without cropping */
-    display: block;
-    border-radius: 4px;
-}
-
-.card-preview .tooltip {
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
     text-align: center;
-    border-radius: 6px;
-    padding: 8px 12px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%; /* Position above the image */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s;
-    white-space: nowrap; /* Prevent tooltip text from wrapping */
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 8px; /* Default for rectangle nodes */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    padding: 0 10px; /* Inner padding for text */
+    white-space: normal; /* Allow text to wrap if too long */
+    word-break: break-word; /* Break long words */
 }
 
-.card-preview:hover .tooltip {
+.tree-node:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Hexagon Node Shape */
+.node-hexagon {
+    position: relative;
+    width: 120px; /* Ширина основания шестиугольника */
+    height: 70px; /* Высота центральной части */
+    background: currentColor; /* Цвет будет браться из type-X-Y классов */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white; /* Цвет текста */
+    font-size: 0.85em;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Создание шестиугольника с помощью псевдоэлементов */
+.node-hexagon:before,
+.node-hexagon:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 60px solid transparent; /* Ширина боковин */
+    border-right: 60px solid transparent; /* Ширина боковин */
+}
+
+.node-hexagon:before {
+    bottom: 100%;
+    border-bottom: 25px solid currentColor; /* Высота верхней грани */
+}
+
+.node-hexagon:after {
+    top: 100%;
+    border-top: 25px solid currentColor; /* Высота нижней грани */
+}
+
+.node-hexagon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure text is visible in hexagon */
+.node-hexagon > * {
+    position: relative;
+    z-index: 1; /* Ensure text is above pseudo-elements */
+    padding: 5px;
+    white-space: normal; /* Allow text to wrap */
+    word-break: break-word;
+}
+
+
+/* Node Colors (based on screenshot) */
+
+/* Root Node (Yellow) */
+.type-root {
+    background-color: #ffda6a; /* Base color */
+    color: #333;
+    border-color: #ffc107; /* Border for subtle depth */
+    --node-main-color: #ffda6a; /* Custom property for hexagon pseudo-elements */
+}
+.type-root:before, .type-root:after {
+    border-color: transparent transparent var(--node-main-color) var(--node-main-color);
+}
+.node-hexagon.type-root:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-root:after { border-top-color: var(--node-main-color); }
+
+
+/* Level 1 Nodes (Light Blue, Rectangular, Inactive) */
+.type-node-1-light {
+    background-color: #e0f2f7; /* Very light blue */
+    color: #666;
+    border: 1px solid #b3e0ed;
+    border-radius: 6px;
+    box-shadow: none;
+    cursor: default;
+}
+.type-node-1-light.inactive {
+    opacity: 0.6; /* Slightly faded */
+}
+.type-node-1-light:hover {
+    transform: none; /* No hover effect for inactive */
+    box-shadow: none;
+}
+
+/* Level 2 Nodes (Blue, Purple, Pink, Red - Hexagons) */
+.type-node-2-blue { --node-main-color: #60b3d8; } /* Lighter blue */
+.type-node-2-purple { --node-main-color: #a470cd; } /* Lighter purple */
+.type-node-2-pink { --node-main-color: #f7a7bb; } /* Lighter pink */
+.type-node-2-red { --node-main-color: #ee777d; } /* Lighter red */
+
+.node-hexagon.type-node-2-blue:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-2-blue:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-2-purple:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-2-purple:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-2-pink:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-2-pink:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-2-red:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-2-red:after { border-top-color: var(--node-main-color); }
+
+
+/* Level 3 Nodes (Darker Blue, Purple, Pink, Red - Hexagons) */
+.type-node-3-blue { --node-main-color: #4a9ecf; } /* Medium blue */
+.type-node-3-purple { --node-main-color: #8c5aba; } /* Medium purple */
+.type-node-3-pink { --node-main-color: #e382a1; } /* Medium pink */
+.type-node-3-red { --node-main-color: #d85a6a; } /* Medium red */
+
+.node-hexagon.type-node-3-blue:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-3-blue:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-3-purple:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-3-purple:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-3-pink:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-3-pink:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-3-red:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-3-red:after { border-top-color: var(--node-main-color); }
+
+
+/* Level 4 Nodes (Even Darker Blue, Purple, Pink, Red - Hexagons) */
+.type-node-4-blue { --node-main-color: #3884b8; } /* Darker blue */
+.type-node-4-purple { --node-main-color: #7240a5; } /* Darker purple */
+.type-node-4-red { --node-main-color: #c4405a; } /* Darker red */
+
+.node-hexagon.type-node-4-blue:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-4-blue:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-4-purple:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-4-purple:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-4-red:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-4-red:after { border-top-color: var(--node-main-color); }
+
+
+/* Level 5 Nodes (Deepest Blue, Purple, Red - Hexagons) */
+.type-node-5-blue { --node-main-color: #276b9f; } /* Deep blue */
+.type-node-5-purple { --node-main-color: #5b2d90; } /* Deep purple */
+.type-node-5-red { --node-main-color: #a32e4d; } /* Deep red */
+
+.node-hexagon.type-node-5-blue:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-5-blue:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-5-purple:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-5-purple:after { border-top-color: var(--node-main-color); }
+.node-hexagon.type-node-5-red:before { border-bottom-color: var(--node-main-color); }
+.node-hexagon.type-node-5-red:after { border-top-color: var(--node-main-color); }
+
+
+/* Desktop Card Panel */
+#desktopCard {
+    flex-grow: 1; /* Allow card panel to take remaining vertical space */
+    min-height: 200px; /* Minimum height for the card content */
+    background-color: #fcfcfc; /* Light background for the card content */
+    border-radius: 4px;
+    padding: 15px;
+    color: #444;
+    overflow-y: auto;
+}
+
+/* Mobile specific styling (for drawer, card list, etc.) */
+/* Hidden elements by default for desktop */
+.hidden {
+    display: none;
+}
+
+/* Mobile views setup */
+#listView, #cardView {
+    display: none; /* Hidden by default */
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+#listView.active, #cardView.active {
+    display: block; /* Show active view */
+}
+
+.card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+/* Scheme cards (images) */
+.scheme-card {
+    /* Styles for scheme cards if they are ever displayed directly, otherwise they might be templates */
+    display: none; /* Assuming these are templates or hidden until needed */
+}
+.scheme-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Drawer for mobile tree */
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay */
+    display: flex;
+    justify-content: flex-end; /* Panel slides from right */
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+    z-index: 200;
+}
+
+.drawer.is-open {
     visibility: visible;
     opacity: 1;
 }
 
-/* Dark theme specific adjustments */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #121212;
-        color: #e0e0e0;
+.drawer-panel {
+    background-color: #fff;
+    width: 80%; /* Mobile panel width */
+    max-width: 350px;
+    height: 100%;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer.is-open .drawer-panel {
+    transform: translateX(0);
+}
+
+.drawer-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.drawer-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+}
+
+#mobileTree {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    /* Styles similar to desktopTree, but adjusted for vertical flow on mobile */
+    display: flex; /* Still flex for levels */
+    flex-direction: column; /* Stack levels vertically */
+    gap: 20px; /* Space between levels */
+    align-items: center; /* Center nodes in mobile tree */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .desktop-shell {
+        display: none; /* Hide desktop layout on small screens */
     }
-    .grid-node {
-        background-color: #222;
-        border-color: #444;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+
+    #listView, #cardView {
+        display: block; /* Show mobile views */
     }
-    .grid-node:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+
+    .topbar-left #backBtn, .topbar-right #treeBtn {
+        display: block; /* Show mobile specific buttons */
     }
-    .root-node {
-        background-color: #0056b3;
-        border-color: #003366;
+
+    .topbar-left #backBtn.hidden, .topbar-right #treeBtn.hidden {
+        display: none;
     }
-    .branch-0 {
-        background-color: #1e7e34;
-        border-color: #135221;
+}
+
+@media (min-width: 769px) {
+    .desktop-shell {
+        display: flex; /* Show desktop layout on larger screens */
     }
-    .branch-1 {
-        background-color: #d39e00;
-        border-color: #a07a00;
-        color: #e0e0e0;
+
+    #listView, #cardView {
+        display: none; /* Hide mobile views */
     }
-    .branch-2 {
-        background-color: #c82333;
-        border-color: #921822;
-    }
-    .leaf-node {
-        background-color: #545b62;
-        border-color: #3a3f44;
-    }
-    .card-preview {
-        background-color: #1a1a1a;
-    }
-    .card-preview .tooltip {
-        background-color: rgba(255, 255, 255, 0.15);
-        color: #e0e0e0;
+
+    .topbar-left #backBtn, .topbar-right #treeBtn {
+        display: none !important; /* Hide mobile specific buttons on desktop */
     }
 }
