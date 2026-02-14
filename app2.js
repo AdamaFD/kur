@@ -1,4 +1,4 @@
-// курлыкb
+// курлык
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 /* =========================
    APP STATE + DOM REFS
@@ -111,17 +111,26 @@ function renderDesktopList() {
    CARD RENDER
 ========================= */
 function renderCardDesktop(card) {
-  desktopCard.innerHTML = `
-    <img src="${card.id}.png" alt="">
-    
- 
+  desktopCard.innerHTML = ` // Очищает содержимое и устанавливает HTML для отображения карточки на десктопе.
+    <img src="images/${card.id}.jpg" alt=""> // Отображает изображение карточки.
+    <button class="open-pdf">Открыть карту (PDF)</button> // Кнопка для открытия PDF.
+  `;
+  const openPdfBtn = desktopCard.querySelector(".open-pdf"); // Находит кнопку "Открыть карту (PDF)".
+  if (openPdfBtn) { // Если кнопка найдена.
+    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank"); // Добавляет обработчик клика для открытия PDF в новой вкладке.
+  }
 }
-
 function renderCardMobile(card) {
-  descTab.innerHTML = `
-    <img src="${card.id}.png" class="card-image-large">
-    
+  descTab.innerHTML = ` // Очищает содержимое и устанавливает HTML для отображения карточки на мобильных.
+    <img src="images/${card.id}.jpg" class="card-image-large"> // Отображает изображение карточки.
+    <button class="open-pdf">Открыть карту</button> // Кнопка для открытия PDF.
+  `;
+  const openPdfBtn = descTab.querySelector(".open-pdf"); // Находит кнопку "Открыть карту".
+  if (openPdfBtn) { // Если кнопка найдена.
+    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank"); // Добавляет обработчик клика для открытия PDF в новой вкладке.
+  }
 }
+  
 
 /* =========================
    FIXED TREE LAYOUT BUILDER (9x6)
