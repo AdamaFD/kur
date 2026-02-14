@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {                           /*мур*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1350,6 +1350,38 @@ li.branch-2 .grid-node {
   border-radius: 4px;
 }
 
+/* АГРЕССИВНОЕ ПРАВИЛО ДЛЯ ОТЛАДКИ: Показывает превью на ЛЮБОМ grid-node при наведении */
+.grid-node:hover .card-preview {
+  opacity: 1 !important; /* !important чтобы перебить что угодно */
+  visibility: visible !important; /* !important чтобы перебить что угодно */
+  transform: translateX(-50%) translateY(-110%) !important; /* Положение чуть выше для видимости */
+}
+/* ОБЩИЕ СТИЛИ ДЛЯ CARD-PREVIEW */
+/* Эти стили применяются ко всем превью */
+.grid-node .card-preview {
+  position: absolute;
+  left: 50%; /* Центрирование по горизонтали */
+  z-index: 1000; /* Увеличиваем z-index ещё больше для отладки */
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  border-radius: 8px;
+  width: 150px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+  /* Временно позиционируем сверху для отладки, чтобы исключить проблемы с выходом за границы */
+  top: 0; /* Прикрепим его к верху grid-node */
+  transform: translateX(-50%) translateY(-100%); /* Начальное положение выше, чтобы было видно, что оно есть */
+}
+/* Стили для изображения внутри превью */
+.card-preview-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
 /* АГРЕССИВНОЕ ПРАВИЛО ДЛЯ ОТЛАДКИ: Показывает превью на ЛЮБОМ grid-node при наведении */
 .grid-node:hover .card-preview {
   opacity: 1 !important; /* !important чтобы перебить что угодно */
