@@ -1,39 +1,25 @@
-// Простая SPA без фреймворков.
-// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 "use strict";
 
 /* =========================
-   ASSET URLS (GitHub Pages safe + cache buster via ?v=...)
+   ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
 ========================= */
 function getBaseUrl() {
-  // "/kur/" или "/kur/index.html" -> "/kur/"
   const path = location.pathname.endsWith("/")
     ? location.pathname
     : location.pathname.replace(/[^/]+$/, "");
   return `${location.origin}${path}`;
 }
+
 const BASE_URL = getBaseUrl();
 const V = new URLSearchParams(location.search).get("v") || "";
 
 function withV(url) {
   if (!V) return url;
-  return url.includes("?")
-    ? `${url}&v=${encodeURIComponent(V)}`
-    : `${url}?v=${encodeURIComponent(V)}`;
+  return url.includes("?") ? `${url}&v=${encodeURIComponent(V)}` : `${url}?v=${encodeURIComponent(V)}`;
 }
 
 function imgUrl(cardId) {
   return withV(`${BASE_URL}${cardId}.png`);
-}
-
-function normalizePdfName(pdf) {
-  if (!pdf) return "";
-  return pdf.toLowerCase().endsWith(".pdf") ? pdf : `${pdf}.pdf`;
-}
-
-function pdfUrl(pdfName) {
-  const file = normalizePdfName(pdfName);
-  return withV(`${BASE_URL}pdfs/${file}`);
 }
 
 function jsonUrl(name) {
@@ -53,7 +39,6 @@ const descTab = document.getElementById("descTab");
 
 const desktopCardList = document.getElementById("desktopCardList");
 const desktopTree = document.getElementById("desktopTree");
-const desktopCard = document.getElementById("desktopCard");
 
 const treeBtn = document.getElementById("treeBtn");
 const drawerTree = document.getElementById("drawerTree");
@@ -125,30 +110,13 @@ function renderDesktopList() {
 }
 
 /* =========================
-   CARD RENDER
+   CARD RENDER (ONLY PNG)
 ========================= */
-function renderCardDesktop(card) {
-  if (!desktopCard) return;
-  desktopCard.innerHTML = `
-    <img src="${imgUrl(card.id)}" alt="">
-    <button class="open-pdf">Открыть карту (PDF)</button>
-  `;
-  const openPdfBtn = desktopCard.querySelector(".open-pdf");
-  if (openPdfBtn) {
-    openPdfBtn.onclick = () => window.open(pdfUrl(card.pdf), "_blank");
-  }
-}
-
 function renderCardMobile(card) {
   if (!descTab) return;
   descTab.innerHTML = `
-    <img src="${imgUrl(card.id)}" class="card-image-large">
-    <button class="open-pdf">Открыть карту</button>
+    <img src="${imgUrl(card.id)}" class="card-image-large" alt="">
   `;
-  const openPdfBtn = descTab.querySelector(".open-pdf");
-  if (openPdfBtn) {
-    openPdfBtn.onclick = () => window.open(pdfUrl(card.pdf), "_blank");
-  }
 }
 
 /* =========================
@@ -224,7 +192,7 @@ function buildFixedTreeLayout(rootId) {
    PREVIEW HELPERS (desktop hover + mobile long-press)
 ========================= */
 function attachPreviewHandlers(nodeDiv) {
-  // desktop hover (подстраховка)
+  // Desktop: подстраховка (CSS hover тоже есть)
   nodeDiv.addEventListener("pointerenter", () => {
     if (isDesktop()) nodeDiv.classList.add("preview-open");
   });
@@ -232,39 +200,27 @@ function attachPreviewHandlers(nodeDiv) {
     if (isDesktop()) nodeDiv.classList.remove("preview-open");
   });
 
-  // mobile long press
+  // Mobile: long press
   let t = null;
   const OPEN_DELAY = 350;
 
-  nodeDiv.addEventListener(
-    "touchstart",
-    () => {
-      if (isDesktop()) return;
-      clearTimeout(t);
-      t = setTimeout(() => nodeDiv.classList.add("preview-open"), OPEN_DELAY);
-    },
-    { passive: true }
-  );
+  nodeDiv.addEventListener("touchstart", () => {
+    if (isDesktop()) return;
+    clearTimeout(t);
+    t = setTimeout(() => nodeDiv.classList.add("preview-open"), OPEN_DELAY);
+  }, { passive: true });
 
-  nodeDiv.addEventListener(
-    "touchend",
-    () => {
-      if (isDesktop()) return;
-      clearTimeout(t);
-      nodeDiv.classList.remove("preview-open");
-    },
-    { passive: true }
-  );
+  nodeDiv.addEventListener("touchend", () => {
+    if (isDesktop()) return;
+    clearTimeout(t);
+    nodeDiv.classList.remove("preview-open");
+  }, { passive: true });
 
-  nodeDiv.addEventListener(
-    "touchmove",
-    () => {
-      if (isDesktop()) return;
-      clearTimeout(t);
-      nodeDiv.classList.remove("preview-open");
-    },
-    { passive: true }
-  );
+  nodeDiv.addEventListener("touchmove", () => {
+    if (isDesktop()) return;
+    clearTimeout(t);
+    nodeDiv.classList.remove("preview-open");
+  }, { passive: true });
 }
 
 /* =========================
@@ -282,9 +238,11 @@ function renderTree(container) {
     const div = document.createElement("div");
     div.className = "grid-node";
 
-    if (selectedNodes.has(card.id)) div.classList.add("selected");
+    // Цвета веток + root
+    if (col === 5 && row === 1) div.classList.add("root");
+    if (branch !== null) div.classList.add(`branch-${branch}`);
 
-    if (branch !== null) div.dataset.branch = String(branch);
+    if (selectedNodes.has(card.id)) div.classList.add("selected");
 
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
@@ -295,16 +253,15 @@ function renderTree(container) {
     div.dataset.row = String(row);
     div.dataset.parent = parentId == null ? "" : String(parentId);
 
-    // --- PREVIEW DOM ---
+    // PREVIEW
     const previewDiv = document.createElement("div");
     previewDiv.className = "card-preview";
     previewDiv.innerHTML = `<img src="${imgUrl(card.id)}" alt="${card.title}">`;
     div.appendChild(previewDiv);
 
-    // --- PREVIEW BEHAVIOR ---
     attachPreviewHandlers(div);
 
-    // --- CLICK SELECT LOGIC (как было) ---
+    // CLICK SELECT LOGIC (как было)
     div.onclick = (e) => {
       e.stopPropagation();
 
@@ -317,9 +274,7 @@ function renderTree(container) {
       // LEVEL 2 — одиночный выбор
       if (row === 2) {
         // снять выбор уровня 3 и 4 при смене уровня 2
-        const selectedL3 = container.querySelectorAll(
-          '.grid-node.selected[data-row="3"]'
-        );
+        const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
         selectedL3.forEach((node) => {
           node.classList.remove("selected");
           selectedNodes.delete(node.dataset.id);
@@ -395,9 +350,7 @@ function renderTree(container) {
         if (selectedL3Col !== col) return;
 
         // снять старый выбор 4-го уровня в этом столбце
-        const selectedInColumn = container.querySelectorAll(
-          `.grid-node.selected[data-col="${col}"]`
-        );
+        const selectedInColumn = container.querySelectorAll(`.grid-node.selected[data-col="${col}"]`);
         selectedInColumn.forEach((node) => {
           if (Number(node.dataset.row) >= 4) {
             node.classList.remove("selected");
@@ -434,7 +387,6 @@ function openCard(cardId) {
   if (isDesktop()) {
     if (backBtn) backBtn.classList.add("hidden");
     if (treeBtn) treeBtn.classList.add("hidden");
-    renderCardDesktop(card);
   } else {
     if (listView) listView.classList.remove("active");
     if (cardView) cardView.classList.add("active");
