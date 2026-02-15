@@ -1,16 +1,4 @@
-// курлыкbbb
-// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
-/* =========================
-   APP STATE + DOM REFS
-   (замена всего старого JSысf)
-========================= */
-// Простая SPA без фреймворков.
-// ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
-/* =========================
-   APP STATE + DOM REFS
-   (замена всего старого JS)
-========================= */
-// Простая SPA без фреймворков.
+// Простая SPA без фреймворков. хихихихи
 // ПК: сайдбар + дерево + карта. Мобилка: список -> карта + drawer'ы.
 "use strict";
 
@@ -35,26 +23,15 @@ let currentCardId = null;
 
 let selectedNodes = new Set();
 
-
-
-let selectedByColumn = {}; 
-// key = col, value = card.id
-let selectedLevel3ByColumn = {}; 
-// key = col, value = card.id
-
-
-
+let selectedByColumn = {};
+let selectedLevel3ByColumn = {};
 
 /* =========================
    FIXED GRID 9 x 6
 ========================= */
 const GRID_COLS = 9;
 const GRID_ROWS = 6;
-const BRANCH_COLORS = [
-  { light: "#d6f0ff", mid: "#6bbcff", dark: "#1e6fd9" }, // cyan → blue
-  { light: "#daf5e6", mid: "#5ecf9a", dark: "#1f8f5f" }, // green
-  { light: "#eadcff", mid: "#b18cff", dark: "#6b3fd6" }, // violet
-];
+
 /* =========================
    HELPERS
 ========================= */
@@ -111,26 +88,26 @@ function renderDesktopList() {
    CARD RENDER
 ========================= */
 function renderCardDesktop(card) {
-  desktopCard.innerHTML = ` // Очищает содержимое и устанавливает HTML для отображения карточки на десктопе.
-    <img src="${card.id}.png" alt=""> // Отображает изображение карточки.
-    <button class="open-pdf">Открыть карту (PDF)</button> // Кнопка для открытия PDF.
+  desktopCard.innerHTML = `
+    <img src="${card.id}.png" alt="">
+    <button class="open-pdf">Открыть карту (PDF)</button>
   `;
-  const openPdfBtn = desktopCard.querySelector(".open-pdf"); // Находит кнопку "Открыть карту (PDF)".
-  if (openPdfBtn) { // Если кнопка найдена.
-    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank"); // Добавляет обработчик клика для открытия PDF в новой вкладке.
+  const openPdfBtn = desktopCard.querySelector(".open-pdf");
+  if (openPdfBtn) {
+    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank");
   }
 }
+
 function renderCardMobile(card) {
-  descTab.innerHTML = ` // Очищает содержимое и устанавливает HTML для отображения карточки на мобильных.
-    <img src="${card.id}.png" class="card-image-large"> // Отображает изображение карточки.
-    <button class="open-pdf">Открыть карту</button> // Кнопка для открытия PDF.
+  descTab.innerHTML = `
+    <img src="${card.id}.png" class="card-image-large">
+    <button class="open-pdf">Открыть карту</button>
   `;
-  const openPdfBtn = descTab.querySelector(".open-pdf"); // Находит кнопку "Открыть карту".
-  if (openPdfBtn) { // Если кнопка найдена.
-    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank"); // Добавляет обработчик клика для открытия PDF в новой вкладке.
+  const openPdfBtn = descTab.querySelector(".open-pdf");
+  if (openPdfBtn) {
+    openPdfBtn.onclick = () => window.open(`pdfs/${card.pdf}`, "_blank");
   }
 }
-  
 
 /* =========================
    FIXED TREE LAYOUT BUILDER (9x6)
@@ -139,19 +116,17 @@ function buildFixedTreeLayout(rootId) {
   const nodes = [];
 
   function place(cardId, col, row, branch = null, parentId = null) {
-  const card = byId(cardId);
-  if (!card) return;
+    const card = byId(cardId);
+    if (!card) return;
 
-  nodes.push({
-    card,
-    col,
-    row: flipRow(row),
-    branch,
-    parentId
-  });
-}
-
-
+    nodes.push({
+      card,
+      col,
+      row: flipRow(row),
+      branch,
+      parentId,
+    });
+  }
 
   // --- Level 1 (root) ---
   place(rootId, 5, 6, null);
@@ -167,7 +142,6 @@ function buildFixedTreeLayout(rootId) {
 
   l2.forEach((id, i) => {
     place(id, L2_POS[i].col, L2_POS[i].row, i, rootId);
- // branch = 0/1/2
   });
 
   // --- Level 3 ---
@@ -184,7 +158,6 @@ function buildFixedTreeLayout(rootId) {
     kids.forEach((id, i) => {
       const pos = L3_POS[branch][i];
       place(id, pos.col, pos.row, branch, parentId);
-
       l3.push({ id, col: pos.col, branch });
     });
   });
@@ -196,83 +169,131 @@ function buildFixedTreeLayout(rootId) {
     const kids = firstNLinks(id, 3);
     kids.forEach((kidId, i) => {
       place(kidId, col, L4_ROWS[i], branch, id);
-
     });
   });
 
   return nodes;
 }
 
+/* =========================
+   PREVIEW HELPERS (desktop hover + mobile long-press)
+========================= */
+function attachPreviewHandlers(nodeDiv) {
+  // На ПК достаточно hover через CSS, но оставим подстраховку и для pointer
+  nodeDiv.addEventListener("pointerenter", () => {
+    if (isDesktop()) nodeDiv.classList.add("preview-open");
+  });
+  nodeDiv.addEventListener("pointerleave", () => {
+    if (isDesktop()) nodeDiv.classList.remove("preview-open");
+  });
 
+  // На мобилке — long press, чтобы не мешать обычному tap/click
+  let t = null;
+  const OPEN_DELAY = 350;
+
+  nodeDiv.addEventListener(
+    "touchstart",
+    () => {
+      // только мобилка
+      if (isDesktop()) return;
+      clearTimeout(t);
+      t = setTimeout(() => nodeDiv.classList.add("preview-open"), OPEN_DELAY);
+    },
+    { passive: true }
+  );
+
+  nodeDiv.addEventListener(
+    "touchend",
+    () => {
+      if (isDesktop()) return;
+      clearTimeout(t);
+      nodeDiv.classList.remove("preview-open");
+    },
+    { passive: true }
+  );
+
+  nodeDiv.addEventListener(
+    "touchmove",
+    () => {
+      if (isDesktop()) return;
+      clearTimeout(t);
+      nodeDiv.classList.remove("preview-open");
+    },
+    { passive: true }
+  );
+}
 
 /* =========================
    TREE RENDER
 ========================= */
-
-
-
-
-
-
 function renderTree(container) {
   container.innerHTML = "";
   if (!currentCardId) return;
+
   const nodes = buildFixedTreeLayout(currentCardId);
+
   nodes.forEach(({ card, col, row, branch, parentId }) => {
     const div = document.createElement("div");
     div.className = "grid-node";
-    if (selectedNodes.has(card.id)) {
-      div.classList.add("selected");
-    }
-    if (branch !== null) {
-      div.dataset.branch = branch;
-    }
+
+    if (selectedNodes.has(card.id)) div.classList.add("selected");
+
+    if (branch !== null) div.dataset.branch = branch;
+
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
+
     div.innerHTML = `<span class="node-title">${card.title}</span>`;
     div.dataset.id = card.id;
     div.dataset.col = col;
-    div.dataset.row = row; // Атрибут data-row будет использоваться для CSS
+    div.dataset.row = row;
     div.dataset.parent = parentId;
 
-    // --- КОД ДЛЯ ПРЕВЬЮ ---
+    // --- PREVIEW DOM ---
     const previewDiv = document.createElement("div");
     previewDiv.className = "card-preview";
-    previewDiv.innerHTML = `
-      <img src="${card.id}.png" alt="${card.title}" class="card-preview-image">
-    `;
+    previewDiv.innerHTML = `<img src="${card.id}.png" alt="${card.title}" class="card-preview-image">`;
     div.appendChild(previewDiv);
-    // ----------------------
 
+    // --- PREVIEW BEHAVIOR ---
+    attachPreviewHandlers(div);
+
+    // --- CLICK SELECT LOGIC ---
     div.onclick = (e) => {
       e.stopPropagation();
+
       const col = Number(div.dataset.col);
       const row = Number(div.dataset.row);
+
       // корень не кликаем
       if (col === 5 && row === 1) return;
-      // =========================
+
       // LEVEL 2 — одиночный выбор
-      // =========================
       if (row === 2) {
         // снять выбор уровня 3 и 4 при смене уровня 2
-        const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
-        selectedL3.forEach(node => {
+        const selectedL3 = container.querySelectorAll(
+          '.grid-node.selected[data-row="3"]'
+        );
+        selectedL3.forEach((node) => {
           node.classList.remove("selected");
           selectedNodes.delete(node.dataset.id);
         });
-        const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
-        selectedL4.forEach(node => {
+
+        const selectedL4 = container.querySelectorAll(".grid-node.selected[data-row]");
+        selectedL4.forEach((node) => {
           if (Number(node.dataset.row) >= 4) {
             node.classList.remove("selected");
             selectedNodes.delete(node.dataset.id);
           }
         });
+
         // снять старый выбор уровня 2
         const oldL2 = container.querySelector('.grid-node.selected[data-row="2"]');
         if (oldL2 && oldL2 !== div) {
           oldL2.classList.remove("selected");
           selectedNodes.delete(oldL2.dataset.id);
         }
+
         // переключатель
         if (div.classList.contains("selected")) {
           div.classList.remove("selected");
@@ -283,31 +304,31 @@ function renderTree(container) {
         }
         return;
       }
-      // =========================
+
       // LEVEL 3 — одиночный выбор
-      // =========================
       if (row === 3) {
-        // нельзя выбирать Level 3 без выбранного Level 2
         const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
         if (!selectedL2) return;
-        // нельзя выбирать Level 3, если он не принадлежит выбранному Level 2
-        if (div.dataset.parent !== selectedL2.dataset.id) {
-          return; // чужая ветка — игнор
-        }
+
+        // нельзя выбирать чужую ветку
+        if (div.dataset.parent !== selectedL2.dataset.id) return;
+
         // снять все 4-е уровни при смене 3-го
-        const selectedL4 = container.querySelectorAll('.grid-node.selected[data-row]');
-        selectedL4.forEach(node => {
+        const selectedL4 = container.querySelectorAll(".grid-node.selected[data-row]");
+        selectedL4.forEach((node) => {
           if (Number(node.dataset.row) >= 4) {
             node.classList.remove("selected");
             selectedNodes.delete(node.dataset.id);
           }
         });
+
         // снять старый выбор уровня 3
         const oldL3 = container.querySelector('.grid-node.selected[data-row="3"]');
         if (oldL3 && oldL3 !== div) {
           oldL3.classList.remove("selected");
           selectedNodes.delete(oldL3.dataset.id);
         }
+
         // переключатель
         if (div.classList.contains("selected")) {
           div.classList.remove("selected");
@@ -318,26 +339,26 @@ function renderTree(container) {
         }
         return;
       }
-      // =========================
+
       // LEVEL 4 — одиночный выбор в столбце
-      // =========================
       if (row >= 4) {
-        // нельзя выбирать 4-й уровень без выбранного 3-го
         const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
         if (!selectedL3) return;
-        // 4-й уровень можно выбирать только в той же ветке (том же столбце)
+
         const selectedL3Col = Number(selectedL3.dataset.col);
         if (selectedL3Col !== col) return;
+
         // снять старый выбор 4-го уровня в этом столбце
         const selectedInColumn = container.querySelectorAll(
           `.grid-node.selected[data-col="${col}"]`
         );
-        selectedInColumn.forEach(node => {
+        selectedInColumn.forEach((node) => {
           if (Number(node.dataset.row) >= 4) {
             node.classList.remove("selected");
             selectedNodes.delete(node.dataset.id);
           }
         });
+
         // переключатель
         if (div.classList.contains("selected")) {
           div.classList.remove("selected");
@@ -348,10 +369,11 @@ function renderTree(container) {
         }
         return;
       }
-    }; // конец onclick
+    };
+
     container.appendChild(div);
-  }); // конец nodes.forEach
-} // конец renderTree
+  });
+}
 
 /* =========================
    OPEN CARD
