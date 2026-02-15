@@ -1,4 +1,4 @@
-* {                           /*мурлык*/
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -8,6 +8,7 @@ body {
   background: #f5f6f8;
   color: #222;
 }
+
 /* ---------- Topbar ---------- */
 .topbar {
   display: flex;
@@ -18,7 +19,7 @@ body {
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: 50;
 }
 .icon-btn {
   background: none;
@@ -28,260 +29,98 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
+
 /* ---------- Views ---------- */
-.view {
-  display: none;
-  padding: 12px;
-}
-.view.active {
-  display: block;
-}
+.view { display: none; padding: 12px; }
+.view.active { display: block; }
+
 /* ---------- Desktop layout ---------- */
-.desktop-shell {
-  display: none;
-}
+.desktop-shell { display: none; }
+
 @media (min-width: 920px) {
-  body {
-    overflow: hidden;
-  }
-  .view {
-    display: none !important;
-  }
+  body { overflow: hidden; }
+  .view { display: none !important; }
+
   .desktop-shell {
     display: flex;
-    flex-direction: row;
     gap: 14px;
     padding: 14px;
     height: calc(100vh - 56px);
   }
+
   .sidebar {
+    width: 320px;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     padding: 12px;
     overflow: auto;
   }
+
+  .sidebar-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
   .sidebar-item {
     padding: 10px;
     border-radius: 12px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    gap: 10px;
   }
-  .sidebar-item.active {
-    background: rgba(79,108,255,0.16);
-  }
+  .sidebar-item:hover { background: rgba(0,0,0,0.04); }
+  .sidebar-item.active { background: rgba(79,108,255,0.16); }
+  .badge { opacity: .6; font-size: 12px; }
+
   .desktop-main {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 420px;
     gap: 14px;
     flex-grow: 1;
+    min-width: 0;
   }
+
   .panel {
     background: #fff;
     border-radius: 16px;
     padding: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    overflow: auto;
-  }
-}
-@media (min-width: 920px){
-  #desktopCard{
-    display: none;
-  }
-}
-/* полностью убираем панель "Карта" из сетки */
-  .desktop-main > .panel:last-child{
-    display: none;
-  }
-  /* делаем дерево единственной строкой */
-  .desktop-main{
-    flex-direction: column;
-  }
-/* ======================================
-   DESKTOP TREE — SCHEME (CENTERED)
-   ====================================== */
-@media (min-width: 920px){
-  #desktopTree {
-  padding-top: 60px;
-  height: 100%;
-  overflow: hidden;
-}
-#desktopTree.scrolled {
-  overflow-y: auto;
-  overflow-x: auto;
-}
-  /* FLEX НА 3 КОЛОНКИ */
-  #desktopTree ul{
-  list-style: none;
-  margin: 0;
-  padding: 0 0 48px;
-  display: flex; /* Already using flex */
-  justify-content: center;     /* 👈 центрируем всё дерево */
-  gap: 180px;            /* 👈 расстояние между дочерними */
-  flex-wrap: wrap;
-  position: relative;
-}
-  #desktopTree li{
-    position: relative;
-    text-align: center;
-      flex-basis: 100%;
-  max-width: 100%;
-  }
-#desktopTree li:nth-last-child(-n+3) {
-  /*
-    Каждый из последних трех элементов занимает примерно 1/3 доступной ширины.
-    Вычитаем часть gap, чтобы учесть промежутки между элементами.
-    (2 * 180px / 3) - это приблизительная корректировка для 3 элементов с gap 180px.
-    Можно настроить calc() точнее, если внешний контейнер имеет padding или другой отступ.
-  */
-  flex-basis: calc(33.333% - 120px); /* (180px * 2 / 3) = 120px */
-  max-width: calc(33.333% - 120px);
-}
-/* Убедимся, что корневой элемент не затрагивается, если он всегда один */
-#desktopTree ul > li:first-child {
-  flex-basis: auto; /* Или 100% */
-  max-width: auto; /* Или 100% */
-}
-/* Дополнительные стили, если 'branch-0', 'branch-1', 'branch-2'
-   относятся к последним трем элементам или требуют специфического размещения.
-   Если эти классы используются для последних трех, то flex-basis
-   для них может быть уточнен здесь.
-*/
-#desktopTree li.branch-0,
-#desktopTree li.branch-1,
-#desktopTree li.branch-2 {
-  /* Если эти классы всегда обозначают последние 3 элемента */
-  /* flex-basis: calc(33.333% - 120px); */
-  /* max-width: calc(33.333% - 120px); */
-}  
-
-  /* КОРЕНЬ */
-  #desktopTree ul > li:first-child{
-    /* For flexbox, positioning needs to be handled differently, e.g., with specific styling or by adjusting order/layout of other items */
-  }
-  /* ВЕТКИ */
-  #desktopTree li.branch-0{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
-  #desktopTree li.branch-1{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
-  #desktopTree li.branch-2{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
-  /* УЗЛЫ */
-  #desktopTree .node{
-    padding: 10px 16px;
-    border-radius: 14px;
-    background: #eef1ff;
-    border: 1px solid rgba(79,108,255,0.35);
-    font-size: 14px;
-    max-width: 180px;
-    line-height: 1.25;
-    text-align: center;
-    box-shadow: 0 6px 18px rgba(79,108,255,.18);
-  }
-  #desktopTree .node.locked{
-    background: #dfe3ff;
-    opacity: .85;
-  }
-@media (min-width: 920px){
-  #desktopTree ul{
-    list-style: none;
-    margin: 15px 0 0 0;
-    padding: 0;
-    display: flex; /* Already using flex */
-    justify-content: center;
-    gap: 32px;
-  }
-  /* дочерние уровни */
-  #desktopTree li > ul{
-    display: none;
-    margin-top: 24px;
-    display: flex; /* Already using flex */
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  /* раскрытие */
-  #desktopTree li.open > ul{
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
-}
-@media (min-width: 920px) {
+
+  .panel-title { margin-bottom: 10px; font-weight: 700; }
+
   #desktopTree {
-    padding-top: 60px;
-    overflow: hidden;        /* по умолчанию — без скролла */
+    flex: 1;
+    min-height: 520px;
+    overflow: visible;
   }
-  #desktopTree.scrolled {
-    overflow-y: auto;        /* вертикальный скролл */
-    overflow-x: auto;        /* горизонтальный тоже оставляем */
-  }
+
+  #desktopCard { flex: 1; overflow: auto; }
 }
-#desktopTree {
-    position: relative;
-    z-index: 2;
-}
-#desktopTree {
-    margin-top: 16px;
-}
-.panel-title { margin-bottom: 20px; }
-.panel-title {
-    margin-bottom: 2px;
-}
-  /* ==============================
-     ЛИНИИ
-     ============================== */
-  }
-/* ---------- Tree ---------- */
-/* ---------- DESKTOP TREE LAYOUT ---------- */
-/* ================================
-   DESKTOP TREE — независимая версия
-   ================================ */
-/* ================================
-   DESKTOP TREE — структура по схеме
-   ================================ */
-/* ---------- Drawer (mobile) ---------- */
-.drawer {
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 20;
-}
-.drawer.open {
-  display: block;
-}
-.drawer-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-}
-.drawer-panel {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: min(420px, 92vw);
-  background: #fff;
-  padding: 12px;
-  box-shadow: -6px 0 18px rgba(0,0,0,0.18);
-}
-/* ======================================
-   MOBILE — MAIN CARD LIST (FULL SCREEN)
-   ====================================== */
+
+/* ---------- Mobile list ---------- */
 @media (max-width: 919px){
-  /* контейнер списка */
   #listView {
     padding: 12px;
-    height: calc(100vh - 56px); /* минус topbar */
+    height: calc(100vh - 56px);
   }
+
   .card-list{
-    display: flex; /* Already using flex */
-    flex-direction: column; /* ОДИН СТОЛБЕЦ */
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     height: 100%;
   }
-  /* карточка-кнопка */
+
   .card-item{
-    display: flex; /* Already using flex */
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px;
@@ -290,7 +129,7 @@ body {
     border: 2px solid rgba(79,108,255,0.35);
     text-align: center;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.2;
     cursor: pointer;
     user-select: none;
@@ -310,19 +149,15 @@ body {
     overflow: hidden;
   }
 }
-/* ======================================
-   MOBILE — CARD VIEW (AFTER SELECTION)
-   ====================================== */
+
+/* ---------- Mobile card view ---------- */
 @media (max-width: 919px){
-  #cardView{
-    padding: 12px;
-  }
+  #cardView { padding: 12px; }
   #descTab{
-    display: flex; /* Already using flex */
+    display: flex;
     flex-direction: column;
     gap: 16px;
   }
-  /* зона картинки */
   .card-image-large{
     width: 100%;
     height: 220px;
@@ -331,7 +166,6 @@ body {
     border-radius: 16px;
     border: 1px solid rgba(0,0,0,0.08);
   }
-  /* кнопка открытия карты */
   #descTab .open-pdf{
     width: 100%;
     padding: 14px 16px;
@@ -340,981 +174,123 @@ body {
     background: #4f6cff;
     color: #fff;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
   }
-  #descTab .open-pdf:active{
-    transform: scale(0.98);
-  }
-}
-/* ======================================
-   MOBILE TREE — SCHEME (DRAWER ONLY) изменение положения дерева вниз
-   ====================================== */
-/* ======================================
-   MOBILE TREE — SCHEME (DRAWER, FIXED)
-   ====================================== */
-@media (max-width: 919px){
-  #drawerTree .tree{
-    overflow-x: hidden;
-    padding-top: 16px;
-  }
-  /* FLEX КОНТЕЙНЕР */
-  #drawerTree .tree ul{
-    list-style: none;
-    margin: 0;
-    padding: 0 0 24px;
-    display: flex; /* Already using flex */
-    flex-wrap: wrap;
-    row-gap: 44px;
-    justify-content: center;
-    position: relative;
-  }
-  #drawerTree .tree li{
-    position: relative;
-    text-align: center;
-    flex: 0 0 calc(33.333% - (2* var(--column-gap, 0))/3); /* Simulating 3 columns with flex-basis */
-  }
-  /* ---------- ROOT ---------- */
-  #drawerTree .tree ul > li:first-child{
-    flex-basis: 100%; /* Root takes full width for centering */
-    order: -1; /* Place root first */
-  }
-  /* ---------- BRANCH POSITIONS ---------- */
-  #drawerTree .tree li.branch-0{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
-  #drawerTree .tree li.branch-1{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
-  #drawerTree .tree li.branch-2{ /* Flexbox equivalent needs to be considered based on overall layout goal */ }
-  /* ---------- NODES ---------- */
-  #drawerTree .tree .node{
-    padding: 6px 10px;
-    border-radius: 12px;
-    background: #eef1ff;
-    border: 1px solid rgba(79,108,255,0.35);
-    font-size: 12px;
-    line-height: 1.2;
-    max-width: 110px;
-    white-space: normal;
-    text-align: center;
-  }
-  #drawerTree .tree .node.locked{
-    background: #dfe3ff;
-    opacity: .8;
-  }
-}
-/* Стили для контейнера дерева */
-#desktopTree, #mobileTree {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 колонок */
-  grid-template-rows: repeat(5, 1fr);    /* 5 рядов */
-  gap: 5px; /* Небольшой отступ между ячейками */
-  width: 100%; /* Занимаем всю доступную ширину */
-  height: 500px; /* Фиксированная высота для 5 рядов, можно настроить */
-  border: 1px solid #eee; /* Для наглядности */
-  padding: 5px;
-  box-sizing: border-box;
+  #descTab .open-pdf:active{ transform: scale(0.98); }
 }
 
-/* Стили для каждого узла в сетке */
-.grid-node {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  text-align: center;
-  overflow: hidden; /* Если текст длинный */
-  white-space: nowrap;
-  box-sizing: border-box;
+/* ---------- Drawer (mobile) ---------- */
+.drawer {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 100;
 }
-
-.grid-node.locked {
-  font-weight: bold;
-  background-color: #d4edda; /* Цвет для заблокированных/выбранных узлов */
-  border-color: #28a745;
-  cursor: default;
+.drawer.open { display: block; }
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
 }
-
-.grid-node.active-choice {
-  background-color: #e0f7fa; /* Цвет для активных вариантов выбора */
-  border-color: #00bcd4;
-}
-
-.grid-node.inactive {
-  background-color: #f1f1f1;
-  border-color: #e0e0e0;
-  color: #999;
-  cursor: default;
-}
-
-.grid-node:hover:not(.locked):not(.inactive) {
-  background-color: #e9ecef;
-}
- /* =========================
-   TREE GRID 9x6 (OVERRIDE)
-   ставь в самый конец CSS
-========================= */
-
-/* контейнеры дерева — и desktop, и mobile */
-#desktopTree,
-#mobileTree {
-  display: grid !important;
-  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;
-  gap: 10px !important;
-  width: 100% !important;
-  height: 100% !important;
-  padding: 10px !important;
-  box-sizing: border-box !important;
-
-  /* важно: не скрывать, если будешь включать pan/zoom */
-  overflow: visible !important;
-  border: 1px solid #eee;
-  background: #fff;
-  border-radius: 12px;
-}
-
-/* одинаковый размер узлов, текст центр */
-/* =========================
-   TREE NODES — BRANCH COLORS
-   ========================= */
-
-.grid-node {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+.drawer-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
   height: 100%;
+  width: min(420px, 92vw);
+  background: #fff;
+  padding: 12px;
+  box-shadow: -6px 0 18px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+}
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.drawer-title { font-weight: 800; }
+
+/* ---------- Tree grid (9x6) ---------- */
+.tree {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: 10px;
   width: 100%;
-  padding: 8px;
-
-  border-radius: 12px;
+  height: 100%;
+  padding: 10px;
   box-sizing: border-box;
-  text-align: center;
 
-  white-space: normal !important;
-  overflow: hidden;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+
+  overflow: visible;
+}
+
+#mobileTreeWrap {
+  flex: 1;
+  min-height: 360px;
+  overflow: hidden; /* чтобы не было адского скролла в шторке */
+  border-radius: 12px;
+}
+
+/* ---------- Tree node ---------- */
+.grid-node {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+  border-radius: 12px;
+  text-align: center;
 
   border: 1px solid rgba(0,0,0,0.08);
-  background: linear-gradient(
-    to bottom,
-    #f3f4f8 0%,
-    #e9ebf2 100%
-  );
+  background: linear-gradient(to bottom, #f3f4f8 0%, #e9ebf2 100%);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+  user-select: none;
 }
 
-
-/* ---------- ROOT ---------- */
-.grid-node.root {
-  background: linear-gradient(
-    to bottom,
-    #ffffff 0%,
-    #f0f3ff 100%
-  );
-  border: 1px solid rgba(79,108,255,0.35);
-  box-shadow:
-    0 6px 18px rgba(79,108,255,0.25);
-}
-
-/* ---------- LEFT BRANCH (cyan → blue) ---------- */
-.grid-node.branch-0 {
-  background: linear-gradient(
-    to bottom,
-    #dff7ff 0%,
-    #b8e3ff 55%,
-    #7fb8ff 100%
-  );
-  border-color: rgba(0,140,255,0.35);
-}
-
-/* ---------- CENTER BRANCH (violet → indigo) ---------- */
-.grid-node.branch-1 {
-  background: linear-gradient(
-    to bottom,
-    #f1e9ff 0%,
-    #d6c7ff 55%,
-    #a79bff 100%
-  );
-  border-color: rgba(120,90,255,0.35);
-}
-
-/* ---------- RIGHT BRANCH (peach → rose) ---------- */
-.grid-node.branch-2 {
-  background: linear-gradient(
-    to bottom,
-    #ffe8df 0%,
-    #ffc3b3 55%,
-    #ff9fa3 100%
-  );
-  border-color: rgba(255,120,120,0.35);
-}
-
-
-/* span внутри узла (у тебя в JS: <span class="node-title">...) */
 .grid-node .node-title{
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;   /* максимум 2 строки */
+  -webkit-line-clamp: 2;
   overflow: hidden;
 
   line-height: 1.15;
   word-break: break-word;
-
-  /* "ужатие" текста, чтобы влезал */
   font-size: clamp(10px, 1.4vw, 14px);
 }
 
-/* =========================
-   MOBILE DRAWER: PAN/ZOOM LAYER
-========================= */
-@media (max-width: 919px){
-  /* область внутри шторки под дерево */
-  #drawerTree .drawer-panel{
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* контейнер, где будет viewport (мы его создадим JS-ом) */
-  #drawerTree .tree{
-    flex: 1;
-    min-height: 320px;
-  }
-
-  .panzoom-viewport{
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    touch-action: none; /* критично для pinch/drag */
-    background: #fff;
-    border: 1px solid #eee;
-    border-radius: 12px;
-  }
-
-  .panzoom-canvas{
-    position: absolute;
-    left: 0;
-    top: 0;
-    transform-origin: 0 0;
-    will-change: transform;
-  }
-
-  /* сам grid внутри canvas должен иметь фиксируемый "размер вьюхи" */
-  .panzoom-canvas > #mobileTree{
-    width: 720px;   /* базовый размер "карты", чтобы было что зумить */
-    height: 520px;
-  }
-}  
-/* =========================
-   TREE NODES — BRANCH COLORS (refined)
-   ========================= */
-
-/* ROOT — нейтральный, слегка холодный */
+/* Root highlight */
 .grid-node.root {
-  background: linear-gradient(
-    to bottom,
-    #fff7d6 0%,
-    #f5d889 55%,
-    #e6b84f 100%
-  );
-
-  border: 1px solid rgba(180,140,40,0.6);
-
-  box-shadow:
-    0 0 0 2px rgba(255,215,100,0.45),
-    0 10px 26px rgba(180,140,40,0.45);
-
-  font-weight: 600;
-}
-
-
-/* ---------- BRANCH 0: cyan → deep blue ---------- */
-.grid-node.branch-0 {
-  background: linear-gradient(
-    to bottom,
-    #e8faff 0%,
-    #c9ecff 40%,
-    #9acbff 75%,
-    #6aa4ff 100%
-  );
-  border-color: rgba(0,140,255,0.35);
-}
-
-/* ---------- BRANCH 1: lavender → indigo ---------- */
-.grid-node.branch-1 {
-  background: linear-gradient(
-    to bottom,
-    #f5efff 0%,
-    #e3d7ff 40%,
-    #c0b0ff 75%,
-    #9a8aff 100%
-  );
-  border-color: rgba(120,90,255,0.35);
-}
-
-/* ---------- BRANCH 2: peach → deep rose ---------- */
-.grid-node.branch-2 {
-  background: linear-gradient(
-    to bottom,
-    #fff1eb 0%,
-    #ffd4c9 40%,
-    #ffb0b3 75%,
-    #ff8a9a 100%
-  );
-  border-color: rgba(255,120,120,0.35);
-}
-/* применяем цвет ветки к grid-node внутри li.branch-X */
-li.branch-0 > .grid-node {
-  background: linear-gradient(
-    to bottom,
-    #e8faff 0%,
-    #c9ecff 40%,
-    #9acbff 75%,
-    #6aa4ff 100%
-  );
-  border-color: rgba(0,140,255,0.35);
-}
-
-li.branch-1 > .grid-node {
-  background: linear-gradient(
-    to bottom,
-    #f5efff 0%,
-    #e3d7ff 40%,
-    #c0b0ff 75%,
-    #9a8aff 100%
-  );
-  border-color: rgba(120,90,255,0.35);
-}
-
-li.branch-2 > .grid-node {
-  background: linear-gradient(
-    to bottom,
-    #fff1eb 0%,
-    #ffd4c9 40%,
-    #ffb0b3 75%,
-    #ff8a9a 100%
-  );
-  border-color: rgba(255,120,120,0.35);
-}
-/* Принудительно красим grid-node внутри li.branch-X */
-li.branch-0 .grid-node {
-  background: linear-gradient(to bottom, #e8faff, #6aa4ff);
-  border-color: rgba(0,140,255,0.35);
-}
-
-li.branch-1 .grid-node {
-  background: linear-gradient(to bottom, #f5efff, #9a8aff);
-  border-color: rgba(120,90,255,0.35);
-}
-
-li.branch-2 .grid-node {
-  background: linear-gradient(to bottom, #fff1eb, #ff8a9a);
-  border-color: rgba(255,120,120,0.35);
-}
-
-
-/* === ROOT CARD — FORCE GOLD (FINAL, REAL) === */
-.grid-node.root {
-  background: linear-gradient(
-    to bottom,
-    #fff6cc 0%,
-    #f2d26b 45%,
-    #e0b94b 100%
-  ) !important;
-
-  border: 1px solid rgba(180,140,40,0.8) !important;
-
-  box-shadow:
-    0 0 0 2px rgba(255,215,120,0.6),
-    0 14px 32px rgba(180,140,40,0.5) !important;
-
-  font-weight: 700;
-}
-/* === ROOT NODE — GOLD HIGHLIGHT (AUTO-DETECTED BY POSITION) === */
-#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 1"],
-#mobileTree  .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 1"] {
-  background: linear-gradient(
-    to bottom,
-    #fff6cc 0%,
-    #f2d26b 45%,
-    #e0b94b 100%
-  ) !important;
-
-  border: 1px solid rgba(180,140,40,0.8) !important;
-
-  box-shadow:
-    0 0 0 2px rgba(255,215,120,0.6),
-    0 14px 32px rgba(180,140,40,0.5) !important;
-
-  font-weight: 700;
-  z-index: 10;
-}
-/* --- ROOT — главный узел --- */
-.grid-node.root {
-  background: linear-gradient(
-    to bottom,
-    #fff6cc 0%,     /* светлый желтый */
-    #f2d26b 45%,     /* золотистый */
-    #e0b94b 100%     /* коричнево-золотистый */
-  ) !important;
-
-  border: 1px solid rgba(180,140,40,0.8) !important;
-
-  box-shadow:
-    0 0 0 2px rgba(255,215,120,0.6),
-    0 14px 32px rgba(180,140,40,0.5) !important;
-
-  font-weight: 700;
-}
-/* LEVEL 2 — самый светлый */
-#desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 2"],
-#desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 2"],
-#desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 2"] {
-  background: linear-gradient(to bottom, #e8faff, #c9ecff) !important;
-}
-
-/* LEVEL 3 */
-#desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 3"],
-#desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 3"],
-#desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 3"] {
-  background: linear-gradient(to bottom, #c9ecff, #9acbff) !important;
-}
-
-
-
-
-/* LEVEL 2 */
-#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 2"],
-#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 2"],
-#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 2"] {
-  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
-}
-
-/* LEVEL 3 */
-#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 3"],
-#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 3"],
-#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 3"] {
-  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
-}
-
-
-
-
-/* LEVEL 2 */
-#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 2"],
-#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 2"],
-#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 2"] {
-  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important;
-}
-
-/* LEVEL 3 */
-#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 3"],
-#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 3"],
-#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 3"] {
-  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
-}
-
-
-
-
-/* === ROOT NODE — SOFT GOLD WITH GLOW === */
-#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 1"],
-#mobileTree  .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 1"] {
-  /* более мягкий, воздушный градиент */
-  background: linear-gradient(
-    180deg,
-    rgba(255, 246, 204, 0.85) 0%,
-    rgba(242, 210, 107, 0.80) 45%,
-    rgba(224, 185, 75, 0.78) 100%
-  ) !important;
-
-  /* мягкая прозрачность */
-  backdrop-filter: blur(2px);
-  opacity: 0.95;
-
-  /* внутреннее свечение */
+  background: linear-gradient(180deg, rgba(255,246,204,0.9) 0%, rgba(242,210,107,0.85) 45%, rgba(224,185,75,0.82) 100%);
+  border: 1px solid rgba(180,140,40,0.7);
   box-shadow:
     inset 0 0 12px rgba(255, 255, 200, 0.55),
-    inset 0 0 22px rgba(255, 220, 120, 0.35),
-
-    /* внешнее сияние */
-    0 0 6px rgba(255, 215, 120, 0.55),
-    0 0 18px rgba(180, 140, 40, 0.35),
-    0 12px 28px rgba(180, 140, 40, 0.35) !important;
-
-  border: 1px solid rgba(180, 140, 40, 0.65) !important;
-
-  /* чуть более мягкие края */
-  border-radius: 14px;
-
-  /* лёгкий перелив */
-  animation: rootPulse 4s ease-in-out infinite;
+    0 12px 26px rgba(180, 140, 40, 0.35);
+  font-weight: 800;
 }
 
-/* плавный, едва заметный перелив */
-@keyframes rootPulse {
-  0% {
-    filter: brightness(1) saturate(1);
-  }
-  50% {
-    filter: brightness(1.08) saturate(1.12);
-  }
-  100% {
-    filter: brightness(1) saturate(1);
-  }
-}
-/* === SELECTED CHILD NODE — SOFT GOLD GLOW === */
+/* Selected */
 .grid-node.selected {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 246, 204, 0.75) 0%,
-    rgba(242, 210, 107, 0.70) 45%,
-    rgba(224, 185, 75, 0.68) 100%
-  ) !important;
-
-  border: 1px solid rgba(180,140,40,0.55) !important;
-
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 200, 0.45),
-    inset 0 0 18px rgba(255, 220, 120, 0.30),
-    0 0 6px rgba(255, 215, 120, 0.45),
-    0 10px 22px rgba(180, 140, 40, 0.35) !important;
-
-  opacity: 0.92;
-  border-radius: 14px;
-
-  animation: selectedPulse 3.5s ease-in-out infinite;
+  outline: 3px solid rgba(255, 210, 100, 0.75);
 }
 
-@keyframes selectedPulse {
-  0%   { filter: brightness(1) saturate(1); }
-  50%  { filter: brightness(1.06) saturate(1.08); }
-  100% { filter: brightness(1) saturate(1); }
-}
-/* === SELECTED CHILD NODE — GOLD TITLE GLOW === */
-.grid-node.selected .node-title {
-  color: #5a4500;
-  font-weight: 600;
+/* ---------- Preview ---------- */
+.tree, .tree * { overflow: visible; }
 
-  text-shadow:
-    0 0 4px rgba(255, 220, 120, 0.85),
-    0 0 8px rgba(255, 200, 80, 0.75),
-    0 0 14px rgba(255, 180, 60, 0.55);
-
-  animation: titlePulse 3s ease-in-out infinite;
-}
-
-@keyframes titlePulse {
-  0%   { text-shadow: 0 0 4px rgba(255,220,120,0.85); }
-  50%  { text-shadow: 0 0 10px rgba(255,200,80,0.95); }
-  100% { text-shadow: 0 0 4px rgba(255,220,120,0.85); }
-}
-
-/* === SELECTED CHILD NODE — GOLD TITLE GLOW (BRIGHTER) === */
-.grid-node.selected .node-title {
-  color: #4a3600;
-  font-weight: 700;
-
-  text-shadow:
-    0 0 6px rgba(255, 230, 140, 0.95),
-    0 0 12px rgba(255, 210, 100, 0.85),
-    0 0 20px rgba(255, 190, 80, 0.75),
-    0 0 28px rgba(255, 170, 60, 0.55);
-
-  animation: titlePulse 2.8s ease-in-out infinite;
-}
-
-@keyframes titlePulse {
-  0%   { text-shadow: 0 0 6px rgba(255,230,140,0.95); }
-  50%  { text-shadow: 0 0 16px rgba(255,210,100,1); }
-  100% { text-shadow: 0 0 6px rgba(255,230,140,0.95); }
-}
-
-/* === SELECTED CHILD NODE — BRIGHT GOLD TITLE GLOW === */
-.grid-node.selected .node-title {
-  color: #3a2a00;
-  font-weight: 700;
-
-  text-shadow:
-    0 0 8px rgba(255, 230, 140, 1),
-    0 0 16px rgba(255, 210, 100, 0.95),
-    0 0 26px rgba(255, 190, 80, 0.85),
-    0 0 36px rgba(255, 170, 60, 0.75);
-
-  animation: titlePulseStrong 2.4s ease-in-out infinite;
-}
-
-@keyframes titlePulseStrong {
-  0%   { text-shadow: 0 0 8px rgba(255,230,140,1); }
-  50%  { text-shadow: 0 0 22px rgba(255,210,100,1); }
-  100% { text-shadow: 0 0 8px rgba(255,230,140,1); }
-}
-/* Подсветка фона Level 4 */
-#desktopTree .grid-node[style*="grid-row-start: 3"] {
-  background-color: rgba(255, 245, 200, 0.25) !important;
-  backdrop-filter: blur(1px);
-}
-.node-title {
-  transition: color 0.25s ease, text-shadow 0.25s ease;
-}
-
-.node-title.gold {
-  color: #d4af37; /* золото */
-  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
-  font-weight: 600;
-}
-.grid-node.selected .node-title {
-  color: #d4af37; /* золото */
-  font-weight: 600;
-  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
-  transition: color 0.25s ease, text-shadow 0.25s ease;
-}
-/* =========================================
-   FINAL — LEVEL 4 COLORS (CLEAN OVERRIDE)
-   ========================================= */
-
-/* ВЕТКА 0 — колонки 1,2,3 */
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 1"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 1"] {
-  background: #1e3f8f !important;
-  border-color: #1e3f8f !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  position: relative;
-z-index: 1;                      /хрень какая то две строки/
-
-}
-
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 2"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 2"] {
-  background: #3c6fd1 !important;
-  border-color: #3c6fd1 !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 3"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 3"] {
-  background: #6aa4ff !important;
-  border-color: #6aa4ff !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-
-/* ВЕТКА 1 — колонки 4,5,6 */
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 4"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 4"] {
-  background: #3d2f8f !important;
-  border-color: #3d2f8f !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 5"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 5"] {
-  background: #6a5ac7 !important;
-  border-color: #6a5ac7 !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 6"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 6"] {
-  background: #9a8aff !important;
-  border-color: #9a8aff !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-
-/* ВЕТКА 2 — колонки 7,8,9 */
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 7"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 7"] {
-  background: #b03048 !important;
-  border-color: #b03048 !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 8"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 8"] {
-  background: #e05a6f !important;
-  border-color: #e05a6f !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 9"],
-#mobileTree  .grid-node[style*="grid-row-start: 4"][style*="grid-column-start: 9"] {
-  background: #ff8a9a !important;
-  border-color: #ff8a9a !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-/* =========================================
-   FINAL — LEVEL 4 BY DATA ATTRIBUTES
-   ========================================= */
-
-/* ВЕТКА 0 — колонки 1,2,3 (ряды 4,5,6) */
-#desktopTree .grid-node[data-col="1"][data-row="4"],
-#desktopTree .grid-node[data-col="1"][data-row="5"],
-#desktopTree .grid-node[data-col="1"][data-row="6"],
-#mobileTree  .grid-node[data-col="1"][data-row="4"],
-#mobileTree  .grid-node[data-col="1"][data-row="5"],
-#mobileTree  .grid-node[data-col="1"][data-row="6"] {
-  background: #2b57c7  !important;
-  border-color: #2b57c7 !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[data-col="2"][data-row="4"],
-#desktopTree .grid-node[data-col="2"][data-row="5"],
-#desktopTree .grid-node[data-col="2"][data-row="6"],
-#mobileTree  .grid-node[data-col="2"][data-row="4"],
-#mobileTree  .grid-node[data-col="2"][data-row="5"],
-#mobileTree  .grid-node[data-col="2"][data-row="6"] {
-  background: #3c6fd1 !important;
-  border-color: #3c6fd1 !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[data-col="3"][data-row="4"],
-#desktopTree .grid-node[data-col="3"][data-row="5"],
-#desktopTree .grid-node[data-col="3"][data-row="6"],
-#mobileTree  .grid-node[data-col="3"][data-row="4"],
-#mobileTree  .grid-node[data-col="3"][data-row="5"],
-#mobileTree  .grid-node[data-col="3"][data-row="6"] {
-  background: #6aa4ff !important;
-  border-color: #6aa4ff !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-
-/* ВЕТКА 1 — колонки 4,5,6 (ряды 4,5,6) */
-#desktopTree .grid-node[data-col="4"][data-row="4"],
-#desktopTree .grid-node[data-col="4"][data-row="5"],
-#desktopTree .grid-node[data-col="4"][data-row="6"],
-#mobileTree  .grid-node[data-col="4"][data-row="4"],
-#mobileTree  .grid-node[data-col="4"][data-row="5"],
-#mobileTree  .grid-node[data-col="4"][data-row="6"] {
-  background: #5445bd !important;
-  border-color: #5445bd !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[data-col="5"][data-row="4"],
-#desktopTree .grid-node[data-col="5"][data-row="5"],
-#desktopTree .grid-node[data-col="5"][data-row="6"],
-#mobileTree  .grid-node[data-col="5"][data-row="4"],
-#mobileTree  .grid-node[data-col="5"][data-row="5"],
-#mobileTree  .grid-node[data-col="5"][data-row="6"] {
-  background: #6a5ac7 !important;
-  border-color: #6a5ac7 !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[data-col="6"][data-row="4"],
-#desktopTree .grid-node[data-col="6"][data-row="5"],
-#desktopTree .grid-node[data-col="6"][data-row="6"],
-#mobileTree  .grid-node[data-col="6"][data-row="4"],
-#mobileTree  .grid-node[data-col="6"][data-row="5"],
-#mobileTree  .grid-node[data-col="6"][data-row="6"] {
-  background: #9a8aff !important;
-  border-color: #9a8aff !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-
-/* ВЕТКА 2 — колонки 7,8,9 (ряды 4,5,6) */
-#desktopTree .grid-node[data-col="7"][data-row="4"],
-#desktopTree .grid-node[data-col="7"][data-row="5"],
-#desktopTree .grid-node[data-col="7"][data-row="6"],
-#mobileTree  .grid-node[data-col="7"][data-row="4"],
-#mobileTree  .grid-node[data-col="7"][data-row="5"],
-#mobileTree  .grid-node[data-col="7"][data-row="6"] {
-  background: #c6425a !important;
-  border-color: #c6425a !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[data-col="8"][data-row="4"],
-#desktopTree .grid-node[data-col="8"][data-row="5"],
-#desktopTree .grid-node[data-col="8"][data-row="6"],
-#mobileTree  .grid-node[data-col="8"][data-row="4"],
-#mobileTree  .grid-node[data-col="8"][data-row="5"],
-#mobileTree  .grid-node[data-col="8"][data-row="6"] {
-  background: #e05a6f !important;
-  border-color: #e05a6f !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-#desktopTree .grid-node[data-col="9"][data-row="4"],
-#desktopTree .grid-node[data-col="9"][data-row="5"],
-#desktopTree .grid-node[data-col="9"][data-row="6"],
-#mobileTree  .grid-node[data-col="9"][data-row="4"],
-#mobileTree  .grid-node[data-col="9"][data-row="5"],
-#mobileTree  .grid-node[data-col="9"][data-row="6"] {
-  background: #ff8a9a !important;
-  border-color: #ff8a9a !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-/* LEVEL 4 — HEXAGON SHAPE (bigger +3px more) */
-#desktopTree .grid-node[data-row="4"],
-#desktopTree .grid-node[data-row="5"],
-#desktopTree .grid-node[data-row="6"],
-#mobileTree  .grid-node[data-row="4"],
-#mobileTree  .grid-node[data-row="5"],
-#mobileTree  .grid-node[data-row="6"] {
-  clip-path: polygon(
-    15% 0%, 85% 0%,
-    100% 50%,
-    85% 100%, 15% 100%,
-    0% 50%
-  );
-  border-radius: 0 !important;
-}
-
-
-
-/* ===============================
-   DESKTOP CARD PREVIEW (FINAL)
-   =============================== */
-
-/* ===============================
-   DESKTOP CARD PREVIEW FIX
-   =============================== */
-
-/* ===============================
-   DESKTOP CARD PREVIEW — CLEAN VERSION
-   =============================== */
-
-@media (min-width: 920px) {
-
-  /* Разрешаем превью выходить за границы */
-  #desktopTree,
-  #desktopTree * {
-    overflow: visible !important;
-  }
-
-  /* Базовый слой узла */
-  #desktopTree .grid-node {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Поднимаем узел при наведении */
-  #desktopTree .grid-node:hover {
-    z-index: 99999 !important;
-  }
-
-  /* Превью карточки */
-  #desktopTree .card-preview {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
-
-    background: #fff;
-    padding: 6px;
-    border-radius: 10px;
-    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transition: 0.2s ease;
-    z-index: 999999;
-  }
-  
-
-  /* Ряды 1–3 — превью вниз */
-  #desktopTree .grid-node[data-row="1"] .card-preview,
-  #desktopTree .grid-node[data-row="2"] .card-preview,
-  #desktopTree .grid-node[data-row="3"] .card-preview {
-    top: 100%;
-    margin-top: 10px;
-  }
-
-  /* Ряд 4 — превью вверх */
-  #desktopTree .grid-node[data-row="4"] .card-preview {
-    bottom: 100%;
-    margin-bottom: 10px;
-  }
-
-  /* Показ превью */
-  #desktopTree .grid-node:hover .card-preview {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  /* Картинка внутри превью */
-  #desktopTree .card-preview img {
-    width: 100%;
-    display: block;
-    border-radius: 6px;
-  }
-}
-@media (min-width: 920px) {
-
-  /* 1–3 уровень — превью вниз */
-  #desktopTree .grid-node[data-row="1"] .card-preview,
-  #desktopTree .grid-node[data-row="2"] .card-preview,
-  #desktopTree .grid-node[data-row="3"] .card-preview {
-    top: 100%;
-    margin-top: 10px;
-  }
-
-  /* 4 уровень — превью вверх */
-  #desktopTree .grid-node[data-row="4"] .card-preview {
-    bottom: 100%;
-    margin-bottom: 10px;
-  }
-}
-
-
-
-
-
-
-
-/* ===============================
-   CARD PREVIEW — UNIVERSAL (DESKTOP + MOBILE)
-   ВСТАВЬ В САМЫЙ КОНЕЦ styles.css
-   =============================== */
-
-/* чтобы превью не резалось */
-#desktopTree, #mobileTree,
-#desktopTree *, #mobileTree * {
-  overflow: visible !important;
-}
-
-.grid-node {
-  position: relative;
-  z-index: 1;
-}
-
-/* поднимаем узел когда открыт превью (и при hover на ПК) */
 .grid-node:hover,
-.grid-node.preview-open {
-  z-index: 99999 !important;
-}
+.grid-node.preview-open { z-index: 99999; }
 
-/* превью по умолчанию скрыто */
 .card-preview {
   position: absolute;
   left: 50%;
@@ -1340,22 +316,20 @@ z-index: 1;                      /хрень какая то две строки
   border-radius: 6px;
 }
 
-/* показ превью: hover (ПК) или preview-open (мобилка long press) */
+/* show preview (desktop hover + mobile longpress) */
 .grid-node:hover .card-preview,
 .grid-node.preview-open .card-preview {
   opacity: 1;
   visibility: visible;
 }
 
-/* позиция превью относительно рядов:
-   1–3 вниз, 4–6 вверх (чтобы не залезало в соседей) */
+/* rows 1–3 -> preview down, rows 4–6 -> preview up */
 .grid-node[data-row="1"] .card-preview,
 .grid-node[data-row="2"] .card-preview,
 .grid-node[data-row="3"] .card-preview {
   top: 100%;
   margin-top: 10px;
 }
-
 .grid-node[data-row="4"] .card-preview,
 .grid-node[data-row="5"] .card-preview,
 .grid-node[data-row="6"] .card-preview {
