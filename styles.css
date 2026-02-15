@@ -4,6 +4,7 @@
   padding: 0;
   font-family: sans-serif;
 }
+
 body {
   background: #f5f6f8;
   color: #222;
@@ -21,6 +22,7 @@ body {
   top: 0;
   z-index: 50;
 }
+
 .icon-btn {
   background: none;
   border: none;
@@ -29,6 +31,7 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+
 .hidden { display: none; }
 
 /* ---------- Views ---------- */
@@ -58,10 +61,7 @@ body {
     overflow: auto;
   }
 
-  .sidebar-title {
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
+  .sidebar-title { font-weight: 700; margin-bottom: 10px; }
 
   .sidebar-item {
     padding: 10px;
@@ -71,15 +71,17 @@ body {
     justify-content: space-between;
     gap: 10px;
   }
+
   .sidebar-item:hover { background: rgba(0,0,0,0.04); }
   .sidebar-item.active { background: rgba(79,108,255,0.16); }
+
   .badge { opacity: .6; font-size: 12px; }
 
   .desktop-main {
     display: grid;
     grid-template-columns: 1fr 420px;
     gap: 14px;
-    flex-grow: 1;
+    flex: 1;
     min-width: 0;
   }
 
@@ -96,52 +98,31 @@ body {
 
   .panel-title { margin-bottom: 10px; font-weight: 700; }
 
-  #desktopTree {
-    flex: 1;
-    min-height: 520px;
-    overflow: visible;
-  }
-
+  #desktopTree { flex: 1; min-height: 520px; overflow: visible; }
   #desktopCard { flex: 1; overflow: auto; }
 }
 
 /* ---------- Mobile list ---------- */
-@media (max-width: 919px){
-  #listView {
-    padding: 12px;
-    height: calc(100vh - 56px);
-  }
-
-  .card-list{
+@media (max-width: 919px) {
+  .card-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    height: 100%;
   }
 
-  .card-item{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .card-item {
     padding: 12px;
     border-radius: 16px;
-    background: #ffffff;
+    background: #fff;
     border: 2px solid rgba(79,108,255,0.35);
     text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.2;
+    font-weight: 700;
     cursor: pointer;
     user-select: none;
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    transition: transform .12s ease, box-shadow .12s ease;
-    flex-grow: 1;
   }
-  .card-item:active{
-    transform: scale(0.97);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
-  .card-item h4{
+
+  .card-item h4 {
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -150,23 +131,24 @@ body {
   }
 }
 
-/* ---------- Mobile card view ---------- */
-@media (max-width: 919px){
-  #cardView { padding: 12px; }
-  #descTab{
+/* ---------- Mobile card ---------- */
+@media (max-width: 919px) {
+  #descTab {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
-  .card-image-large{
+
+  .card-image-large {
     width: 100%;
-    height: 220px;
+    height: 240px;
     object-fit: contain;
     background: #f1f2f6;
     border-radius: 16px;
     border: 1px solid rgba(0,0,0,0.08);
   }
-  #descTab .open-pdf{
+
+  #descTab .open-pdf {
     width: 100%;
     padding: 14px 16px;
     border-radius: 16px;
@@ -174,25 +156,27 @@ body {
     background: #4f6cff;
     color: #fff;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
   }
-  #descTab .open-pdf:active{ transform: scale(0.98); }
 }
 
-/* ---------- Drawer (mobile) ---------- */
+/* ---------- Drawer ---------- */
 .drawer {
   position: fixed;
   inset: 0;
   display: none;
   z-index: 100;
 }
+
 .drawer.open { display: block; }
+
 .drawer-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.35);
 }
+
 .drawer-panel {
   position: absolute;
   right: 0;
@@ -205,13 +189,15 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .drawer-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
 }
-.drawer-title { font-weight: 800; }
+
+.drawer-title { font-weight: 900; }
 
 /* ---------- Tree grid (9x6) ---------- */
 .tree {
@@ -219,29 +205,23 @@ body {
   grid-template-columns: repeat(9, minmax(0, 1fr));
   grid-template-rows: repeat(6, minmax(0, 1fr));
   gap: 10px;
+
   width: 100%;
   height: 100%;
   padding: 10px;
-  box-sizing: border-box;
 
-  background: #fff;
-  border: 1px solid #eee;
   border-radius: 12px;
+  border: 1px solid #eee;
+  background: #fff;
 
   overflow: visible;
 }
 
-#mobileTreeWrap {
-  flex: 1;
-  min-height: 360px;
-  overflow: hidden; /* чтобы не было адского скролла в шторке */
-  border-radius: 12px;
-}
-
-/* ---------- Tree node ---------- */
+/* ---------- Nodes ---------- */
 .grid-node {
   position: relative;
   z-index: 1;
+  overflow: visible;
 
   display: flex;
   align-items: center;
@@ -259,7 +239,7 @@ body {
   user-select: none;
 }
 
-.grid-node .node-title{
+.grid-node .node-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -270,26 +250,17 @@ body {
   font-size: clamp(10px, 1.4vw, 14px);
 }
 
-/* Root highlight */
-.grid-node.root {
-  background: linear-gradient(180deg, rgba(255,246,204,0.9) 0%, rgba(242,210,107,0.85) 45%, rgba(224,185,75,0.82) 100%);
-  border: 1px solid rgba(180,140,40,0.7);
-  box-shadow:
-    inset 0 0 12px rgba(255, 255, 200, 0.55),
-    0 12px 26px rgba(180, 140, 40, 0.35);
-  font-weight: 800;
-}
-
-/* Selected */
+/* selected */
 .grid-node.selected {
   outline: 3px solid rgba(255, 210, 100, 0.75);
 }
 
 /* ---------- Preview ---------- */
-.tree, .tree * { overflow: visible; }
-
+/* поднимаем узел при превью */
 .grid-node:hover,
-.grid-node.preview-open { z-index: 99999; }
+.grid-node.preview-open {
+  z-index: 99999;
+}
 
 .card-preview {
   position: absolute;
@@ -316,20 +287,21 @@ body {
   border-radius: 6px;
 }
 
-/* show preview (desktop hover + mobile longpress) */
+/* показ превью: desktop hover + mobile long-press */
 .grid-node:hover .card-preview,
 .grid-node.preview-open .card-preview {
   opacity: 1;
   visibility: visible;
 }
 
-/* rows 1–3 -> preview down, rows 4–6 -> preview up */
+/* ряды 1–3 -> вниз, 4–6 -> вверх */
 .grid-node[data-row="1"] .card-preview,
 .grid-node[data-row="2"] .card-preview,
 .grid-node[data-row="3"] .card-preview {
   top: 100%;
   margin-top: 10px;
 }
+
 .grid-node[data-row="4"] .card-preview,
 .grid-node[data-row="5"] .card-preview,
 .grid-node[data-row="6"] .card-preview {
