@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
 
 /* ---------- Topbar ---------- */
@@ -156,7 +156,17 @@ body { background: #f5f6f8; color: #222; }
     inset 0 0 12px rgba(255, 255, 200, 0.55),
     0 14px 28px rgba(180, 140, 40, 0.35);
   font-weight: 900;
+  /* Корневая золотая кнопка — сделать в 2 раза ниже */
+
+  height: 50%;              /* половина высоты обычной ноды */
+  padding-top: 6px;         /* чтобы текст не обрезался сверху */
+  padding-bottom: 6px;      /* чтобы текст не обрезался снизу */
+  display: flex;
+  align-items: center;      /* выравнивание текста по центру */
+  justify-content: center;
 }
+
+
 
 /* Цветные ветки (как было по смыслу) */
 .grid-node.branch-0 {
@@ -228,4 +238,17 @@ body { background: #f5f6f8; color: #222; }
 .grid-node[data-row="6"] .card-preview {
   bottom: 100%;
   margin-bottom: 10px;
+  /* Шестиугольники для строк 4–6 */
+.grid-node[data-row="4"],
+.grid-node[data-row="5"],
+.grid-node[data-row="6"] {
+  clip-path: polygon(
+    25% 0%, 75% 0%,
+    100% 50%,
+    75% 100%, 25% 100%,
+    0% 50%
+  );
+  padding: 14px; /* чтобы текст не обрезался */
+}
+
 }
