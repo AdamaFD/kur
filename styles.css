@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -470,17 +470,20 @@ z-index: 1;                      /хрень какая то две строки
 
 
 
-/* Четвёртый уровень — четырёхконечная звезда */
-.grid-node[data-row="4"] {
+/* Уровни 4, 5, 6 — увеличенная четырёхконечная звезда */
+.grid-node[data-row="4"],
+.grid-node[data-row="5"],
+.grid-node[data-row="6"] {
   clip-path: polygon(
     50% 0%,
-    60% 35%,
+    65% 30%,
     100% 50%,
-    60% 65%,
+    65% 70%,
     50% 100%,
-    40% 65%,
+    35% 70%,
     0% 50%,
-    40% 35%
+    35% 30%
   );
-  padding: 16px; /* чтобы текст не обрезался */
+  padding: 18px; /* больше внутреннего пространства под текст */
 }
+
