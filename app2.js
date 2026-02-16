@@ -1,5 +1,5 @@
 "use strict";
-
+//курлык//
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
 ========================= */
@@ -92,21 +92,27 @@ function renderMobileList() {
     div.innerHTML = `<h4>${card.title}</h4>`;
     div.onclick = () => openCard(card.id);
     cardList.appendChild(div);
-     function addClassToFourthLevel() {
+    function addClassToFourthLevel() {
   // Находим все элементы 3 уровня
   const thirdLevelCards = document.querySelectorAll('.card-level-3');
 
   thirdLevelCards.forEach(thirdCard => {
-    // Ищем внутри 3 уровня карточки 4 уровня и ниже
-    const deeperCards = thirdCard.querySelectorAll('.card-level-4, .card-level-5, .card-level-6');
+    // Ищем ВСЕ вложенные элементы
+    const nestedElements = thirdCard.querySelectorAll('*');
 
-    if (deeperCards.length > 0) {
-      deeperCards.forEach(card => {
-        card.classList.add('nested-level');
-      });
-    }
+    nestedElements.forEach(el => {
+      const style = window.getComputedStyle(el);
+
+      if (style.gridRowStart === "4") {
+        el.classList.add('row-4');
+      }
+    });
   });
 }
+
+// Вызов
+addClassToFourthLevel();
+
 
 // Вызов функции
 addClassToFourthLevel();
