@@ -1,5 +1,5 @@
 "use strict";
-//курлык//
+//мурлык//
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
 ========================= */
