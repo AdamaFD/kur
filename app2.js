@@ -92,6 +92,25 @@ function renderMobileList() {
     div.innerHTML = `<h4>${card.title}</h4>`;
     div.onclick = () => openCard(card.id);
     cardList.appendChild(div);
+     function addClassToFourthLevel() {
+  // Находим все элементы 3 уровня
+  const thirdLevelCards = document.querySelectorAll('.card-level-3');
+
+  thirdLevelCards.forEach(thirdCard => {
+    // Ищем внутри 3 уровня карточки 4 уровня и ниже
+    const deeperCards = thirdCard.querySelectorAll('.card-level-4, .card-level-5, .card-level-6');
+
+    if (deeperCards.length > 0) {
+      deeperCards.forEach(card => {
+        card.classList.add('nested-level');
+      });
+    }
+  });
+}
+
+// Вызов функции
+addClassToFourthLevel();
+
   });
 }
 
