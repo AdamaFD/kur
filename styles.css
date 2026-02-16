@@ -158,19 +158,120 @@ body { background: #f5f6f8; color: #222; }
   font-weight: 900;
 }
  
-/* Цветные ветки (как было по смыслу) */
-.grid-node.branch-0 {
-  background: linear-gradient(180deg, rgba(224,242,255,1) 0%, rgba(180,221,255,1) 100%);
-  border-color: rgba(70,140,210,0.45);
+/* ВЕТКА 0 — колонки 1,2,3 (ряды 4,5,6) */
+#desktopTree .grid-node[data-col="1"][data-row="4"],
+#desktopTree .grid-node[data-col="1"][data-row="5"],
+#desktopTree .grid-node[data-col="1"][data-row="6"],
+#mobileTree  .grid-node[data-col="1"][data-row="4"],
+#mobileTree  .grid-node[data-col="1"][data-row="5"],
+#mobileTree  .grid-node[data-col="1"][data-row="6"] {
+  background: #2b57c7  !important;
+  border-color: #2b57c7 !important;
+  background-image: none !important;
+  box-shadow: none !important;
 }
-.grid-node.branch-1 {
-  background: linear-gradient(180deg, rgba(234,255,235,1) 0%, rgba(188,240,194,1) 100%);
-  border-color: rgba(70,170,90,0.45);
+
+#desktopTree .grid-node[data-col="2"][data-row="4"],
+#desktopTree .grid-node[data-col="2"][data-row="5"],
+#desktopTree .grid-node[data-col="2"][data-row="6"],
+#mobileTree  .grid-node[data-col="2"][data-row="4"],
+#mobileTree  .grid-node[data-col="2"][data-row="5"],
+#mobileTree  .grid-node[data-col="2"][data-row="6"] {
+  background: #3c6fd1 !important;
+  border-color: #3c6fd1 !important;
+  background-image: none !important;
+  box-shadow: none !important;
 }
-.grid-node.branch-2 {
-  background: linear-gradient(180deg, rgba(255,232,232,1) 0%, rgba(255,190,190,1) 100%);
-  border-color: rgba(210,70,70,0.45);
+
+#desktopTree .grid-node[data-col="3"][data-row="4"],
+#desktopTree .grid-node[data-col="3"][data-row="5"],
+#desktopTree .grid-node[data-col="3"][data-row="6"],
+#mobileTree  .grid-node[data-col="3"][data-row="4"],
+#mobileTree  .grid-node[data-col="3"][data-row="5"],
+#mobileTree  .grid-node[data-col="3"][data-row="6"] {
+  background: #6aa4ff !important;
+  border-color: #6aa4ff !important;
+  background-image: none !important;
+  box-shadow: none !important;
 }
+
+
+/* ВЕТКА 1 — колонки 4,5,6 (ряды 4,5,6) */
+#desktopTree .grid-node[data-col="4"][data-row="4"],
+#desktopTree .grid-node[data-col="4"][data-row="5"],
+#desktopTree .grid-node[data-col="4"][data-row="6"],
+#mobileTree  .grid-node[data-col="4"][data-row="4"],
+#mobileTree  .grid-node[data-col="4"][data-row="5"],
+#mobileTree  .grid-node[data-col="4"][data-row="6"] {
+  background: #5445bd !important;
+  border-color: #5445bd !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#desktopTree .grid-node[data-col="5"][data-row="4"],
+#desktopTree .grid-node[data-col="5"][data-row="5"],
+#desktopTree .grid-node[data-col="5"][data-row="6"],
+#mobileTree  .grid-node[data-col="5"][data-row="4"],
+#mobileTree  .grid-node[data-col="5"][data-row="5"],
+#mobileTree  .grid-node[data-col="5"][data-row="6"] {
+  background: #6a5ac7 !important;
+  border-color: #6a5ac7 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#desktopTree .grid-node[data-col="6"][data-row="4"],
+#desktopTree .grid-node[data-col="6"][data-row="5"],
+#desktopTree .grid-node[data-col="6"][data-row="6"],
+#mobileTree  .grid-node[data-col="6"][data-row="4"],
+#mobileTree  .grid-node[data-col="6"][data-row="5"],
+#mobileTree  .grid-node[data-col="6"][data-row="6"] {
+  background: #9a8aff !important;
+  border-color: #9a8aff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+
+/* ВЕТКА 2 — колонки 7,8,9 (ряды 4,5,6) */
+#desktopTree .grid-node[data-col="7"][data-row="4"],
+#desktopTree .grid-node[data-col="7"][data-row="5"],
+#desktopTree .grid-node[data-col="7"][data-row="6"],
+#mobileTree  .grid-node[data-col="7"][data-row="4"],
+#mobileTree  .grid-node[data-col="7"][data-row="5"],
+#mobileTree  .grid-node[data-col="7"][data-row="6"] {
+  background: #c6425a !important;
+  border-color: #c6425a !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#desktopTree .grid-node[data-col="8"][data-row="4"],
+#desktopTree .grid-node[data-col="8"][data-row="5"],
+#desktopTree .grid-node[data-col="8"][data-row="6"],
+#mobileTree  .grid-node[data-col="8"][data-row="4"],
+#mobileTree  .grid-node[data-col="8"][data-row="5"],
+#mobileTree  .grid-node[data-col="8"][data-row="6"] {
+  background: #e05a6f !important;
+  border-color: #e05a6f !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#desktopTree .grid-node[data-col="9"][data-row="4"],
+#desktopTree .grid-node[data-col="9"][data-row="5"],
+#desktopTree .grid-node[data-col="9"][data-row="6"],
+#mobileTree  .grid-node[data-col="9"][data-row="4"],
+#mobileTree  .grid-node[data-col="9"][data-row="5"],
+#mobileTree  .grid-node[data-col="9"][data-row="6"] {
+  background: #ff8a9a !important;
+  border-color: #ff8a9a !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+
  .row-4 {
   clip-path: polygon(
     25% 0%,
