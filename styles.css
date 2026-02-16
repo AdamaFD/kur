@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -470,15 +470,20 @@ z-index: 1;                      /хрень какая то две строки
 
 
 
-/* Уровни 4–6: четырёхконечная звезда как фон, без клипа контента */
+/* Уровни 4–6 — контейнер прозрачный */
 .grid-node[data-row="4"],
 .grid-node[data-row="5"],
 .grid-node[data-row="6"] {
   position: relative;
-  overflow: visible;      /* важно для превью */
+  overflow: visible;
+
+  /* убираем фон, бордер и тень у самой ноды */
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* Рисуем звезду под содержимым */
+/* Рисуем звезду */
 .grid-node[data-row="4"]::before,
 .grid-node[data-row="5"]::before,
 .grid-node[data-row="6"]::before {
@@ -487,17 +492,16 @@ z-index: 1;                      /хрень какая то две строки
   inset: 0;
   margin: auto;
 
-  /* чуть больше, чем сама нода, чтобы форма была «полнее» */
+  /* звезда чуть больше, чтобы текст влезал */
   width: 115%;
   height: 115%;
 
-  /* наследуем фон и бордер от самой ноды (твои цвета веток) */
+  /* берём цвет из data-ветки — через CSS переменную */
   background: inherit;
-  border-radius: inherit;
   border: inherit;
   box-shadow: inherit;
 
-  /* сама форма звезды */
+  /* форма звезды */
   clip-path: polygon(
     50% 0%,
     65% 30%,
@@ -509,15 +513,8 @@ z-index: 1;                      /хрень какая то две строки
     35% 30%
   );
 
-  z-index: -1; /* звезда под текстом и превью */
+  z-index: -1; /* звезда под текстом */
 }
 
-/* Чтобы фон не дублировался: делаем саму ноду прозрачной */
-.grid-node[data-row="4"],
-.grid-node[data-row="5"],
-.grid-node[data-row="6"] {
-  background-color: transparent;
-  background-image: none;
-}
 
 
