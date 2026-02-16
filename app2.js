@@ -1,5 +1,5 @@
 "use strict";
-//курлык//
+//курлыки//
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
 ========================= */
@@ -92,33 +92,7 @@ function renderMobileList() {
     div.innerHTML = `<h4>${card.title}</h4>`;
     div.onclick = () => openCard(card.id);
     cardList.appendChild(div);
-    function addClassToFourthLevel() {
-  // Находим все элементы 3 уровня
-  const thirdLevelCards = document.querySelectorAll('.card-level-3');
-
-  thirdLevelCards.forEach(thirdCard => {
-    // Ищем ВСЕ вложенные элементы
-    const nestedElements = thirdCard.querySelectorAll('*');
-
-    nestedElements.forEach(el => {
-      const style = window.getComputedStyle(el);
-
-      if (style.gridRowStart === "4") {
-        el.classList.add('row-4');
-      }
-    });
-  });
-}
-
-// Вызов
-addClassToFourthLevel();
-
-
-// Вызов функции
-addClassToFourthLevel();
-
-  });
-}
+    
 
 function renderDesktopList() {
   if (!desktopCardList) return;
