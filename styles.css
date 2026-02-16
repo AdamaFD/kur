@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
 
 /* ---------- Topbar ---------- */
@@ -360,14 +360,7 @@ body { background: #f5f6f8; color: #222; }
 #mobileTree  .grid-node[data-row="4"],
 #mobileTree  .grid-node[data-row="5"],
 #mobileTree  .grid-node[data-row="6"] {
-  clip-path: polygon(
-    15% 0%, 85% 0%,
-    100% 50%,
-    85% 100%, 15% 100%,
-    0% 50%
-  );
-  border-radius: 0 ;
-}
+  
 
 
 
