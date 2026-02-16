@@ -373,7 +373,36 @@ z-index: 1;                      /хрень какая то две строки
 #desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 3"] {
   background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
 }
+/* LEVEL 2 — самый светлый */
+#desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 2"] {
+  background: linear-gradient(to bottom, #e8faff, #c9ecff) !important;
+}
 
+/* LEVEL 3 */
+#desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 3"] {
+  background: linear-gradient(to bottom, #c9ecff, #9acbff) !important;
+}
+
+
+
+
+/* LEVEL 2 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 2"] {
+  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
+}
+
+/* LEVEL 3 */
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 3"],
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 3"] {
+  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
+}
 
 /* Selected */
 .grid-node.selected {
