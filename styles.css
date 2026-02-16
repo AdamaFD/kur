@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мяу//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мяуу//
 body { background: #f5f6f8; color: #222; }
 
 /* ---------- Topbar ---------- */
@@ -269,26 +269,6 @@ body { background: #f5f6f8; color: #222; }
 #mobileTree  .grid-node[data-row="6"][data-col="9"] {
   background: #ff8a9a !important;
   border-color: #ff8a9a !important;
-/* ===== LEVEL 4 — HEXAGON (БЕЗ ВМЕШАТЕЛЬСТВА В PREVIEW) ===== */
-
-#desktopTree .grid-node[data-row="4"],
-#desktopTree .grid-node[data-row="5"],
-#desktopTree .grid-node[data-row="6"],
-#mobileTree  .grid-node[data-row="4"],
-#mobileTree  .grid-node[data-row="5"],
-#mobileTree  .grid-node[data-row="6"] {
-
-  clip-path: polygon(
-    20% 0%,
-    80% 0%,
-    100% 50%,
-    80% 100%,
-    20% 100%,
-    0% 50%
-  );
-
-  border-radius: 0 !important;
-}
 
 
 
