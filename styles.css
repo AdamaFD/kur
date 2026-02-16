@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //хм//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //хмм//
 body { background: #f5f6f8; color: #222; }
 
 /* ---------- Topbar ---------- */
@@ -269,42 +269,54 @@ body { background: #f5f6f8; color: #222; }
 #mobileTree  .grid-node[data-row="6"][data-col="9"] {
   background: #ff8a9a !important;
   border-color: #ff8a9a !important;
-}
-/* ===== LEVEL 4 — SAFE HEXAGON ===== */
+/* ===== LEVEL 4 — SAFE HEXAGON (без обрезания preview) ===== */
 #desktopTree .grid-node[data-row="4"],
-#mobileTree  .grid-node[data-row="4"] {
-  position: relative;
-  border-radius: 0 !important;
-  overflow: visible !important;
+#desktopTree .grid-node[data-row="5"],
+#desktopTree .grid-node[data-row="6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  position: relative !important;
+  overflow: visible !important; /* превью не обрезается */
+  border-radius: 0 !important;  /* чтобы не мешал клипу */
 }
 
-/* создаём шестиугольную форму фоном */
+/* псевдоэлемент формирует фон шестиугольника */
 #desktopTree .grid-node[data-row="4"]::before,
-#mobileTree  .grid-node[data-row="4"]::before {
+#desktopTree .grid-node[data-row="5"]::before,
+#desktopTree .grid-node[data-row="6"]::before,
+#mobileTree  .grid-node[data-row="4"]::before,
+#mobileTree  .grid-node[data-row="5"]::before,
+#mobileTree  .grid-node[data-row="6"]::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
 
+  background: inherit;        /* взять фон узла */
+  border: inherit;            /* взять границу узла */
+  box-shadow: inherit;        /* взять тени узла */
+  
   clip-path: polygon(
-    20% 0%,
-    80% 0%,
+    20% 0%, 80% 0%,
     100% 50%,
-    80% 100%,
-    20% 100%,
+    80% 100%, 20% 100%,
     0% 50%
   );
-
-  background: inherit;
-  border: inherit;
+  border-radius: 0; /* обязательное */
 }
 
-/* чтобы контент был поверх */
+/* содержимое узла поверх шестиугольника */
 #desktopTree .grid-node[data-row="4"] > *,
-#mobileTree  .grid-node[data-row="4"] > * {
+#desktopTree .grid-node[data-row="5"] > *,
+#desktopTree .grid-node[data-row="6"] > *,
+#mobileTree  .grid-node[data-row="4"] > *,
+#mobileTree  .grid-node[data-row="5"] > *,
+#mobileTree  .grid-node[data-row="6"] > * {
   position: relative;
   z-index: 1;
 }
+
 
 
 /* Selected */
