@@ -92,20 +92,7 @@ function renderMobileList() {
     div.innerHTML = `<h4>${card.title}</h4>`;
     div.onclick = () => openCard(card.id);
     cardList.appendChild(div);
-    
-
-function renderDesktopList() {
-  if (!desktopCardList) return;
-  desktopCardList.innerHTML = "";
-  cards.forEach((card) => {
-    const row = document.createElement("div");
-    row.className =
-      "sidebar-item" +
-      (String(card.id) === String(currentCardId) ? " active" : "");
-    row.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
-    row.onclick = () => openCard(card.id);
-    desktopCardList.appendChild(row);
-     function addClassToFourthLevel() {
+    function addClassToFourthLevel() {
   // Находим все элементы 3 уровня
   const thirdLevelCards = document.querySelectorAll('.card-level-3');
 
@@ -128,6 +115,19 @@ addClassToFourthLevel();
 
   });
 }
+
+function renderDesktopList() {
+  if (!desktopCardList) return;
+  desktopCardList.innerHTML = "";
+  cards.forEach((card) => {
+    const row = document.createElement("div");
+    row.className =
+      "sidebar-item" +
+      (String(card.id) === String(currentCardId) ? " active" : "");
+    row.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
+    row.onclick = () => openCard(card.id);
+    desktopCardList.appendChild(row);
+     
 
 /* =========================
    CARD RENDER (ONLY PNG)
