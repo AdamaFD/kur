@@ -1,5 +1,5 @@
 "use strict";
-//мурлык//
+
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
 ========================= */
@@ -92,27 +92,6 @@ function renderMobileList() {
     div.innerHTML = `<h4>${card.title}</h4>`;
     div.onclick = () => openCard(card.id);
     cardList.appendChild(div);
-    function addClassToFourthLevel() {
-  // Находим все элементы 3 уровня
-  const thirdLevelCards = document.querySelectorAll('.card-level-3');
-
-  thirdLevelCards.forEach(thirdCard => {
-    // Ищем ВСЕ вложенные элементы
-    const nestedElements = thirdCard.querySelectorAll('*');
-
-    nestedElements.forEach(el => {
-      const style = window.getComputedStyle(el);
-
-      if (style.gridRowStart === "4") {
-        el.classList.add('row-4');
-      }
-    });
-  });
-}
-
-// Вызов
-addClassToFourthLevel();
-
   });
 }
 
@@ -127,7 +106,8 @@ function renderDesktopList() {
     row.innerHTML = `<span>${card.title}</span><span class="badge">#${card.id}</span>`;
     row.onclick = () => openCard(card.id);
     desktopCardList.appendChild(row);
-     
+  });
+}
 
 /* =========================
    CARD RENDER (ONLY PNG)
