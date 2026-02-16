@@ -171,7 +171,9 @@ body { background: #f5f6f8; color: #222; }
   background: linear-gradient(180deg, rgba(255,232,232,1) 0%, rgba(255,190,190,1) 100%);
   border-color: rgba(210,70,70,0.45);
 }
- .row-4 {
+ .grid-node[data-row="4"],
+.grid-node[data-row="5"],
+.grid-node[data-row="6"] {
   clip-path: polygon(
     25% 0%,
     75% 0%,
@@ -181,9 +183,9 @@ body { background: #f5f6f8; color: #222; }
     0% 50%
   );
 
-  /* важно */
   overflow: hidden;
 }
+
 
 /* Selected */
 .grid-node.selected {
