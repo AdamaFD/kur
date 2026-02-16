@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -350,16 +350,7 @@ z-index: 1;                      /хрень какая то две строки
 }
 
 
- .row-4 {
-  clip-path: polygon(
-    25% 0%,
-    75% 0%,
-    100% 50%,
-    75% 100%,
-    25% 100%,
-    0% 50%
-  );
-}
+ 
 /* LEVEL 2 */
 #desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 2"],
