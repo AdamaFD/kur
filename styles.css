@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
 body { background: #f5f6f8; color: #222; }
 
 /* ---------- Topbar ---------- */
@@ -156,7 +156,7 @@ body { background: #f5f6f8; color: #222; }
     rgba(255, 246, 204, 0.85) 0%,
     rgba(242, 210, 107, 0.80) 45%,
     rgba(224, 185, 75, 0.78) 100%
-  ) !important;
+  ) ;
 
   /* мягкая прозрачность */
   backdrop-filter: blur(2px);
@@ -170,9 +170,9 @@ body { background: #f5f6f8; color: #222; }
     /* внешнее сияние */
     0 0 6px rgba(255, 215, 120, 0.55),
     0 0 18px rgba(180, 140, 40, 0.35),
-    0 12px 28px rgba(180, 140, 40, 0.35) !important;
+    0 12px 28px rgba(180, 140, 40, 0.35) ;
 
-  border: 1px solid rgba(180, 140, 40, 0.65) !important;
+  border: 1px solid rgba(180, 140, 40, 0.65) ;
 
   /* чуть более мягкие края */
   border-radius: 14px;
@@ -198,14 +198,14 @@ body { background: #f5f6f8; color: #222; }
 #desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 2"] {
-  background: linear-gradient(to bottom, #e8faff, #c9ecff) !important;
+  background: linear-gradient(to bottom, #e8faff, #c9ecff) ;
 }
 
 /* LEVEL 3 */
 #desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 3"],
 #desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 3"],
 #desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 3"] {
-  background: linear-gradient(to bottom, #c9ecff, #9acbff) !important;
+  background: linear-gradient(to bottom, #c9ecff, #9acbff) ;
 }
 
 
@@ -215,14 +215,14 @@ body { background: #f5f6f8; color: #222; }
 #desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 2"] {
-  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
+  background: linear-gradient(to bottom, #f5efff, #e3d7ff) ;
 }
 
 /* LEVEL 3 */
 #desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 3"],
 #desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 3"],
 #desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 3"] {
-  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
+  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) ;
 }
 
 
@@ -232,14 +232,14 @@ body { background: #f5f6f8; color: #222; }
 #desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 2"],
 #desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 2"] {
-  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important;
+  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) ;
 }
 
 /* LEVEL 3 */
 #desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 3"],
 #desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 3"],
 #desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 3"] {
-  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
+  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) ;
 }
 /* ВЕТКА 0 — колонки 1,2,3 (ряды 4,5,6) */
 #desktopTree .grid-node[data-col="1"][data-row="4"],
