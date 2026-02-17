@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвис)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвисти)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -428,83 +428,100 @@ body { background: #f5f6f8; color: #222; }
 
 
 
-/* Базовые настройки кнопки */
+/* 1. Полная очистка родительского контейнера от фонов и рамок */
 .grid-node {
   position: relative;
-  background: none !important;
+  background: transparent !important; /* Убираем тот самый полупрозрачный фон */
   border: none !important;
+  box-shadow: none !important;
   clip-path: none !important; /* Чтобы превью не резалось */
 }
 
-/* Слой с цветом и формой */
+/* 2. Слой формы (node-shape) */
 .node-shape {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border-radius: 8px; /* Для L1-L3 */
   transition: all 0.2s;
 }
 
-/* Шестиугольники для L4 (ряды 4, 5, 6) */
-.row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  border-radius: 0;
+/* Прямоугольники со скруглением (1, 2, 3 уровни) */
+.row-1 .node-shape, .row-2 .node-shape, .row-3 .node-shape {
+  border-radius: 8px !important;
+  clip-path: none !important; 
 }
 
-/* --- ВОЗВРАТ ЦВЕТОВ (настраиваем node-shape вместо grid-node) --- */
-.branch-0 .node-shape { background: #3c6fd1; }
-.branch-1 .node-shape { background: #6a5ac7; }
-.branch-2 .node-shape { background: #e05a6f; }
-.root .node-shape { background: #555; }
+/* Шестиугольники (4 уровень и ниже) */
+.row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
+  border-radius: 0 !important;
+}
 
-/* ЗОЛОТАЯ ОБВОДКА */
+/* 3. ВОЗВРАТ ЦВЕТОВ И ЗОЛОТА */
 @keyframes goldFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+/* Корень (1 уровень) — всегда золотой перелив */
+.row-1 .node-shape {
+  background: linear-gradient(90deg, #ffd700, #ffffff, #ffd700, #d4af37) !important;
+  background-size: 300% 300% !important;
+  animation: goldFlow 3s linear infinite;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+/* Цвета веток */
+.branch-0 .node-shape { background: #3c6fd1; }
+.branch-1 .node-shape { background: #6a5ac7; }
+.branch-2 .node-shape { background: #e05a6f; }
+
+/* 4. ЗОЛОТАЯ ОБВОДКА ПРИ ВЫБОРЕ */
 .grid-node.selected .node-shape::before {
   content: "";
   position: absolute;
-  inset: -3px; /* Толщина обводки */
+  inset: -3px; /* Размер обводки */
   background: linear-gradient(90deg, #ffd700, #fff, #ffd700, #d4af37);
   background-size: 300% 300%;
   animation: goldFlow 2s linear infinite;
   z-index: -1;
+  /* Важно: повторяем форму родителя */
+  border-radius: inherit;
   clip-path: inherit;
 }
 
-/* Поверх обводки кладем основной фон кнопки */
 .grid-node.selected .node-shape::after {
   content: "";
   position: absolute;
-  inset: 1px;
+  inset: 2px;
   background: inherit;
   z-index: -1;
+  border-radius: inherit;
   clip-path: inherit;
 }
 
-/* СТИЛИ ПРЕВЬЮ (чтобы работало на 4 уровне) */
+/* 5. ТЕКСТ И ПРЕВЬЮ */
+.node-title {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
 .card-preview {
   position: absolute;
-  z-index: 99999;
+  z-index: 100000;
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transition: opacity 0.2s;
 }
 
-/* Показываем при ховере или классе */
 .grid-node:hover .card-preview,
 .grid-node.preview-open .card-preview {
   opacity: 1;
   visibility: visible;
 }
-
-.node-title {
-  position: relative;
-  z-index: 2; /* Текст выше фона */
-  pointer-events: none;
-}
-
