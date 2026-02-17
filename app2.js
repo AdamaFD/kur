@@ -1,4 +1,4 @@
-"use strict";      //курлыки//
+"use strict";      //курлыкиииииии//
 
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
@@ -233,75 +233,85 @@ function renderTree(container) {
 
   const nodes = buildFixedTreeLayout(currentCardId);
 
-  nodes.forEach(({ card, col, row, branch, parentId }) => {
+  nodes.forEach(({ card, col, row, branch }) => {
     const div = document.createElement("div");
+    const nodeKey = `${col}-${row}`; // Уникальный ключ по координатам
+    
     div.className = "grid-node";
     div.classList.add(`row-${row}`); 
     if (col === 5 && row === 1) div.classList.add("root");
     if (branch !== null) div.classList.add(`branch-${branch}`);
-    if (selectedNodes.has(card.id)) div.classList.add("selected");
+    
+    // Проверка выбора по ключу координат
+    if (selectedNodes.has(nodeKey)) div.classList.add("selected");
 
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
 
-    // ВАЖНО: node-shape для формы, превью снаружи него
+    // Структура для сохранения превью и формы
     div.innerHTML = `
       <div class="node-shape"></div>
       <span class="node-title">${card.title}</span>
       <div class="card-preview"><img src="${imgUrl(card.id)}" alt=""></div>
     `;
     
-    div.dataset.id = String(card.id);
-    div.dataset.col = String(col);
-    div.dataset.row = String(row);
-    div.dataset.parent = parentId == null ? "" : String(parentId);
-
     attachPreviewHandlers(div);
 
     div.onclick = (e) => {
       e.stopPropagation();
-      const cardId = card.id;
 
-      if (row === 1) return; // Корень не выбираем
-
+      // --- ЛОГИКА ВЫБОРА ПО КООРДИНАТАМ ---
+      
+      // УРОВЕНЬ 2 (Ряд 2)
       if (row === 2) {
-        if (selectedNodes.has(cardId)) {
-          selectedNodes.clear(); // Убрали L2 -> сброс всего
+        if (selectedNodes.has(nodeKey)) {
+          selectedNodes.clear(); // Снимаем всё
         } else {
-          selectedNodes.clear(); // Смена ветки -> сброс всего
-          selectedNodes.add(cardId);
+          selectedNodes.clear(); 
+          selectedNodes.add(nodeKey); // Выбираем только этот узел
         }
       } 
+      
+      // УРОВЕНЬ 3 (Ряд 3)
       else if (row === 3) {
-        if (!selectedNodes.has(div.dataset.parent)) return; // Нет папы на L2
-        if (selectedNodes.has(cardId)) {
-          selectedNodes.delete(cardId);
-          // Убираем детей этого узла на L4
-          nodes.filter(n => n.parentId === cardId).forEach(child => selectedNodes.delete(child.card.id));
+        // Находим координату родителя на 2 уровне
+        let parentCol = col <= 3 ? 2 : (col <= 6 ? 5 : 8);
+        if (!selectedNodes.has(`${parentCol}-2`)) return; // Нет активного родителя
+
+        if (selectedNodes.has(nodeKey)) {
+          selectedNodes.delete(nodeKey);
+          // Снимаем выбор с его детей на 4 уровне (те же колонки, ряды 4-6)
+          [4,5,6].forEach(r => selectedNodes.delete(`${col}-${r}`));
         } else {
-          // Выбираем этот L3, убираем другие L3 в этой ветке и их детей
-          nodes.filter(n => n.row === 3).forEach(n => selectedNodes.delete(n.card.id));
-          nodes.filter(n => n.row >= 4).forEach(n => selectedNodes.delete(n.card.id));
-          selectedNodes.add(cardId);
+          // Снимаем выбор с других L3 в этой ветке и их детей
+          let branchStart = col <= 3 ? 1 : (col <= 6 ? 4 : 7);
+          for(let c = branchStart; c < branchStart + 3; c++) {
+            selectedNodes.delete(`${c}-3`);
+            [4,5,6].forEach(r => selectedNodes.delete(`${c}-${r}`));
+          }
+          selectedNodes.add(nodeKey);
         }
       } 
+      
+      // УРОВЕНЬ 4 (Ряды 4, 5, 6 — Шестиугольники)
       else if (row >= 4) {
-        if (!selectedNodes.has(div.dataset.parent)) return; // Нет папы на L3
-        if (selectedNodes.has(cardId)) {
-          selectedNodes.delete(cardId);
+        if (!selectedNodes.has(`${col}-3`)) return; // Нет активного родителя на 3 уровне
+
+        if (selectedNodes.has(nodeKey)) {
+          selectedNodes.delete(nodeKey);
         } else {
-          // Одиночный выбор в колонке для рядов 4,5,6
-          nodes.filter(n => n.col === col && n.row >= 4).forEach(n => selectedNodes.delete(n.card.id));
-          selectedNodes.add(cardId);
+          // Одиночный выбор в колонке (между рядами 4, 5, 6)
+          [4,5,6].forEach(r => selectedNodes.delete(`${col}-${r}`));
+          selectedNodes.add(nodeKey);
         }
       }
-      renderTree(container);
+
+      renderTree(container); // Мгновенная перерисовка
     };
 
     container.appendChild(div);
   });
 }
-
 /* =========================
    OPEN CARD
 ========================= */
