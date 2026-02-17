@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы команда)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы команда инвалидов)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -428,36 +428,31 @@ body { background: #f5f6f8; color: #222; }
 
 
 
-/* 1. КОНТЕЙНЕР КАРТЫ */
+/* 1. ГЛОБАЛЬНЫЙ СБРОС (Убираем белые фоны) */
 .grid-node {
-  position: relative;
-  background: transparent !important;
+  position: relative !important;
+  background: none !important;
   border: none !important;
+  box-shadow: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
 }
 
-/* 2. ТЕКСТ (Черный, переносится, уменьшен) */
-.node-title {
-  position: relative;
-  z-index: 10;
-  color: #000 !important; /* Черный цвет */
-  font-weight: 700;
-  text-align: center;
-  pointer-events: none;
-  font-size: 11px !important; /* Уменьшен на 2px */
-  line-height: 1.1;
-  
-  /* РАЗРЕШАЕМ ПЕРЕНОС */
-  white-space: normal !important; 
-  word-wrap: break-word;
-  max-width: 85%; /* Чтобы не прилипал к краям */
-  text-shadow: none !important; /* Убираем тени, чтобы черный текст был чистым */
+/* 2. ТВОЯ АНИМАЦИЯ ЗОЛОТА */
+@keyframes goldPulse {
+  0%, 100% {
+    background: linear-gradient(180deg, rgba(255,246,204,0.95) 0%, rgba(242,210,107,0.88) 45%, rgba(224,185,75,0.86) 100%) !important;
+    box-shadow: inset 0 0 12px rgba(255, 255, 200, 0.55), 0 10px 20px rgba(180, 140, 40, 0.3);
+  }
+  50% {
+    background: linear-gradient(180deg, rgba(255,250,220,1) 0%, rgba(250,225,130,0.95) 45%, rgba(230,195,90,0.9) 100%) !important;
+    box-shadow: inset 0 0 18px rgba(255, 255, 220, 0.75), 0 14px 25px rgba(180, 140, 40, 0.4);
+  }
 }
 
-/* 3. СЛОЙ ФОРМЫ (node-shape) */
+/* 3. ФОРМА И ГЕОМЕТРИЯ КАРТ */
 .node-shape {
   position: absolute;
   inset: 0;
@@ -466,66 +461,101 @@ body { background: #f5f6f8; color: #222; }
   border-radius: 8px;
 }
 
-/* 4. ЦВЕТА ВЕТОК (L2, L3 и ниже) */
-.branch-0 .node-shape { background: #3c6fd1 !important; }
-.branch-1 .node-shape { background: #6a5ac7 !important; }
-.branch-2 .node-shape { background: #e05a6f !important; }
-
-/* 5. ГЕОМЕТРИЯ УРОВНЕЙ */
-
-/* Уровень 1: Золотой, худой, с видимым переливом */
+/* Row 1 (Корневая) — Делаем "худой" и золотой */
 .row-1 .node-shape {
-  top: 22% !important;   /* Чуть меньше "худобы", чтобы влез текст в 2 строки */
-  bottom: 22% !important;
+  top: 25% !important; 
+  bottom: 25% !important;
   border-radius: 4px !important;
-  
-  /* Контрастный золотой градиент для видимости движения */
-  background: linear-gradient(
-    90deg, 
-    #7d5d0d 0%, #b8860b 25%, #fff3a1 50%, #b8860b 75%, #7d5d0d 100%
-  ) !important;
-  background-size: 200% auto !important;
-  animation: goldFlow 3s linear infinite !important; /* 3 секунды — теперь перелив точно видно */
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  border: 1px solid rgba(180,140,40,0.75);
+  animation: goldPulse 4s ease-in-out infinite;
 }
 
-/* Шестиугольники (L4+) */
+/* Row 4+ (Шестиугольники) */
 .row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   border-radius: 0 !important;
 }
 
-/* 6. ПОДСВЕТКА ВЫБОРА */
+/* 4. ТВОИ ГРАДИЕНТЫ ДЛЯ 2 И 3 УРОВНЯ */
+
+/* СИНЯЯ ВЕТКА (Колонки 1-3) */
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 1"] .node-shape,
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 2"] .node-shape,
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 3"] .node-shape {
+  background: linear-gradient(to bottom, #e8faff, #c9ecff) !important;
+}
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 1"] .node-shape,
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 2"] .node-shape,
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 3"] .node-shape {
+  background: linear-gradient(to bottom, #c9ecff, #9acbff) !important;
+}
+
+/* ФИОЛЕТОВАЯ ВЕТКА (Колонки 4-6) */
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 4"] .node-shape,
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 5"] .node-shape,
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 6"] .node-shape {
+  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
+}
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 4"] .node-shape,
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 5"] .node-shape,
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 6"] .node-shape {
+  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
+}
+
+/* КРАСНАЯ ВЕТКА (Колонки 7-9) */
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 7"] .node-shape,
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 8"] .node-shape,
+.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 9"] .node-shape {
+  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important;
+}
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 7"] .node-shape,
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 8"] .node-shape,
+.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 9"] .node-shape {
+  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
+}
+
+/* 5. ТЕКСТ (Черный, 10px, перенос) */
+.node-title {
+  position: relative;
+  z-index: 10;
+  color: #000 !important;
+  font-weight: 800;
+  font-size: 10px !important;
+  text-align: center;
+  white-space: normal !important;
+  word-wrap: break-word;
+  max-width: 90%;
+  pointer-events: none;
+}
+
+/* 6. ВЫДЕЛЕНИЕ КАРТЫ (Золотая обводка) */
 .grid-node.selected .node-shape::before {
   content: "";
   position: absolute;
-  inset: -3px;
-  background: linear-gradient(90deg, #ffd700, #fff, #ffd700, #d4af37);
-  background-size: 300% 300%;
+  top: -4px; left: -4px; right: -4px; bottom: -4px;
+  background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
+  background-size: 200% auto;
   animation: goldFlow 2s linear infinite;
   z-index: -1;
   border-radius: inherit;
   clip-path: inherit;
 }
 
-/* 7. АНИМАЦИЯ ПЕРЕЛИВА */
 @keyframes goldFlow {
   0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; } /* Изменил для более гладкого хода */
+  100% { background-position: 200% 50%; }
 }
 
-/* ПРЕВЬЮ (Снаружи, чтобы не резалось) */
+/* 7. ПРЕВЬЮ */
 .card-preview {
   position: absolute;
   z-index: 99999;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s;
   bottom: 110%;
-  pointer-events: none;
+  transition: 0.2s;
 }
 
 .grid-node:hover .card-preview {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1; visibility: visible;
 }
