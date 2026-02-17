@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трап)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трапт)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курл//
@@ -218,36 +218,85 @@ body { background: #f5f6f8; color: #222; }
   margin-bottom: 10px;
 }
 
-/* Базовые стили для 4-го уровня (ряды 4, 5, 6) */
-.grid-node[data-row="4"],
-.grid-node[data-row="5"],
-.grid-node[data-row="6"] {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  overflow: visible !important; /* Важно для превью */
+/* --- ПРЕДОТВРАЩАЕМ СЛЕТ ЦВЕТОВ 2 И 3 УРОВНЯ --- */
+
+/* ВЕТКА 0 (Синяя) - Колонки 1,2,3 */
+.grid-node[data-row="2"][data-col="1"], .grid-node[data-row="2"][data-col="2"], .grid-node[data-row="2"][data-col="3"] {
+  background: linear-gradient(to bottom, #e8faff, #c9ecff) !important;
+}
+.grid-node[data-row="3"][data-col="1"], .grid-node[data-row="3"][data-col="2"], .grid-node[data-row="3"][data-col="3"] {
+  background: linear-gradient(to bottom, #c9ecff, #9acbff) !important;
 }
 
-/* Создаем шестиугольник через псевдоэлемент */
+/* ВЕТКА 1 (Фиолетовая) - Колонки 4,5,6 */
+.grid-node[data-row="2"][data-col="4"], .grid-node[data-row="2"][data-col="5"], .grid-node[data-row="2"][data-col="6"] {
+  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
+}
+.grid-node[data-row="3"][data-col="4"], .grid-node[data-row="3"][data-col="5"], .grid-node[data-row="3"][data-col="6"] {
+  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
+}
+
+/* ВЕТКА 2 (Красная) - Колонки 7,8,9 */
+.grid-node[data-row="2"][data-col="7"], .grid-node[data-row="2"][data-col="8"], .grid-node[data-row="2"][data-col="9"] {
+  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important;
+}
+.grid-node[data-row="3"][data-col="7"], .grid-node[data-row="3"][data-col="8"], .grid-node[data-row="3"][data-col="9"] {
+  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
+}
+
+
+/* --- ШЕСТИУГОЛЬНИКИ ДЛЯ 4 УРОВНЯ (Ряды 4, 5, 6) --- */
+
+.grid-node[data-row="4"], .grid-node[data-row="5"], .grid-node[data-row="6"] {
+  background: none !important; /* Убираем фон с самого контейнера, чтобы не было прямоугольника */
+  border: none !important;
+  box-shadow: none !important;
+  position: relative;
+  overflow: visible; /* Важно: превью должно выходить за границы */
+}
+
+/* Рисуем форму через ::before */
 .grid-node[data-row="4"]::before,
 .grid-node[data-row="5"]::before,
 .grid-node[data-row="6"]::before {
   content: "";
   position: absolute;
-  inset: 0;
-  z-index: -1;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1; /* Под текст и превью */
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-/* Стили при выборе (Selected) для шестиугольников */
-.grid-node.selected[data-row="4"]::before,
-.grid-node.selected[data-row="5"]::before,
-.grid-node.selected[data-row="6"]::before {
-  filter: drop-shadow(0 0 6px rgba(255, 210, 100, 0.9));
+/* Цвета для гексагонов 4 уровня */
+/* ВЕТКА 0 */
+.grid-node[data-col="1"][data-row="4"]::before, .grid-node[data-col="1"][data-row="5"]::before, .grid-node[data-col="1"][data-row="6"]::before { background: #2b57c7; }
+.grid-node[data-col="2"][data-row="4"]::before, .grid-node[data-col="2"][data-row="5"]::before, .grid-node[data-col="2"][data-row="6"]::before { background: #3c6fd1; }
+.grid-node[data-col="3"][data-row="4"]::before, .grid-node[data-col="3"][data-row="5"]::before, .grid-node[data-col="3"][data-row="6"]::before { background: #6aa4ff; }
+
+/* ВЕТКА 1 */
+.grid-node[data-col="4"][data-row="4"]::before, .grid-node[data-col="4"][data-row="5"]::before, .grid-node[data-col="4"][data-row="6"]::before { background: #5445bd; }
+.grid-node[data-col="5"][data-row="4"]::before, .grid-node[data-col="5"][data-row="5"]::before, .grid-node[data-col="5"][data-row="6"]::before { background: #6a5ac7; }
+.grid-node[data-col="6"][data-row="4"]::before, .grid-node[data-col="6"][data-row="5"]::before, .grid-node[data-col="6"][data-row="6"]::before { background: #9a8aff; }
+
+/* ВЕТКА 2 */
+.grid-node[data-col="7"][data-row="4"]::before, .grid-node[data-col="7"][data-row="5"]::before, .grid-node[data-col="7"][data-row="6"]::before { background: #c6425a; }
+.grid-node[data-col="8"][data-row="4"]::before, .grid-node[data-col="8"][data-row="5"]::before, .grid-node[data-col="8"][data-row="6"]::before { background: #e05a6f; }
+.grid-node[data-col="9"][data-row="4"]::before, .grid-node[data-col="9"][data-row="5"]::before, .grid-node[data-col="9"][data-row="6"]::before { background: #ff8a9a; }
+
+/* Эффекты при наведении только на форму */
+.grid-node[data-row="4"]:hover::before,
+.grid-node[data-row="5"]:hover::before,
+.grid-node[data-row="6"]:hover::before {
+  filter: brightness(1.2);
   transform: scale(1.05);
 }
 
+/* Подсветка выбранного гексагона */
+.grid-node[data-row="4"].selected::before, 
+.grid-node[data-row="5"].selected::before, 
+.grid-node[data-row="6"].selected::before {
+  filter: drop-shadow(0 0 5px rgba(255, 210, 100, 0.8));
+}
 /* Оптимизированные цвета для веток 4-го уровня */
 /* Ветка 0 (Синяя) */
 .grid-node[data-col="1"][data-row="4"]::before, .grid-node[data-col="1"][data-row="5"]::before, .grid-node[data-col="1"][data-row="6"]::before { background: #2b57c7; }
