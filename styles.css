@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -515,6 +515,119 @@ z-index: 1;                      /хрень какая то две строки
 }
 
 
+/**************************************
+ *  УРОВНИ 1–3 — мягкие прямоугольники
+ **************************************/
+#desktopTree .grid-node[style*="grid-row-start: 1"],
+#desktopTree .grid-node[style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-row-start: 3"],
+#mobileTree  .grid-node[data-row="1"],
+#mobileTree  .grid-node[data-row="2"],
+#mobileTree  .grid-node[data-row="3"] {
+  clip-path: none !important;
+  border-radius: 12px !important;
+  background: var(--node-color) !important;
+  border: none !important;
+  box-shadow: none !important;
+  position: relative;
+  overflow: visible;
+}
+
+
+/**************************************
+ *  УРОВНИ 4–6 — прозрачная нода + звезда
+ **************************************/
+#desktopTree .grid-node[style*="grid-row-start: 4"],
+#desktopTree .grid-node[style*="grid-row-start: 5"],
+#desktopTree .grid-node[style*="grid-row-start: 6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+
+/**************************************
+ *  ЗВЕЗДА
+ **************************************/
+#desktopTree .grid-node[style*="grid-row-start: 4"]::before,
+#desktopTree .grid-node[style*="grid-row-start: 5"]::before,
+#desktopTree .grid-node[style*="grid-row-start: 6"]::before,
+#mobileTree  .grid-node[data-row="4"]::before,
+#mobileTree  .grid-node[data-row="5"]::before,
+#mobileTree  .grid-node[data-row="6"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--node-color);
+  z-index: 0;
+
+  clip-path: polygon(
+    50% 0%,
+    65% 30%,
+    100% 50%,
+    65% 70%,
+    50% 100%,
+    35% 70%,
+    0% 50%,
+    35% 30%
+  );
+}
+
+
+/**************************************
+ *  ТЕКСТ ПОВЕРХ ЗВЕЗДЫ
+ **************************************/
+#desktopTree .grid-node[style*="grid-row-start: 4"] .node-title,
+#desktopTree .grid-node[style*="grid-row-start: 5"] .node-title,
+#desktopTree .grid-node[style*="grid-row-start: 6"] .node-title,
+#mobileTree  .grid-node[data-row="4"] .node-title,
+#mobileTree  .grid-node[data-row="5"] .node-title,
+#mobileTree  .grid-node[data-row="6"] .node-title {
+  position: relative;
+  z-index: 2;
+}
+
+
+/**************************************
+ *  ЦВЕТА ВЕТОК (через переменные)
+ **************************************/
+
+/* Ветка 0 — колонки 1,2,3 */
+#desktopTree .grid-node[data-col="1"],
+#mobileTree  .grid-node[data-col="1"] { --node-color: #2b57c7; }
+
+#desktopTree .grid-node[data-col="2"],
+#mobileTree  .grid-node[data-col="2"] { --node-color: #3c6fd1; }
+
+#desktopTree .grid-node[data-col="3"],
+#mobileTree  .grid-node[data-col="3"] { --node-color: #6aa4ff; }
+
+
+/* Ветка 1 — колонки 4,5,6 */
+#desktopTree .grid-node[data-col="4"],
+#mobileTree  .grid-node[data-col="4"] { --node-color: #5445bd; }
+
+#desktopTree .grid-node[data-col="5"],
+#mobileTree  .grid-node[data-col="5"] { --node-color: #6a5ac7; }
+
+#desktopTree .grid-node[data-col="6"],
+#mobileTree  .grid-node[data-col="6"] { --node-color: #9a8aff; }
+
+
+/* Ветка 2 — колонки 7,8,9 */
+#desktopTree .grid-node[data-col="7"],
+#mobileTree  .grid-node[data-col="7"] { --node-color: #c6425a; }
+
+#desktopTree .grid-node[data-col="8"],
+#mobileTree  .grid-node[data-col="8"] { --node-color: #e05a6f; }
+
+#desktopTree .grid-node[data-col="9"],
+#mobileTree  .grid-node[data-col="9"] { --node-color: #ff8a9a; }
 
 
 
