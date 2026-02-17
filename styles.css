@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансв)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвис)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -427,4 +427,84 @@ body { background: #f5f6f8; color: #222; }
 
 
 
+
+/* Базовые настройки кнопки */
+.grid-node {
+  position: relative;
+  background: none !important;
+  border: none !important;
+  clip-path: none !important; /* Чтобы превью не резалось */
+}
+
+/* Слой с цветом и формой */
+.node-shape {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 8px; /* Для L1-L3 */
+  transition: all 0.2s;
+}
+
+/* Шестиугольники для L4 (ряды 4, 5, 6) */
+.row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  border-radius: 0;
+}
+
+/* --- ВОЗВРАТ ЦВЕТОВ (настраиваем node-shape вместо grid-node) --- */
+.branch-0 .node-shape { background: #3c6fd1; }
+.branch-1 .node-shape { background: #6a5ac7; }
+.branch-2 .node-shape { background: #e05a6f; }
+.root .node-shape { background: #555; }
+
+/* ЗОЛОТАЯ ОБВОДКА */
+@keyframes goldFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.grid-node.selected .node-shape::before {
+  content: "";
+  position: absolute;
+  inset: -3px; /* Толщина обводки */
+  background: linear-gradient(90deg, #ffd700, #fff, #ffd700, #d4af37);
+  background-size: 300% 300%;
+  animation: goldFlow 2s linear infinite;
+  z-index: -1;
+  clip-path: inherit;
+}
+
+/* Поверх обводки кладем основной фон кнопки */
+.grid-node.selected .node-shape::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: inherit;
+  z-index: -1;
+  clip-path: inherit;
+}
+
+/* СТИЛИ ПРЕВЬЮ (чтобы работало на 4 уровне) */
+.card-preview {
+  position: absolute;
+  z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+/* Показываем при ховере или классе */
+.grid-node:hover .card-preview,
+.grid-node.preview-open .card-preview {
+  opacity: 1;
+  visibility: visible;
+}
+
+.node-title {
+  position: relative;
+  z-index: 2; /* Текст выше фона */
+  pointer-events: none;
+}
 
