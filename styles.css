@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвисти)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвистит)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -464,12 +464,57 @@ body { background: #f5f6f8; color: #222; }
   100% { background-position: 0% 50%; }
 }
 
-/* Корень (1 уровень) — всегда золотой перелив */
+/* 1. ГЛАВНАЯ КАРТА (Уровень 1) — Худее и Благороднее */
 .row-1 .node-shape {
-  background: linear-gradient(90deg, #ffd700, #ffffff, #ffd700, #d4af37) !important;
+  /* Делаем вполовину ниже: отступаем по 25% сверху и снизу */
+  top: 25% !important;
+  bottom: 25% !important;
+  
+  /* Благородное темное золото с глубоким переливом */
+  background: linear-gradient(
+    90deg, 
+    #8b6d1b, /* Темная бронза */
+    #d4af37, /* Золото */
+    #f1c40f, /* Яркое золото */
+    #b8860b, /* Темный золотарник */
+    #8b6d1b
+  ) !important;
   background-size: 300% 300% !important;
-  animation: goldFlow 3s linear infinite;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  
+  /* Медленный, текучий перелив (6 секунд вместо 3) */
+  animation: goldFlow 6s linear infinite !important;
+  
+  border-radius: 6px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(184, 134, 11, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+/* Настраиваем текст для узкой карты */
+.row-1 .node-title {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* 2. ИСПРАВЛЕНИЕ ПОДЛОЖКИ ДЛЯ ШЕСТИУГОЛЬНИКОВ (чтобы не было прямоугольников) */
+.row-4, .row-5, .row-6 {
+  background: none !important;
+}
+
+/* Уточняем форму для 2 и 3 уровня (чтобы точно не были квадратами) */
+.row-2 .node-shape, .row-3 .node-shape {
+  top: 5%; /* Чуть меньше ячейки для аккуратности */
+  bottom: 5%;
+  border-radius: 8px !important;
+}
+
+/* Эффект при наведении на главную карту */
+.row-1:hover .node-shape {
+  filter: brightness(1.2);
+  transform: scale(1.02);
+  transition: all 0.4s ease;
 }
 
 /* Цвета веток */
