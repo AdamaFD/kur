@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвистит)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -428,110 +428,86 @@ body { background: #f5f6f8; color: #222; }
 
 
 
-/* 1. Полная очистка родительского контейнера от фонов и рамок */
+/* === 1. ГЛАВНЫЙ КОНТЕЙНЕР КНОПКИ === */
 .grid-node {
   position: relative;
-  background: transparent !important; /* Убираем тот самый полупрозрачный фон */
+  background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  clip-path: none !important; /* Чтобы превью не резалось */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  cursor: pointer;
 }
 
-/* 2. Слой формы (node-shape) */
+/* === 2. ВИЗУАЛЬНАЯ ФОРМА КАРТЫ (Слой внутри) === */
 .node-shape {
   position: absolute;
-  inset: 0;
+  inset: 0; /* Растягиваем на всю ячейку */
   z-index: 1;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  border-radius: 8px; /* Для уровней 2 и 3 */
 }
 
-/* Прямоугольники со скруглением (1, 2, 3 уровни) */
-.row-1 .node-shape, .row-2 .node-shape, .row-3 .node-shape {
-  border-radius: 8px !important;
-  clip-path: none !important; 
+/* === 3. НАСТРОЙКА УРОВНЕЙ (ГЕОМЕТРИЯ) === */
+
+/* УРОВЕНЬ 1: Тот самый "Худой" и Благородный */
+.row-1 .node-shape {
+  top: 28% !important;   /* Делаем узкой сверху */
+  bottom: 28% !important;/* Делаем узкой снизу */
+  border-radius: 4px !important;
+  /* Глубокое золото */
+  background: linear-gradient(90deg, #7a5901, #b8860b, #f1c40f, #b8860b, #7a5901) !important;
+  background-size: 300% 300% !important;
+  animation: goldFlow 8s linear infinite !important; /* Очень медленно */
+  box-shadow: 0 0 15px rgba(184, 134, 11, 0.4);
 }
 
-/* Шестиугольники (4 уровень и ниже) */
+/* УРОВЕНЬ 4-6: Шестиугольники (убираем скругления и ставим форму) */
 .row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   border-radius: 0 !important;
 }
 
-/* 3. ВОЗВРАТ ЦВЕТОВ И ЗОЛОТА */
-@keyframes goldFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+/* === 4. ВОЗВРАТ ЦВЕТОВ ВЕТОК === */
+.branch-0 .node-shape { background-color: #3c6fd1 !important; } /* Синяя */
+.branch-1 .node-shape { background-color: #6a5ac7 !important; } /* Фиол */
+.branch-2 .node-shape { background-color: #e05a6f !important; } /* Красная */
 
-/* 1. ГЛАВНАЯ КАРТА (Уровень 1) — Худее и Благороднее */
-.row-1 .node-shape {
-  /* Делаем вполовину ниже: отступаем по 25% сверху и снизу */
-  top: 25% !important;
-  bottom: 25% !important;
-  
-  /* Благородное темное золото с глубоким переливом */
-  background: linear-gradient(
-    90deg, 
-    #8b6d1b, /* Темная бронза */
-    #d4af37, /* Золото */
-    #f1c40f, /* Яркое золото */
-    #b8860b, /* Темный золотарник */
-    #8b6d1b
-  ) !important;
-  background-size: 300% 300% !important;
-  
-  /* Медленный, текучий перелив (6 секунд вместо 3) */
-  animation: goldFlow 6s linear infinite !important;
-  
-  border-radius: 6px !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(184, 134, 11, 0.3);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-/* Настраиваем текст для узкой карты */
-.row-1 .node-title {
-  font-size: 0.9em;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+/* === 5. ТЕКСТ (Чтобы не прыгал на две строки) === */
+.node-title {
+  position: relative;
+  z-index: 2;
   color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  
+  /* Фикс одной строки */
+  white-space: nowrap !important; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 85%;
 }
 
-/* 2. ИСПРАВЛЕНИЕ ПОДЛОЖКИ ДЛЯ ШЕСТИУГОЛЬНИКОВ (чтобы не было прямоугольников) */
-.row-4, .row-5, .row-6 {
-  background: none !important;
+.row-1 .node-title {
+  font-size: 11px; /* Чуть меньше для узкой карты */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Уточняем форму для 2 и 3 уровня (чтобы точно не были квадратами) */
-.row-2 .node-shape, .row-3 .node-shape {
-  top: 5%; /* Чуть меньше ячейки для аккуратности */
-  bottom: 5%;
-  border-radius: 8px !important;
-}
-
-/* Эффект при наведении на главную карту */
-.row-1:hover .node-shape {
-  filter: brightness(1.2);
-  transform: scale(1.02);
-  transition: all 0.4s ease;
-}
-
-/* Цвета веток */
-.branch-0 .node-shape { background: #3c6fd1; }
-.branch-1 .node-shape { background: #6a5ac7; }
-.branch-2 .node-shape { background: #e05a6f; }
-
-/* 4. ЗОЛОТАЯ ОБВОДКА ПРИ ВЫБОРЕ */
+/* === 6. ПОДСВЕТКА ВЫБРАННОЙ КАРТЫ (ЗОЛОТО) === */
 .grid-node.selected .node-shape::before {
   content: "";
   position: absolute;
-  inset: -3px; /* Размер обводки */
+  inset: -3px;
   background: linear-gradient(90deg, #ffd700, #fff, #ffd700, #d4af37);
   background-size: 300% 300%;
   animation: goldFlow 2s linear infinite;
   z-index: -1;
-  /* Важно: повторяем форму родителя */
   border-radius: inherit;
   clip-path: inherit;
 }
@@ -546,27 +522,26 @@ body { background: #f5f6f8; color: #222; }
   clip-path: inherit;
 }
 
-/* 5. ТЕКСТ И ПРЕВЬЮ */
-.node-title {
-  position: relative;
-  z-index: 2;
-  color: #fff;
-  font-weight: bold;
-  pointer-events: none;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-}
-
+/* === 7. ПРЕВЬЮ (Снаружи формы, чтобы не резалось) === */
 .card-preview {
   position: absolute;
-  z-index: 100000;
-  pointer-events: none;
+  z-index: 999999 !important;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  bottom: 110%; /* Над картой */
 }
 
 .grid-node:hover .card-preview,
 .grid-node.preview-open .card-preview {
   opacity: 1;
   visibility: visible;
+}
+
+/* Анимация перелива */
+@keyframes goldFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
