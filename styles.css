@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Транс)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансв)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курл//
@@ -367,4 +367,60 @@ body { background: #f5f6f8; color: #222; }
 .row-5.selected::after, 
 .row-6.selected::after {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+/* Анимация перелива */
+@keyframes goldFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Общие правила для выбранной ноды */
+.grid-node.selected {
+  position: relative;
+  border-color: transparent !important; /* скрываем дефолтную рамку */
+  background-image: none !important;
+  z-index: 10;
+}
+
+/* Золотой анимированный слой (подложка) */
+.grid-node.selected::before {
+  content: "";
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px; /* чуть шире основной кнопки */
+  background: linear-gradient(90deg, #ffcc00, #ffffff, #ffcc00, #d4af37);
+  background-size: 300% 300%;
+  animation: goldFlow 2s linear infinite;
+  z-index: -2;
+}
+
+/* Внутренний слой, чтобы оставить только тонкую рамку */
+.grid-node.selected::after {
+  content: "";
+  position: absolute;
+  top: 1px; left: 1px; right: 1px; bottom: 1px;
+  background: inherit; /* берет цвет ветки/кнопки */
+  z-index: -1;
+}
+
+/* ПРИМЕНЕНИЕ ФОРМЫ (Важно!) */
+
+/* Для уровней 1, 2, 3 (прямоугольные со скруглением) */
+.grid-node.selected:not([data-row="4"]):not([data-row="5"]):not([data-row="6"]),
+.grid-node.selected:not([data-row="4"]):not([data-row="5"]):not([data-row="6"])::before,
+.grid-node.selected:not([data-row="4"]):not([data-row="5"]):not([data-row="6"])::after {
+  border-radius: 8px; /* совпадает с вашим стилем кнопок */
+}
+
+/* Для уровня 4 (шестиугольники) - строго дублируем клип на все слои */
+.grid-node[data-row="4"].selected,
+.grid-node[data-row="4"].selected::before,
+.grid-node[data-row="4"].selected::after,
+.grid-node[data-row="5"].selected,
+.grid-node[data-row="5"].selected::before,
+.grid-node[data-row="5"].selected::after,
+.grid-node[data-row="6"].selected,
+.grid-node[data-row="6"].selected::before,
+.grid-node[data-row="6"].selected::after {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
 }
