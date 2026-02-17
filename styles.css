@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //кур//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -462,6 +462,13 @@ z-index: 1;                      /хрень какая то две строки
   margin-bottom: 10px;
 }
 
+.grid-node.hex::before {
+  content: "";
+  position: absolute;
+  inset: -20px; /* расширяем зону */
+  background: transparent;
+  z-index: -1;
+}
 #desktopTree .grid-node[data-row="4"],
 #desktopTree .grid-node[data-row="5"],
 #desktopTree .grid-node[data-row="6"],
@@ -476,5 +483,18 @@ z-index: 1;                      /хрень какая то две строки
     25% 100%,
     0% 50%
   );
-  border-radius: 12px; /* мягкость, чтобы не спорило с перышком */
+  position: relative;
+}
+
+#desktopTree .grid-node[data-row="4"]::before,
+#desktopTree .grid-node[data-row="5"]::before,
+#desktopTree .grid-node[data-row="6"]::before,
+#mobileTree  .grid-node[data-row="4"]::before,
+#mobileTree  .grid-node[data-row="5"]::before,
+#mobileTree  .grid-node[data-row="6"]::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: transparent;
+  z-index: -1;
 }
