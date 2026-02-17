@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы хм)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы хмм)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -428,84 +428,97 @@ body { background: #f5f6f8; color: #222; }
 
 
 
-/* 1. КОНТЕЙНЕР (Прозрачный, чтобы не мешать форме) */
+/* 1. Общие настройки контейнера */
 .grid-node {
   position: relative;
   background: transparent !important;
   border: none !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  box-shadow: none !important;
+  clip-path: none !important;
 }
 
-/* 2. ТЕКСТ (Одна строка, без обрезок) */
-.node-title {
-  position: relative;
-  z-index: 5;
-  color: #fff;
-  font-weight: 700;
-  text-align: center;
-  pointer-events: none;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-  
-  /* ФИКС: В одну строку, но без точек (...) */
-  white-space: nowrap !important; 
-  width: auto;
-  padding: 0 4px;
-}
-
-/* 3. СЛОЙ ФОРМЫ (node-shape) */
+/* 2. Слой формы (node-shape) */
 .node-shape {
   position: absolute;
   inset: 0;
   z-index: 1;
-  transition: all 0.3s ease;
-  border-radius: 8px; /* Для 2-3 уровней */
+  transition: all 0.2s;
 }
 
-/* 4. ЦВЕТА ВЕТОК (Возвращаем сочность для 2, 3 и 4+ уровней) */
-.branch-0 .node-shape { background: #3c6fd1 !important; } /* Синий */
-.branch-1 .node-shape { background: #6a5ac7 !important; } /* Фиолетовый */
-.branch-2 .node-shape { background: #e05a6f !important; } /* Красный */
-
-/* 5. ГЕОМЕТРИЯ УРОВНЕЙ */
-
-/* Главная карта: узкая, темное золото, тягучий перелив */
-.row-1 .node-shape {
-  top: 30% !important;   /* Ещё худее */
-  bottom: 30% !important;
-  border-radius: 4px !important;
-  
-  background: linear-gradient(
-    90deg, 
-    #705401, #b8860b, #eec211, #b8860b, #705401
-  ) !important;
-  background-size: 300% 300% !important;
-  animation: goldFlow 10s linear infinite !important; /* Настоящий тягучий металл */
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+/* Прямоугольники (1, 2, 3 уровни) */
+.row-1 .node-shape, .row-2 .node-shape, .row-3 .node-shape {
+  border-radius: 8px !important;
+  clip-path: none !important; 
 }
 
-.row-1 .node-title {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Шестиугольники для 4-6 уровней */
+/* Шестиугольники (4 уровень+) */
 .row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   border-radius: 0 !important;
 }
 
-/* 6. ПОДСВЕТКА ВЫБОРА (Золотая обводка) */
+/* 3. АНИМАЦИЯ ПЕРЕЛИВА (Сделал контрастнее, чтобы было видно) */
+@keyframes goldFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ГЛАВНАЯ КАРТА (L1) — Тонкая и "Текучая" */
+.row-1 .node-shape {
+  top: 25% !important;   /* Худее сверху */
+  bottom: 25% !important;/* Худее снизу */
+  
+  /* Более яркое золото для заметного перелива */
+  background: linear-gradient(
+    90deg, 
+    #7d5d0d, #b8860b, #fff3a1, #b8860b, #7d5d0d
+  ) !important;
+  background-size: 200% auto !important;
+  animation: goldFlow 4s linear infinite !important; /* Ускорил до 4с для заметности */
+  
+  border-radius: 4px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* 4. ВОЗВРАТ ЦВЕТОВ ВЕТОК (Добавил !important) */
+.branch-0 .node-shape { background: #3c6fd1 !important; } /* Синий */
+.branch-1 .node-shape { background: #6a5ac7 !important; } /* Фиолетовый */
+.branch-2 .node-shape { background: #e05a6f !important; } /* Красный */
+
+/* 5. ФОРМА ДЛЯ 2 И 3 УРОВНЯ (чтобы не перекрывали цвета) */
+.row-2 .node-shape, .row-3 .node-shape {
+  top: 5%; bottom: 5%;
+}
+
+/* 6. ТЕКСТ (Одна строка, без обрезок) */
+.node-title {
+  position: relative;
+  z-index: 5;
+  color: #fff;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  /* ФИКС ТЕКСТА */
+  white-space: nowrap !important; 
+  overflow: visible !important;
+  font-size: 13px;
+}
+
+.row-1 .node-title {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+/* 7. ЗОЛОТАЯ ОБВОДКА ПРИ ВЫБОРЕ */
 .grid-node.selected .node-shape::before {
   content: "";
   position: absolute;
   inset: -3px;
   background: linear-gradient(90deg, #ffd700, #fff, #ffd700, #d4af37);
   background-size: 300% 300%;
-  animation: goldFlow 2s linear infinite; /* Тут анимация быстрая */
+  animation: goldFlow 2s linear infinite;
   z-index: -1;
   border-radius: inherit;
   clip-path: inherit;
@@ -521,13 +534,13 @@ body { background: #f5f6f8; color: #222; }
   clip-path: inherit;
 }
 
-/* 7. ПРЕВЬЮ (Снаружи родителя) */
+/* ПРЕВЬЮ */
 .card-preview {
   position: absolute;
-  z-index: 10000;
+  z-index: 100000;
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transition: opacity 0.2s;
   bottom: 110%;
 }
@@ -536,11 +549,4 @@ body { background: #f5f6f8; color: #222; }
 .grid-node.preview-open .card-preview {
   opacity: 1;
   visibility: visible;
-}
-
-/* АНИМАЦИЯ ПЕРЕЛИВА */
-@keyframes goldFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
