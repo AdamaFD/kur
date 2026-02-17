@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы команда инвалидов)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы команда инвалидов пи)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -461,71 +461,65 @@ body { background: #f5f6f8; color: #222; }
   border-radius: 8px;
 }
 
-/* Row 1 (Корневая) — Делаем "худой" и золотой */
-.row-1 .node-shape {
-  top: 25% !important; 
-  bottom: 25% !important;
-  border-radius: 4px !important;
-  border: 1px solid rgba(180,140,40,0.75);
+/* 1. АНИМАЦИЯ И КОРЕНЬ (Из твоего кода) */
+@keyframes goldPulse {
+  0%, 100% {
+    background: linear-gradient(180deg, rgba(255,246,204,0.95) 0%, rgba(242,210,107,0.88) 45%, rgba(224,185,75,0.86) 100%);
+    box-shadow: inset 0 0 12px rgba(255, 255, 200, 0.55), 0 14px 28px rgba(180, 140, 40, 0.35);
+  }
+  50% {
+    background: linear-gradient(180deg, rgba(255,250,220,1) 0%, rgba(250,225,130,0.95) 45%, rgba(230,195,90,0.9) 100%);
+    box-shadow: inset 0 0 18px rgba(255, 255, 220, 0.75), 0 18px 32px rgba(180, 140, 40, 0.45);
+  }
+}
+
+.row-1 {
   animation: goldPulse 4s ease-in-out infinite;
+  border: 1px solid rgba(180,140,40,0.75) !important;
+  font-weight: 900;
+  /* Делаем кнопку худой */
+  clip-path: inset(25% 0 25% 0 round 8px) !important;
 }
 
-/* Row 4+ (Шестиугольники) */
-.row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
+/* 2. ТВОИ ЦВЕТА ДЛЯ 2 И 3 УРОВНЯ */
+#desktopTree .grid-node[style*="column-start: 1"][style*="row-start: 2"],
+#desktopTree .grid-node[style*="column-start: 2"][style*="row-start: 2"],
+#desktopTree .grid-node[style*="column-start: 3"][style*="row-start: 2"] { background: linear-gradient(to bottom, #e8faff, #c9ecff) !important; }
+
+#desktopTree .grid-node[style*="column-start: 1"][style*="row-start: 3"],
+#desktopTree .grid-node[style*="column-start: 2"][style*="row-start: 3"],
+#desktopTree .grid-node[style*="column-start: 3"][style*="row-start: 3"] { background: linear-gradient(to bottom, #c9ecff, #9acbff) !important; }
+
+#desktopTree .grid-node[style*="column-start: 4"][style*="row-start: 2"],
+#desktopTree .grid-node[style*="column-start: 5"][style*="row-start: 2"],
+#desktopTree .grid-node[style*="column-start: 6"][style*="row-start: 2"] { background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important; }
+
+#desktopTree .grid-node[style*="column-start: 4"][style*="row-start: 3"],
+#desktopTree .grid-node[style*="column-start: 5"][style*="row-start: 3"],
+#desktopTree .grid-node[style*="column-start: 6"][style*="row-start: 3"] { background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important; }
+
+#desktopTree .grid-node[style*="column-start: 7"][style*="row-start: 2"],
+#desktopTree .grid-node[style*="column-start: 8"][style*="row-start: 2"],
+#desktopTree .grid-node[style*="column-start: 9"][style*="row-start: 2"] { background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important; }
+
+#desktopTree .grid-node[style*="column-start: 7"][style*="row-start: 3"],
+#desktopTree .grid-node[style*="column-start: 8"][style*="row-start: 3"],
+#desktopTree .grid-node[style*="column-start: 9"][style*="row-start: 3"] { background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important; }
+
+/* 3. ШЕСТИУГОЛЬНИКИ (4 уровень) */
+.row-4 {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
-  border-radius: 0 !important;
+  background: #eee !important; /* Цвет по умолчанию для 4 уровня */
 }
 
-/* 4. ТВОИ ГРАДИЕНТЫ ДЛЯ 2 И 3 УРОВНЯ */
-
-/* СИНЯЯ ВЕТКА (Колонки 1-3) */
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 1"] .node-shape,
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 2"] .node-shape,
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 3"] .node-shape {
-  background: linear-gradient(to bottom, #e8faff, #c9ecff) !important;
-}
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 1"] .node-shape,
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 2"] .node-shape,
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 3"] .node-shape {
-  background: linear-gradient(to bottom, #c9ecff, #9acbff) !important;
-}
-
-/* ФИОЛЕТОВАЯ ВЕТКА (Колонки 4-6) */
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 4"] .node-shape,
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 5"] .node-shape,
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 6"] .node-shape {
-  background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important;
-}
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 4"] .node-shape,
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 5"] .node-shape,
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 6"] .node-shape {
-  background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important;
-}
-
-/* КРАСНАЯ ВЕТКА (Колонки 7-9) */
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 7"] .node-shape,
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 8"] .node-shape,
-.grid-node[style*="grid-row-start: 2"][style*="grid-column-start: 9"] .node-shape {
-  background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important;
-}
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 7"] .node-shape,
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 8"] .node-shape,
-.grid-node[style*="grid-row-start: 3"][style*="grid-column-start: 9"] .node-shape {
-  background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important;
-}
-
-/* 5. ТЕКСТ (Черный, 10px, перенос) */
+/* 4. ТЕКСТ (Черный, 11px, перенос) */
 .node-title {
-  position: relative;
-  z-index: 10;
   color: #000 !important;
-  font-weight: 800;
-  font-size: 10px !important;
+  font-size: 11px !important;
+  white-space: normal !important; /* Перенос слов */
   text-align: center;
-  white-space: normal !important;
-  word-wrap: break-word;
-  max-width: 90%;
-  pointer-events: none;
+  line-height: 1.1;
+  padding: 0 5px;
 }
 
 /* 6. ВЫДЕЛЕНИЕ КАРТЫ (Золотая обводка) */
