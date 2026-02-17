@@ -498,3 +498,43 @@ z-index: 1;                      /хрень какая то две строки
   background: transparent;
   z-index: -1;
 }
+/* Шестиугольная форма для уровней 4–6 через псевдоэлемент */
+#desktopTree .grid-node[data-row="4"],
+#desktopTree .grid-node[data-row="5"],
+#desktopTree .grid-node[data-row="6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  position: relative;
+  background: none !important; /* фон перенесём на псевдоэлемент */
+  overflow: visible; /* важно для превью */
+}
+
+/* Рисуем шестиугольник под содержимым */
+#desktopTree .grid-node[data-row="4"]::before,
+#desktopTree .grid-node[data-row="5"]::before,
+#desktopTree .grid-node[data-row="6"]::before,
+#mobileTree  .grid-node[data-row="4"]::before,
+#mobileTree  .grid-node[data-row="5"]::before,
+#mobileTree  .grid-node[data-row="6"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  /* наследуем цвет ноды */
+  background: inherit;
+  border: inherit;
+
+  /* сама форма */
+  clip-path: polygon(
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%,
+    0% 50%
+  );
+
+  border-radius: 12px; /* мягкость */
+}
