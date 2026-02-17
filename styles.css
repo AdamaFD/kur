@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -652,6 +652,70 @@ z-index: 1;                      /хрень какая то две строки
   --node-color: #ff8a9a;
 }
 
+/* ---------- УРОВНИ 1–3: мягкие прямоугольники ---------- */
+#desktopTree .grid-node[style*="grid-row-start: 1"],
+#desktopTree .grid-node[style*="grid-row-start: 2"],
+#desktopTree .grid-node[style*="grid-row-start: 3"],
+#mobileTree  .grid-node[data-row="1"],
+#mobileTree  .grid-node[data-row="2"],
+#mobileTree  .grid-node[data-row="3"] {
+  clip-path: none !important;
+  border-radius: 12px !important;
+  overflow: visible;
+  position: relative;
+}
+
+/* ---------- УРОВНИ 4–6: прозрачная нода + звезда ---------- */
+#desktopTree .grid-node[style*="grid-row-start: 4"],
+#desktopTree .grid-node[style*="grid-row-start: 5"],
+#desktopTree .grid-node[style*="grid-row-start: 6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  position: relative;
+  overflow: visible;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ---------- ЗВЕЗДА ---------- */
+#desktopTree .grid-node[style*="grid-row-start: 4"]::before,
+#desktopTree .grid-node[style*="grid-row-start: 5"]::before,
+#desktopTree .grid-node[style*="grid-row-start: 6"]::before,
+#mobileTree  .grid-node[data-row="4"]::before,
+#mobileTree  .grid-node[data-row="5"]::before,
+#mobileTree  .grid-node[data-row="6"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background: var(--node-color);
+
+  clip-path: polygon(
+    50% 0%,
+    65% 30%,
+    100% 50%,
+    65% 70%,
+    50% 100%,
+    35% 70%,
+    0% 50%,
+    35% 30%
+  );
+}
+
+/* ---------- ТЕКСТ ПОВЕРХ ЗВЕЗДЫ ---------- */
+#desktopTree .grid-node[style*="grid-row-start: 4"] .node-title,
+#desktopTree .grid-node[style*="grid-row-start: 5"] .node-title,
+#desktopTree .grid-node[style*="grid-row-start: 6"] .node-title,
+#mobileTree  .grid-node[data-row="4"] .node-title,
+#mobileTree  .grid-node[data-row="5"] .node-title,
+#mobileTree  .grid-node[data-row="6"] .node-title {
+  position: relative;
+  z-index: 2;
+}
 
 
 
