@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы команда инвалидов пиздец)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Трансвиститы команда инвалидов пиздец сука)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
@@ -428,130 +428,94 @@ body { background: #f5f6f8; color: #222; }
 
 
 
-/* 1. КОНТЕЙНЕР КАРТЫ */
-.grid-node {
-  position: relative;
-  background: transparent !important;
-  border: none !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-/* 2. ТЕКСТ (Черный, переносится, уменьшен) */
-.node-title {
-  position: relative;
-  z-index: 10;
-  color: #000 !important;
-  font-weight: 700;
-  text-align: center;
-  pointer-events: none;
-  font-size: 11px !important;
-  line-height: 1.1;
-  white-space: normal !important; 
-  word-wrap: break-word;
-  max-width: 85%;
-  text-shadow: none !important;
-}
-
-/* 3. СЛОЙ ФОРМЫ (node-shape) */
-.node-shape {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-}
-
-/* 4. ТВОЯ АНИМАЦИЯ ЗОЛОТА (goldPulse) */
+/* 1. ТВОЯ АНИМАЦИЯ ЗОЛОТА */
 @keyframes goldPulse {
   0%, 100% {
     background: linear-gradient(180deg, rgba(255,246,204,0.95) 0%, rgba(242,210,107,0.88) 45%, rgba(224,185,75,0.86) 100%) !important;
-    box-shadow: inset 0 0 12px rgba(255, 255, 200, 0.55), 0 14px 28px rgba(180, 140, 40, 0.35);
+    box-shadow: inset 0 0 12px rgba(255, 255, 200, 0.55), 0 14px 28px rgba(180, 140, 40, 0.35) !important;
   }
   50% {
     background: linear-gradient(180deg, rgba(255,250,220,1) 0%, rgba(250,225,130,0.95) 45%, rgba(230,195,90,0.9) 100%) !important;
-    box-shadow: inset 0 0 18px rgba(255, 255, 220, 0.75), 0 18px 32px rgba(180, 140, 40, 0.45);
+    box-shadow: inset 0 0 18px rgba(255, 255, 220, 0.75), 0 18px 32px rgba(180, 140, 40, 0.45) !important;
   }
 }
 
-/* ПРИМЕНЕНИЕ К КОРНЮ */
-.row-1 .node-shape {
-  top: 25% !important; 
-  bottom: 25% !important;
+/* КОРЕНЬ (Твои стили + "худоба") */
+.row-1 .node-shape, .grid-node.root .node-shape {
+  top: 25% !important; bottom: 25% !important;
   border-radius: 4px !important;
   border: 1px solid rgba(180,140,40,0.75) !important;
   animation: goldPulse 4s ease-in-out infinite !important;
 }
 
-/* 5. ТВОИ ЦВЕТА ДЛЯ 2 И 3 УРОВНЯ */
+/* 2. ТВОИ ЦВЕТА ДЛЯ 2 И 3 УРОВНЯ */
+#desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 2"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 2"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 2"] .node-shape { background: linear-gradient(to bottom, #e8faff, #c9ecff) !important; }
 
-/* СИНИЕ (Колонки 1-3) */
-.grid-node[style*="column-start: 1"][style*="row-start: 2"] .node-shape,
-.grid-node[style*="column-start: 2"][style*="row-start: 2"] .node-shape,
-.grid-node[style*="column-start: 3"][style*="row-start: 2"] .node-shape { background: linear-gradient(to bottom, #e8faff, #c9ecff) !important; }
+#desktopTree .grid-node[style*="grid-column-start: 1"][style*="grid-row-start: 3"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 2"][style*="grid-row-start: 3"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 3"][style*="grid-row-start: 3"] .node-shape { background: linear-gradient(to bottom, #c9ecff, #9acbff) !important; }
 
-.grid-node[style*="column-start: 1"][style*="row-start: 3"] .node-shape,
-.grid-node[style*="column-start: 2"][style*="row-start: 3"] .node-shape,
-.grid-node[style*="column-start: 3"][style*="row-start: 3"] .node-shape { background: linear-gradient(to bottom, #c9ecff, #9acbff) !important; }
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 2"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 2"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 2"] .node-shape { background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important; }
 
-/* ФИОЛЕТОВЫЕ (Колонки 4-6) */
-.grid-node[style*="column-start: 4"][style*="row-start: 2"] .node-shape,
-.grid-node[style*="column-start: 5"][style*="row-start: 2"] .node-shape,
-.grid-node[style*="column-start: 6"][style*="row-start: 2"] .node-shape { background: linear-gradient(to bottom, #f5efff, #e3d7ff) !important; }
+#desktopTree .grid-node[style*="grid-column-start: 4"][style*="grid-row-start: 3"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 5"][style*="grid-row-start: 3"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 6"][style*="grid-row-start: 3"] .node-shape { background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important; }
 
-.grid-node[style*="column-start: 4"][style*="row-start: 3"] .node-shape,
-.grid-node[style*="column-start: 5"][style*="row-start: 3"] .node-shape,
-.grid-node[style*="column-start: 6"][style*="row-start: 3"] .node-shape { background: linear-gradient(to bottom, #e3d7ff, #c0b0ff) !important; }
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 2"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 2"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 2"] .node-shape { background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important; }
 
-/* КРАСНЫЕ (Колонки 7-9) */
-.grid-node[style*="column-start: 7"][style*="row-start: 2"] .node-shape,
-.grid-node[style*="column-start: 8"][style*="row-start: 2"] .node-shape,
-.grid-node[style*="column-start: 9"][style*="row-start: 2"] .node-shape { background: linear-gradient(to bottom, #fff1eb, #ffd4c9) !important; }
+#desktopTree .grid-node[style*="grid-column-start: 7"][style*="grid-row-start: 3"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 8"][style*="grid-row-start: 3"] .node-shape,
+#desktopTree .grid-node[style*="grid-column-start: 9"][style*="grid-row-start: 3"] .node-shape { background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important; }
 
-.grid-node[style*="column-start: 7"][style*="row-start: 3"] .node-shape,
-.grid-node[style*="column-start: 8"][style*="row-start: 3"] .node-shape,
-.grid-node[style*="column-start: 9"][style*="row-start: 3"] .node-shape { background: linear-gradient(to bottom, #ffd4c9, #ffb0b3) !important; }
-
-
-/* 6. ГЕОМЕТРИЯ ДЛЯ 4 УРОВНЯ */
+/* 3. ФОРМА ШЕСТИУГОЛЬНИКА ДЛЯ 4 УРОВНЯ */
 .row-4 .node-shape, .row-5 .node-shape, .row-6 .node-shape {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   border-radius: 0 !important;
-  background: #f0f0f0; /* Цвет по умолчанию для 4 уровня */
 }
 
-/* 7. ПОДСВЕТКА ВЫБОРА */
+/* 4. ТЕКСТ (Черный, переносится) */
+.node-title {
+  color: #000 !important;
+  font-size: 11px !important;
+  font-weight: 800;
+  text-align: center;
+  z-index: 10;
+  white-space: normal !important;
+  pointer-events: none;
+}
+
+/* 5. ОБВОДКА ПРИ ВЫБОРЕ */
 .grid-node.selected .node-shape::before {
   content: "";
   position: absolute;
   inset: -3px;
-  background: linear-gradient(90deg, #ffd700, #fff, #ffd700, #d4af37);
-  background-size: 300% 300%;
+  background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
+  background-size: 200% auto;
   animation: goldFlow 2s linear infinite;
   z-index: -1;
   border-radius: inherit;
   clip-path: inherit;
 }
+@keyframes goldFlow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-@keyframes goldFlow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-/* ПРЕВЬЮ */
+/* 6. ПРЕВЬЮ */
 .card-preview {
   position: absolute;
-  z-index: 99999;
+  bottom: 115%;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s;
-  bottom: 110%;
   pointer-events: none;
 }
+.grid-node:hover .card-preview { opacity: 1; visibility: visible; }
 
-.grid-node:hover .card-preview {
-  opacity: 1;
-  visibility: visible;
-}
+/* БАЗА */
+.grid-node { position: relative; background: transparent !important; border: none !important; }
+.node-shape { position: absolute; inset: 0; z-index: 1; border-radius: 8px; transition: all 0.3s; }
