@@ -1,5 +1,5 @@
 /* ————————————————————————————————————————————————
-   ТВОЙ ИСХОДНЫЙ CSS (НЕ ТРОГАЮ)
+   ТВОЙ ИСХОДНЫЙ CSS (НЕ Тр)
 ——————————————————————————————————————————————— */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курл//
@@ -272,3 +272,66 @@ body { background: #f5f6f8; color: #222; }
   border-radius: 12px;
 }
 
+/* Отключаем ВСЕ старые clip-path */
+#desktopTree .grid-node[data-row="4"],
+#desktopTree .grid-node[data-row="5"],
+#desktopTree .grid-node[data-row="6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"],
+.row-4 {
+  clip-path: none !important;
+}
+/* Переносим цвета в переменные */
+#desktopTree .grid-node[data-row="4"],
+#desktopTree .grid-node[data-row="5"],
+#desktopTree .grid-node[data-row="6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  --node-bg: currentColor;
+  --node-border: currentColor;
+}
+/* Нода прозрачная, цвет уйдёт на ::before */
+#desktopTree .grid-node[data-row="4"],
+#desktopTree .grid-node[data-row="5"],
+#desktopTree .grid-node[data-row="6"],
+#mobileTree  .grid-node[data-row="4"],
+#mobileTree  .grid-node[data-row="5"],
+#mobileTree  .grid-node[data-row="6"] {
+  background: none !important;
+  border-color: transparent !important;
+  position: relative;
+  overflow: visible;
+}
+/* Рисуем шестиугольник */
+#desktopTree .grid-node[data-row="4"]::before,
+#desktopTree .grid-node[data-row="5"]::before,
+#desktopTree .grid-node[data-row="6"]::before,
+#mobileTree  .grid-node[data-row="4"]::before,
+#mobileTree  .grid-node[data-row="5"]::before,
+#mobileTree  .grid-node[data-row="6"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background: var(--node-bg);
+  border: 1px solid var(--node-border);
+
+  clip-path: polygon(
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%,
+    0% 50%
+  );
+
+  border-radius: 12px;
+}
+/* Превью всегда поверх */
+.grid-node:hover,
+.grid-node.preview-open {
+  z-index: 999999;
+}
