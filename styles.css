@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -514,14 +514,15 @@ z-index: 1;                      /хрень какая то две строки
 .grid-node[data-row="2"],
 .grid-node[data-row="3"] {
   clip-path: none !important;        /* убираем любые формы */
-  border-radius: 12px !important;    /* мягкий квадрат */
+  border-radius: 16px !important;    /* мягкий квадрат */
   overflow: visible;                 /* нужно для превью */
 }
 
-/* ---------- УРОВНИ 4–6: звезда ---------- */
+/* Уровни 4–6 — звезда */
 .grid-node[data-row="4"],
 .grid-node[data-row="5"],
 .grid-node[data-row="6"] {
+  position: relative;
   clip-path: polygon(
     50% 0%,
     65% 30%,
@@ -532,12 +533,12 @@ z-index: 1;                      /хрень какая то две строки
     0% 50%,
     35% 30%
   ) !important;
-  border-radius: 0 !important;       /* чтобы clip-path не искажался */
-  padding: 18px;                     /* чтобы текст не обрезался */
+
+  border-radius: 0 !important;
+  padding: 22px; /* центрирует текст внутри звезды */
+  text-align: center;
 }
 
-  z-index: 1; /* звезда под текстом */
-}
 
 
 
