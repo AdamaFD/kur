@@ -1,4 +1,4 @@
-"use strict";
+"use strict";      //курлык//
 
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
@@ -234,32 +234,42 @@ function renderTree(container) {
 
   const nodes = buildFixedTreeLayout(currentCardId);
 
-  nodes.forEach(({ card, col, row, branch, parentId }) => {
+  // Найдите в функции renderTree цикл nodes.forEach и замените содержимое
+nodes.forEach(({ card, col, row, branch, parentId }) => {
     const div = document.createElement("div");
     div.className = "grid-node";
-
-    // Цвета веток + root
+    
+    // Добавляем классы рядов для CSS
+    div.classList.add(`row-${row}`); 
     if (col === 5 && row === 1) div.classList.add("root");
     if (branch !== null) div.classList.add(`branch-${branch}`);
-
     if (selectedNodes.has(card.id)) div.classList.add("selected");
 
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
 
-    div.innerHTML = `<span class="node-title">${card.title}</span>`;
+    // ВНУТРЕННЯЯ СТРУКТУРА: 
+    // node-shape — для формы и золотого перелива
+    // node-title — текст
+    div.innerHTML = `
+      <div class="node-shape"></div>
+      <span class="node-title">${card.title}</span>
+    `;
+    
     div.dataset.id = String(card.id);
     div.dataset.col = String(col);
     div.dataset.row = String(row);
     div.dataset.parent = parentId == null ? "" : String(parentId);
 
-    // PREVIEW
+    // PREVIEW (теперь он не будет обрезан)
     const previewDiv = document.createElement("div");
     previewDiv.className = "card-preview";
     previewDiv.innerHTML = `<img src="${imgUrl(card.id)}" alt="${card.title}">`;
     div.appendChild(previewDiv);
 
     attachPreviewHandlers(div);
+
+  
 
     // CLICK SELECT LOGIC (как было)
     div.onclick = (e) => {
