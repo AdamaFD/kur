@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мур//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //мурлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -499,6 +499,144 @@ z-index: 1;                      /хрень какая то две строки
 }
 
 
+
+
+/* ---------- УРОВНИ 1–3: мягкие прямоугольники ---------- */
+.grid-node[data-row="1"],
+.grid-node[data-row="2"],
+.grid-node[data-row="3"] {
+  clip-path: none !important;
+  border-radius: 12px !important;
+  overflow: visible;
+  position: relative;
+}
+
+/* ---------- УРОВНИ 4–6: звезда ---------- */
+.grid-node[data-row="4"],
+.grid-node[data-row="5"],
+.grid-node[data-row="6"] {
+  position: relative;
+  overflow: visible;
+
+  /* НОДА ПОЛНОСТЬЮ ПРОЗРАЧНАЯ */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ---------- ЗВЕЗДА ---------- */
+.grid-node[data-row="4"]::before,
+.grid-node[data-row="5"]::before,
+.grid-node[data-row="6"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  /* цвет звезды = цвет ветки */
+  background: var(--node-color);
+
+  clip-path: polygon(
+    50% 0%,
+    65% 30%,
+    100% 50%,
+    65% 70%,
+    50% 100%,
+    35% 70%,
+    0% 50%,
+    35% 30%
+  );
+}
+
+/* ---------- ТЕКСТ ПОВЕРХ ЗВЕЗДЫ ---------- */
+.grid-node[data-row="4"] .node-title,
+.grid-node[data-row="5"] .node-title,
+.grid-node[data-row="6"] .node-title {
+  position: relative;
+  z-index: 2;
+}
+
+#desktopTree .grid-node[data-col="1"][data-row="4"],
+#desktopTree .grid-node[data-col="1"][data-row="5"],
+#desktopTree .grid-node[data-col="1"][data-row="6"],
+#mobileTree  .grid-node[data-col="1"][data-row="4"],
+#mobileTree  .grid-node[data-col="1"][data-row="5"],
+#mobileTree  .grid-node[data-col="1"][data-row="6"] {
+  --node-color: #2b57c7;
+}
+
+#desktopTree .grid-node[data-col="2"][data-row="4"],
+#desktopTree .grid-node[data-col="2"][data-row="5"],
+#desktopTree .grid-node[data-col="2"][data-row="6"],
+#mobileTree  .grid-node[data-col="2"][data-row="4"],
+#mobileTree  .grid-node[data-col="2"][data-row="5"],
+#mobileTree  .grid-node[data-col="2"][data-row="6"] {
+  --node-color: #3c6fd1;
+}
+
+#desktopTree .grid-node[data-col="3"][data-row="4"],
+#desktopTree .grid-node[data-col="3"][data-row="5"],
+#desktopTree .grid-node[data-col="3"][data-row="6"],
+#mobileTree  .grid-node[data-col="3"][data-row="4"],
+#mobileTree  .grid-node[data-col="3"][data-row="5"],
+#mobileTree  .grid-node[data-col="3"][data-row="6"] {
+  --node-color: #6aa4ff;
+}
+
+#desktopTree .grid-node[data-col="4"][data-row="4"],
+#desktopTree .grid-node[data-col="4"][data-row="5"],
+#desktopTree .grid-node[data-col="4"][data-row="6"],
+#mobileTree  .grid-node[data-col="4"][data-row="4"],
+#mobileTree  .grid-node[data-col="4"][data-row="5"],
+#mobileTree  .grid-node[data-col="4"][data-row="6"] {
+  --node-color: #5445bd;
+}
+
+#desktopTree .grid-node[data-col="5"][data-row="4"],
+#desktopTree .grid-node[data-col="5"][data-row="5"],
+#desktopTree .grid-node[data-col="5"][data-row="6"],
+#mobileTree  .grid-node[data-col="5"][data-row="4"],
+#mobileTree  .grid-node[data-col="5"][data-row="5"],
+#mobileTree  .grid-node[data-col="5"][data-row="6"] {
+  --node-color: #6a5ac7;
+}
+
+#desktopTree .grid-node[data-col="6"][data-row="4"],
+#desktopTree .grid-node[data-col="6"][data-row="5"],
+#desktopTree .grid-node[data-col="6"][data-row="6"],
+#mobileTree  .grid-node[data-col="6"][data-row="4"],
+#mobileTree  .grid-node[data-col="6"][data-row="5"],
+#mobileTree  .grid-node[data-col="6"][data-row="6"] {
+  --node-color: #9a8aff;
+}
+
+
+#desktopTree .grid-node[data-col="7"][data-row="4"],
+#desktopTree .grid-node[data-col="7"][data-row="5"],
+#desktopTree .grid-node[data-col="7"][data-row="6"],
+#mobileTree  .grid-node[data-col="7"][data-row="4"],
+#mobileTree  .grid-node[data-col="7"][data-row="5"],
+#mobileTree  .grid-node[data-col="7"][data-row="6"] {
+  --node-color: #c6425a;
+}
+
+#desktopTree .grid-node[data-col="8"][data-row="4"],
+#desktopTree .grid-node[data-col="8"][data-row="5"],
+#desktopTree .grid-node[data-col="8"][data-row="6"],
+#mobileTree  .grid-node[data-col="8"][data-row="4"],
+#mobileTree  .grid-node[data-col="8"][data-row="5"],
+#mobileTree  .grid-node[data-col="8"][data-row="6"] {
+  --node-color: #e05a6f;
+}
+
+#desktopTree .grid-node[data-col="9"][data-row="4"],
+#desktopTree .grid-node[data-col="9"][data-row="5"],
+#desktopTree .grid-node[data-col="9"][data-row="6"],
+#mobileTree  .grid-node[data-col="9"][data-row="4"],
+#mobileTree  .grid-node[data-col="9"][data-row="5"],
+#mobileTree  .grid-node[data-col="9"][data-row="6"] {
+  --node-color: #ff8a9a;
+}
 
 
 
