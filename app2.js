@@ -1,4 +1,5 @@
-"use strict";      //курлыкиииииии//
+
+"use strict";
 
 /* =========================
    ASSET URLS (GitHub Pages safe + keep ?v=... for cache)
@@ -228,90 +229,152 @@ function attachPreviewHandlers(nodeDiv) {
 ========================= */
 function renderTree(container) {
   if (!container) return;
+
   container.innerHTML = "";
   if (!currentCardId) return;
 
   const nodes = buildFixedTreeLayout(currentCardId);
 
-  nodes.forEach(({ card, col, row, branch }) => {
+  nodes.forEach(({ card, col, row, branch, parentId }) => {
     const div = document.createElement("div");
-    const nodeKey = `${col}-${row}`; // Уникальный ключ по координатам
-    
     div.className = "grid-node";
-    div.classList.add(`row-${row}`); 
+
+    // Цвета веток + root
     if (col === 5 && row === 1) div.classList.add("root");
     if (branch !== null) div.classList.add(`branch-${branch}`);
-    
-    // Проверка выбора по ключу координат
-    if (selectedNodes.has(nodeKey)) div.classList.add("selected");
+
+    if (selectedNodes.has(card.id)) div.classList.add("selected");
 
     div.style.gridColumnStart = col;
     div.style.gridRowStart = row;
 
-    // Структура для сохранения превью и формы
-    div.innerHTML = `
-      <div class="node-shape"></div>
-      <span class="node-title">${card.title}</span>
-      <div class="card-preview"><img src="${imgUrl(card.id)}" alt=""></div>
-    `;
-    
+    div.innerHTML = `<span class="node-title">${card.title}</span>`;
+    div.dataset.id = String(card.id);
+    div.dataset.col = String(col);
+    div.dataset.row = String(row);
+    div.dataset.parent = parentId == null ? "" : String(parentId);
+
+    // PREVIEW
+    const previewDiv = document.createElement("div");
+    previewDiv.className = "card-preview";
+    previewDiv.innerHTML = `<img src="${imgUrl(card.id)}" alt="${card.title}">`;
+    div.appendChild(previewDiv);
+
     attachPreviewHandlers(div);
 
+    // CLICK SELECT LOGIC (как было)
     div.onclick = (e) => {
       e.stopPropagation();
 
-      // --- ЛОГИКА ВЫБОРА ПО КООРДИНАТАМ ---
-      
-      // УРОВЕНЬ 2 (Ряд 2)
+      const col = Number(div.dataset.col);
+      const row = Number(div.dataset.row);
+
+      // корень не кликаем
+      if (col === 5 && row === 1) return;
+
+      // LEVEL 2 — одиночный выбор
       if (row === 2) {
-        if (selectedNodes.has(nodeKey)) {
-          selectedNodes.clear(); // Снимаем всё
-        } else {
-          selectedNodes.clear(); 
-          selectedNodes.add(nodeKey); // Выбираем только этот узел
-        }
-      } 
-      
-      // УРОВЕНЬ 3 (Ряд 3)
-      else if (row === 3) {
-        // Находим координату родителя на 2 уровне
-        let parentCol = col <= 3 ? 2 : (col <= 6 ? 5 : 8);
-        if (!selectedNodes.has(`${parentCol}-2`)) return; // Нет активного родителя
+        // снять выбор уровня 3 и 4 при смене уровня 2
+        const selectedL3 = container.querySelectorAll('.grid-node.selected[data-row="3"]');
+        selectedL3.forEach((node) => {
+          node.classList.remove("selected");
+          selectedNodes.delete(node.dataset.id);
+        });
 
-        if (selectedNodes.has(nodeKey)) {
-          selectedNodes.delete(nodeKey);
-          // Снимаем выбор с его детей на 4 уровне (те же колонки, ряды 4-6)
-          [4,5,6].forEach(r => selectedNodes.delete(`${col}-${r}`));
-        } else {
-          // Снимаем выбор с других L3 в этой ветке и их детей
-          let branchStart = col <= 3 ? 1 : (col <= 6 ? 4 : 7);
-          for(let c = branchStart; c < branchStart + 3; c++) {
-            selectedNodes.delete(`${c}-3`);
-            [4,5,6].forEach(r => selectedNodes.delete(`${c}-${r}`));
+        const selectedL4 = container.querySelectorAll(".grid-node.selected[data-row]");
+        selectedL4.forEach((node) => {
+          if (Number(node.dataset.row) >= 4) {
+            node.classList.remove("selected");
+            selectedNodes.delete(node.dataset.id);
           }
-          selectedNodes.add(nodeKey);
-        }
-      } 
-      
-      // УРОВЕНЬ 4 (Ряды 4, 5, 6 — Шестиугольники)
-      else if (row >= 4) {
-        if (!selectedNodes.has(`${col}-3`)) return; // Нет активного родителя на 3 уровне
+        });
 
-        if (selectedNodes.has(nodeKey)) {
-          selectedNodes.delete(nodeKey);
-        } else {
-          // Одиночный выбор в колонке (между рядами 4, 5, 6)
-          [4,5,6].forEach(r => selectedNodes.delete(`${col}-${r}`));
-          selectedNodes.add(nodeKey);
+        // снять старый выбор уровня 2
+        const oldL2 = container.querySelector('.grid-node.selected[data-row="2"]');
+        if (oldL2 && oldL2 !== div) {
+          oldL2.classList.remove("selected");
+          selectedNodes.delete(oldL2.dataset.id);
         }
+
+        // переключатель
+        if (div.classList.contains("selected")) {
+          div.classList.remove("selected");
+          selectedNodes.delete(card.id);
+        } else {
+          div.classList.add("selected");
+          selectedNodes.add(card.id);
+        }
+        return;
       }
 
-      renderTree(container); // Мгновенная перерисовка
+      // LEVEL 3 — одиночный выбор
+      if (row === 3) {
+        const selectedL2 = container.querySelector('.grid-node.selected[data-row="2"]');
+        if (!selectedL2) return;
+
+        // нельзя выбирать чужую ветку
+        if (div.dataset.parent !== selectedL2.dataset.id) return;
+
+        // снять все 4-е уровни при смене 3-го
+        const selectedL4 = container.querySelectorAll(".grid-node.selected[data-row]");
+        selectedL4.forEach((node) => {
+          if (Number(node.dataset.row) >= 4) {
+            node.classList.remove("selected");
+            selectedNodes.delete(node.dataset.id);
+          }
+        });
+
+        // снять старый выбор уровня 3
+        const oldL3 = container.querySelector('.grid-node.selected[data-row="3"]');
+        if (oldL3 && oldL3 !== div) {
+          oldL3.classList.remove("selected");
+          selectedNodes.delete(oldL3.dataset.id);
+        }
+
+        // переключатель
+        if (div.classList.contains("selected")) {
+          div.classList.remove("selected");
+          selectedNodes.delete(card.id);
+        } else {
+          div.classList.add("selected");
+          selectedNodes.add(card.id);
+        }
+        return;
+      }
+
+      // LEVEL 4 — одиночный выбор в столбце
+      if (row >= 4) {
+        const selectedL3 = container.querySelector('.grid-node.selected[data-row="3"]');
+        if (!selectedL3) return;
+
+        const selectedL3Col = Number(selectedL3.dataset.col);
+        if (selectedL3Col !== col) return;
+
+        // снять старый выбор 4-го уровня в этом столбце
+        const selectedInColumn = container.querySelectorAll(`.grid-node.selected[data-col="${col}"]`);
+        selectedInColumn.forEach((node) => {
+          if (Number(node.dataset.row) >= 4) {
+            node.classList.remove("selected");
+            selectedNodes.delete(node.dataset.id);
+          }
+        });
+
+        // переключатель
+        if (div.classList.contains("selected")) {
+          div.classList.remove("selected");
+          selectedNodes.delete(card.id);
+        } else {
+          div.classList.add("selected");
+          selectedNodes.add(card.id);
+        }
+        return;
+      }
     };
 
     container.appendChild(div);
   });
 }
+
 /* =========================
    OPEN CARD
 ========================= */
