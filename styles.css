@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкики//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -59,20 +59,42 @@ body { background: #f5f6f8; color: #222; }
   #desktopTree { flex: 1; min-height: 520px; overflow: visible; }
 }
  
-/* ---------- Mobile list ---------- */
+/* ---------- Mobile list (compact) ---------- */
 @media (max-width: 919px) {
-  .card-list { display: flex; flex-direction: column; gap: 12px; }
-  .card-item {
-    padding: 12px; border-radius: 16px; background: #fff;
-    border: 2px solid rgba(79,108,255,0.35);
-    text-align: center; font-weight: 800; cursor: pointer;
-    user-select: none; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* меньше расстояние */
   }
+
+  .card-item {
+    padding: 8px 10px;              /* меньше кнопки */
+    border-radius: 12px;
+    font-size: 13px;                /* уменьшили текст */
+    line-height: 1.2;
+    background: #fff;
+
+    border: 1.5px solid rgba(79,108,255,0.25);
+    text-align: center;
+    font-weight: 600;               /* не слишком жирный */
+    cursor: pointer;
+    user-select: none;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  }
+
   .card-item h4 {
     margin: 0;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    font-size: 13px;                /* уменьшили заголовок */
+    font-weight: 600;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;          /* максимум 2 строки */
+    -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
 }
  
 /* ---------- Mobile card view ---------- */
