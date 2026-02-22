@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -84,7 +84,29 @@ body { background: #f5f6f8; color: #222; }
     border: 1px solid rgba(0,0,0,0.08);
   }
 }
- 
+
+
+/* ---------- Mobile reorder ---------- */
+@media (max-width: 919px) {
+
+  /* Контейнер делаем управляемым по порядку */
+  #descTab {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Дерево карт теперь сверху */
+  .card-list {
+    order: 1;
+  }
+
+  /* Изображение уходит вниз */
+  .card-image-large {
+    order: 2;
+  }
+
+}
+
 /* ---------- Drawer ---------- */
 .drawer { position: fixed; inset: 0; display: none; z-index: 100; }
 .drawer.open { display: block; }
