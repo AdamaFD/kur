@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкики//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -543,3 +543,39 @@ z-index: 1;                      /хрень какая то две строки
 .grid-node[data-col="7"][data-row="4"]::before, .grid-node[data-col="7"][data-row="5"]::before, .grid-node[data-col="7"][data-row="6"]::before { background: #c6425a; }
 .grid-node[data-col="8"][data-row="4"]::before, .grid-node[data-col="8"][data-row="5"]::before, .grid-node[data-col="8"][data-row="6"]::before { background: #e05a6f; }
 .grid-node[data-col="9"][data-row="4"]::before, .grid-node[data-col="9"][data-row="5"]::before, .grid-node[data-col="9"][data-row="6"]::before { background: #ff8a9a; }
+
+
+
+
+
+/* ===== MOBILE TREE FORCE COMPACT ===== */
+@media (max-width: 919px) {
+
+  #descTab .card-list {
+    gap: 6px !important;
+  }
+
+  #descTab .card-list .card-item {
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    font-weight: 600 !important;
+
+    min-height: auto !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+  }
+
+  #descTab .card-list .card-item h4 {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+}
