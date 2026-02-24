@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -548,34 +548,22 @@ z-index: 1;                      /хрень какая то две строки
 
 
 
-/* ===== MOBILE TREE FORCE COMPACT ===== */
 @media (max-width: 919px) {
 
-  #descTab .card-list {
-    gap: 6px !important;
+  #mobileTree.tree {
+    height: 420px; /* уменьшаем высоту дерева */
+    gap: 6px;
+    padding: 6px;
   }
 
-  #descTab .card-list .card-item {
-    padding: 6px 8px !important;
-    border-radius: 10px !important;
-
-    font-size: 12px !important;
-    line-height: 1.15 !important;
-    font-weight: 600 !important;
-
-    min-height: auto !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+  #mobileTree .grid-node {
+    padding: 4px;
+    border-radius: 8px;
   }
 
-  #descTab .card-list .card-item h4 {
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    margin: 0 !important;
-
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
+  #mobileTree .grid-node .node-title {
+    font-size: 10px;
+    -webkit-line-clamp: 2;
   }
 
 }
