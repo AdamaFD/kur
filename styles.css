@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //кур//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -564,6 +564,26 @@ z-index: 1;                      /хрень какая то две строки
   #mobileTree .grid-node .node-title {
     font-size: 10px;
     -webkit-line-clamp: 2;
+  }
+
+}
+
+
+@media (max-width: 919px) {
+
+  #mobileTree.tree {
+    height: auto; /* убираем фиксированную высоту */
+    grid-template-rows: repeat(6, minmax(60px, auto));
+    gap: 6px;
+  }
+
+  #mobileTree .grid-node {
+    min-height: 60px;   /* фиксируем минимальную высоту */
+    padding: 6px;
+  }
+
+  #mobileTree .grid-node .node-title {
+    font-size: 11px;
   }
 
 }
