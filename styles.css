@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлы//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -583,7 +583,14 @@ z-index: 1;                      /хрень какая то две строки
     padding: 6px !important;
   }
 
-  .tree .grid-node .node-title {
+  .tree .grid-node .node-title {@media (max-width: 919px) {
+
+  .desktop-shell,
+  .panel {
+    height: auto !important;
+  }
+
+}
     font-size: 11px !important;
   }
 
