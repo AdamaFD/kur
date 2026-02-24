@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -698,7 +698,7 @@ z-index: 1;                      /хрень какая то две строки
 
   /* Адаптивный текст */
   .tree .grid-node .node-title {
-    font-size: clamp(6px, 2vw, 8px) !important;
+    font-size: clamp(6px, 1.8vw, 7px) !important;
     line-height: 1.05 !important;
   }
 
