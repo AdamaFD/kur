@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -440,11 +440,31 @@ z-index: 1;                      /хрень какая то две строки
 }
 
 /* Selected */
-.grid-node.selected {
+/* ===== ОБЩЕЕ ВЫДЕЛЕНИЕ (для 1–3 уровня) ===== */
+.grid-node.selected:not([data-row="4"]):not([data-row="5"]):not([data-row="6"]) {
   outline: 3px solid rgba(255, 210, 100, 0.85);
   box-shadow: 0 0 0 4px rgba(255, 210, 100, 0.25);
 }
- 
+
+/* ===== ВЫДЕЛЕНИЕ ДЛЯ 4–6 УРОВНЯ (шестиугольник) ===== */
+
+.grid-node[data-row="4"].selected::after,
+.grid-node[data-row="5"].selected::after,
+.grid-node[data-row="6"].selected::after {
+  content: "";
+  position: absolute;
+  inset: -4px; /* толщина рамки */
+  z-index: -2;
+
+  clip-path: polygon(
+    25% 0%, 75% 0%,
+    100% 50%,
+    75% 100%, 25% 100%,
+    0% 50%
+  );
+
+  background: rgba(255, 210, 100, 0.9);
+}
 /* ---------- Preview ---------- */
 .grid-node:hover,
 .grid-node.preview-open {
