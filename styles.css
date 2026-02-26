@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //кур//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курл//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -692,8 +692,8 @@ z-index: 1;                      /хрень какая то две строки
 
   /* Уменьшаем ноды */
   .tree .grid-node {
-    padding: 3px !important;
-    min-height: 36px !important;
+    padding: 2px !important;
+    min-height: 38px !important;
   }
 
   /* Адаптивный текст */
