@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курл//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -700,6 +700,23 @@ z-index: 1;                      /хрень какая то две строки
   .tree .grid-node .node-title {
     font-size: clamp(6.5px, 1.8vw, 9px) !important;
     line-height: 1.05 !important;
+  }
+
+}
+
+
+@media (max-width: 919px) {
+
+  /* 2 уровень */
+  .tree .grid-node[data-row="2"] {
+    background: linear-gradient(135deg, #6ea8ff, #4f6cff) !important;
+    color: #fff !important;
+  }
+
+  /* 3 уровень */
+  .tree .grid-node[data-row="3"] {
+    background: linear-gradient(135deg, #8b7bff, #6c5cff) !important;
+    color: #fff !important;
   }
 
 }
