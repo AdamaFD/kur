@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыке//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкген//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -755,10 +755,10 @@ z-index: 1;                      /хрень какая то две строки
     transform: translateX(-50%);     /* смещаем назад на половину ширины */
 
     margin: 0;
-    padding: 6px;
+    padding: 2px;
     border-radius: 16px 16px 0 0;
     background: #fff;
-    box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 -8px 20px rgba(0,0,0,0.25);
     z-index: 999999;
   }
 
