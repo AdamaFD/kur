@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -749,7 +749,7 @@ z-index: 1;                      /хрень какая то две строки
     position: fixed;                 /* фиксируем панель */
     bottom: 0;                       /* прижимаем к низу */
 
-    width: 100%;                     /* ширина = 100% контейнера */
+    width: 80%;                     /* ширина = 100% контейнера */
     max-width: 600px;                /* ограничение, как у панели */
     left: 50%;                       /* центрируем */
     transform: translateX(-50%);     /* смещаем назад на половину ширины */
