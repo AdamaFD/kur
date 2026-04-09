@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкро//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -748,7 +748,7 @@ z-index: 1;                      /хрень какая то две строки
   /* Превью становится фиксированной панелью */
   .card-preview {
     position: fixed;
-    left: -4;
+    left: 0;
     right: 0;
     bottom: 0;
 
