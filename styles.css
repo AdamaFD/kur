@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкиии//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -743,7 +743,7 @@ z-index: 1;                      /хрень какая то две строки
 
 
 /* --- MOBILE PREVIEW FIXED AT BOTTOM --- */
-@media (max-width: 919px) {
+@media (max-width: 919px) {                     /* Включаем правила только на мобильных устройствах */
 
   .card-preview {
     position: fixed;                 /* фиксируем панель */
