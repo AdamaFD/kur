@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкииии//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -745,45 +745,4 @@ z-index: 1;                      /хрень какая то две строки
 
 
 
-  @media (max-width: 919px) {
-
-  /* Убираем абсолютное позиционирование */
-  .card-preview {
-    position: static !important;
-    transform: none !important;
-
-    width: 100%;
-    max-height: none;
-
-    padding: 0 !important;          /* УБРАЛИ ОТСТУПЫ */
-    margin-top: 8px;               /* небольшой отступ от дерева */
-
-    border-radius: 0;              /* можно убрать скругление */
-    box-shadow: none;
-
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  /* Картинка без отступов */
-  .card-preview img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 0;
-  }
-
-  /* Показываем */
-  .grid-node.preview-open .card-preview {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  /* Отключаем старую логику позиционирования */
-  .grid-node[data-row] .card-preview {
-    top: auto !important;
-    bottom: auto !important;
-    margin: 0 !important;
-  }
-
-}
+ 
