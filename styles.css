@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курл//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -746,10 +746,10 @@ z-index: 1;                      /хрень какая то две строки
 
   #previewArea {
     width: 100%;
-    min-height: 180px;        /* высота зоны */
-    background: #fff;
+    height: 180px;            /* фиксированная зона */
+    margin-top: 6px;
 
-    margin-top: 8px;
+    background: #fff;
     border-top: 1px solid #eee;
 
     display: flex;
@@ -761,11 +761,10 @@ z-index: 1;                      /хрень какая то две строки
 
   #previewArea img {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
   }
 
 }
-
 
  
