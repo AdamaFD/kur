@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыки//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -745,29 +745,23 @@ z-index: 1;                      /хрень какая то две строки
 /* --- MOBILE PREVIEW FIXED AT BOTTOM --- */
 @media (max-width: 919px) {
 
-  /* Превью становится фиксированной панелью */
   .card-preview {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: fixed;                 /* фиксируем панель */
+    bottom: 0;                       /* прижимаем к низу */
 
-    width: 100%;
-    max-width: 100%;
+    width: 100%;                     /* ширина = 100% контейнера */
+    max-width: 600px;                /* ограничение, как у панели */
+    left: 50%;                       /* центрируем */
+    transform: translateX(-50%);     /* смещаем назад на половину ширины */
 
-    transform: none;
     margin: 0;
-
-    padding: 1px;
-    border-radius: 3px 3px 0 0;
-
-    box-shadow: 0 -1px 15px rgba(0,0,0,0.25);
-
+    padding: 12px;
+    border-radius: 16px 16px 0 0;
     background: #fff;
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
     z-index: 999999;
   }
 
-  /* Картинка внутри — адаптивная */
   .card-preview img {
     width: 100%;
     height: auto;
@@ -775,12 +769,12 @@ z-index: 1;                      /хрень какая то две строки
     object-fit: contain;
   }
 
-  /* Чтобы дерево не прыгало */
   .grid-node[data-row] .card-preview {
     top: auto !important;
     bottom: 0 !important;
     margin: 0 !important;
   }
 }
+
 
  
