@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курллддл//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -746,47 +746,41 @@ z-index: 1;                      /хрень какая то две строки
 
 @media (max-width: 919px) {
 
-  /* Контейнер дерева */
-  .tree {
-    position: relative;
-  }
+  @media (max-width: 919px) {
 
-  /* Превью становится обычным блоком */
+  /* Убираем абсолютное позиционирование */
   .card-preview {
-    position: fixed;           /* фиксируем к экрану */
-    left: 0;
-    bottom: 0;
+    position: static !important;
+    transform: none !important;
 
-    transform: none;
     width: 100%;
-    max-height: 40vh;
+    max-height: none;
 
-    border-radius: 16px 16px 0 0;
-    padding: 10px;
+    padding: 0 !important;          /* УБРАЛИ ОТСТУПЫ */
+    margin-top: 8px;               /* небольшой отступ от дерева */
 
-    z-index: 9999;
+    border-radius: 0;              /* можно убрать скругление */
+    box-shadow: none;
 
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
   }
 
-  /* Картинка внутри */
+  /* Картинка без отступов */
   .card-preview img {
     width: 100%;
     height: auto;
-    max-height: 35vh;
-    object-fit: contain;
+    display: block;
+    border-radius: 0;
   }
 
-  /* Показываем превью */
+  /* Показываем */
   .grid-node.preview-open .card-preview {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto;
   }
 
-  /* Убираем старое позиционирование */
+  /* Отключаем старую логику позиционирования */
   .grid-node[data-row] .card-preview {
     top: auto !important;
     bottom: auto !important;
