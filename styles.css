@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлык//
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }   //курлыкb//
 body { background: #f5f6f8; color: #222; }
  
 /* ---------- Topbar ---------- */
@@ -744,11 +744,20 @@ z-index: 1;                      /хрень какая то две строки
 
 @media (max-width: 919px) {
 
-  #previewArea {
-    width: 100%;
-    height: 180px;            /* фиксированная зона */
-    margin-top: 6px;
+  .card-preview {
+    position: fixed !important;
+    left: 0;
+    bottom: 0;
 
+    width: 100%;
+    height: 180px;
+
+    transform: none !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border-radius: 0;
     background: #fff;
     border-top: 1px solid #eee;
 
@@ -756,15 +765,29 @@ z-index: 1;                      /хрень какая то две строки
     align-items: center;
     justify-content: center;
 
-    overflow: hidden;
+    z-index: 9999;
+
+    opacity: 0;
+    visibility: hidden;
   }
 
-  #previewArea img {
+  .card-preview img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
 
-}
+  /* показываем */
+  .grid-node.preview-open .card-preview {
+    opacity: 1;
+    visibility: visible;
+  }
 
+  /* отключаем старое позиционирование */
+  .grid-node[data-row] .card-preview {
+    top: auto !important;
+    bottom: auto !important;
+  }
+
+}
  
