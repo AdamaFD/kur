@@ -514,7 +514,7 @@ z-index: 1;                      /хрень какая то две строки
 .grid-node[data-row="5"] .card-preview,
 .grid-node[data-row="6"] .card-preview {
   bottom: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 
